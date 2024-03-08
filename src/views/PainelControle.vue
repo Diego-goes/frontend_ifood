@@ -2,7 +2,7 @@
 
 <template>
   <div id="painelControle">
-    <CardUsu v-if="exibirCardUsu" @enviarForm="salvarDados" @cancelar="ocultarCard" />
+    <CardUsu v-if="exibirCardUsu" @enviarForm="salvarDados" @cancelar="ocultarCard" @atualizarLista="atualizarLista" />
     <div id="cabecalhoPainel">
       <div>
         <div style="border-radius: 100%;border: 1px solid black;max-width: min-content; aspect-ratio: 1/1;">ifood
@@ -71,7 +71,14 @@ export default {
       this.exibirCardUsu = true
     },
     salvarDados() {
-      this.ocultarCard()
+      axios
+        .get("http://localhost:8000/usuarios")
+        .then((response) => {
+          console.log(response.data)
+          this.linhas = response.data
+          this.ocultarCard()
+        })
+        .catch((error) => (this.msg = error.response));
     },
     ocultarCard() {
       this.exibirCardUsu = false

@@ -6,12 +6,13 @@
             <div id="camposForm">
                 <div class="dadosGerais">
                     <div>
-                        <label for="nome">Nome</label>
-                        <input type="text" id="nome" name="nome" v-model="usuario.nome" placeholder="Digite seu nome">
+                        <label for="nomeUsu">Nome</label>
+                        <input type="text" id="nomeUsu" name="nomeUsu" v-model="usuario.nomeUsu"
+                            placeholder="Digite seu nome">
                     </div>
                     <div>
-                        <label for="telefone">Telefone</label>
-                        <input type="text" id="telefone" name="telefone" v-model="usuario.telefone"
+                        <label for="telefoneUsu">Telefone</label>
+                        <input type="text" id="telefoneUsu" name="telefoneUsu" v-model="usuario.telefoneUsu"
                             placeholder="Digite seu telefone">
                     </div>
                     <div>
@@ -19,18 +20,22 @@
                         <input type="text" id="cpf" name="cpf" v-model="usuario.cpf" placeholder="Digite seu CPF">
                     </div>
                     <div>
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" v-model="usuario.email"
+                        <label for="emailUsu">Email</label>
+                        <input type="email" id="emailUsu" name="emailUsu" v-model="usuario.emailUsu"
                             placeholder="Digite seu email">
                     </div>
                     <div>
-                        <label for="status">Status</label>
-                        <input type="text" id="status" name="status" v-model="usuario.status"
-                            placeholder="Digite seu status">
+                        <label for="statusAtivo">Status Ativo</label>
+                        <select name="statusAtivo" id="statusAtivo" @change="mudouStatus($event.target.value)">
+                            <option value="true">Ativo</option>
+                            <option value="false">Inativo</option>
+                        </select>
+                        <!-- <input type="text" id="statusAtivo" name="statusAtivo" v-model="usuario.statusAtivo"
+                            placeholder="Digite seu status"> -->
                     </div>
                     <div>
-                        <label for="nome">Tipo Conta</label>
-                        <input type="text" id="tipoConta" name="tipoConta" v-model="usuario.tipoConta"
+                        <label for="tipoContaId">Tipo Conta</label>
+                        <input type="text" id="tipoContaId" name="tipoContaId" v-model="usuario.tipoContaId"
                             placeholder="Digite seu nome">
                     </div>
                 </div>
@@ -86,12 +91,12 @@ export default {
     data() {
         return {
             usuario: {
-                nome: '',
-                telefone: '',
+                nomeUsu: '',
+                telefoneUsu: '',
                 cpf: '',
-                email: '',
-                status: '',
-                tipoConta: '',
+                emailUsu: '',
+                statusAtivo: true,
+                tipoContaId: '',
                 logradouro: '',
                 cep: '',
                 bairro: '',
@@ -103,49 +108,24 @@ export default {
         }
     },
     methods: {
-        adaptObjQuote(obj) {
-            const newObj = {};
-            for (const key in obj) {
-                newObj[`${key}`] = obj[key];
-            }
-            return newObj;
-        },
         enviarForm() {
-            // console.log('this.usuario:',this.usuario);
-            // console.log('Dados do formulário:', JSON.stringify(this.Usuario));
-            let body = this.adaptObjQuote(this.usuario);
-            console.log('body',JSON.stringify(body))
-            
-            // let body = this.usuario;
-            // let body = {
-            //     "nomeUsu": "CCC",
-            //     "telefoneUsu": "00000000000",
-            //     "cpf": "99999999999",
-            //     "emailUsu": "crud@example.com",
-            //     "imagemPerfil": "base64_encoded_image_data_here",
-            //     "senha": "senha_segura",
-            //     "contaBancariaId": 0,
-            //     "tipoUsuarioId": 0,
-            //     "enderecoId": 0
-            // }
+            let body = this.usuario;
+            console.log('body', JSON.stringify(body))
             let headers = {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }
-            this.$emit('enviarForm', 'dados')
             axios
                 .post("http://localhost:8000/usuarios/criar", body, headers)
                 .then((response) => {
                     this.msg = response
-                    setTimeout(() => {
-                        // this.$router.push("/pagLabs");
-                    }, 1500);
-
-                    // this.$router.push('/cadastro');
-                    // token = response.data.token_jwt
+                    this.$emit('enviarForm', 'dados')
                 })
                 .catch((error) => (this.msg = error.response));
+        },
+        mudouStatus(option) {
+            this.statusAtivo = option
         },
         cancelar() {
             this.$emit('cancelar')
@@ -195,7 +175,7 @@ export default {
 #camposForm div {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
 }
 
 #camposForm label {
@@ -206,6 +186,7 @@ export default {
     border-radius: 10px;
     color: gray;
     padding: 0px 3%;
+    width: fit-content;
 }
 
 #camposForm input::placeholder {
@@ -225,11 +206,13 @@ export default {
 
 input[type="text"],
 input[type="email"],
-input[type="text"] {
+input[type="text"],
+select {
     padding: 3%;
     margin-bottom: 10px;
     border: 1px solid gray;
     border-radius: 20px;
+    width: 100%;
 }
 
 input[type="submit"] {
