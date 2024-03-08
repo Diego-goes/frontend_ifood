@@ -2,7 +2,7 @@
     <div class="cardUsu">
         <h2>Dados do Usuário</h2>
         <hr>
-        <form @submit.prevent="enviarForm" method="post" class="formUsuario">
+        <form @submit.prevent="salvarDados" method="post" class="formUsuario">
             <div id="camposForm">
                 <div class="dadosGerais">
                     <div>
@@ -13,11 +13,11 @@
                     <div>
                         <label for="telefoneUsu">Telefone</label>
                         <input type="text" id="telefoneUsu" name="telefoneUsu" v-model="usuario.telefoneUsu"
-                            placeholder="Digite seu telefone">
+                            placeholder="Digite seu telefone" maxlength="14">
                     </div>
                     <div>
                         <label for="cpf">CPF</label>
-                        <input type="text" id="cpf" name="cpf" v-model="usuario.cpf" placeholder="Digite seu CPF">
+                        <input type="text" id="cpf" name="cpf" v-model="usuario.cpf" placeholder="Digite seu CPF" maxlength="11">
                     </div>
                     <div>
                         <label for="emailUsu">Email</label>
@@ -26,17 +26,21 @@
                     </div>
                     <div>
                         <label for="statusAtivo">Status Ativo</label>
-                        <select name="statusAtivo" id="statusAtivo" @change="mudouStatus($event.target.value)">
+                        <select v-model="usuario.statusAtivo" name="statusAtivo" id="statusAtivo"
+                            @click="mudouStatus($event.target.value)">
+                            <option value="">Selecione</option>
                             <option value="true">Ativo</option>
                             <option value="false">Inativo</option>
                         </select>
-                        <!-- <input type="text" id="statusAtivo" name="statusAtivo" v-model="usuario.statusAtivo"
-                            placeholder="Digite seu status"> -->
                     </div>
                     <div>
                         <label for="tipoContaId">Tipo Conta</label>
-                        <input type="text" id="tipoContaId" name="tipoContaId" v-model="usuario.tipoContaId"
-                            placeholder="Digite seu nome">
+                        <select v-model="usuario.tipoUsuarioId" name="tipoContaId" id="tipoContaId"
+                            @click="mudouTipoUsuario($event.target.value)">
+                            <option value="">Selecione</option>
+                            <option value="0">Comprador</option>
+                            <option value="1">Entregador</option>
+                        </select>
                     </div>
                 </div>
                 <div class="dadosEndereco">
@@ -95,8 +99,8 @@ export default {
                 telefoneUsu: '',
                 cpf: '',
                 emailUsu: '',
-                statusAtivo: true,
-                tipoContaId: '',
+                statusAtivo: '',
+                tipoUsuarioId: '',
                 logradouro: '',
                 cep: '',
                 bairro: '',
@@ -107,8 +111,30 @@ export default {
             }
         }
     },
+    props: {
+        acao: String,
+        usuarioId: Number
+    },
     methods: {
-        enviarForm() {
+        salvarDados() {
+            switch (this.acao) {
+                case 'editar':
+                    this.editarUsuario()
+                    break;
+                case 'criar':
+                    this.criarUsuario()
+                    break;
+                case 'inativar':
+                    this.invativarUsuario()
+                    break;
+
+                default:
+                    break;
+            }
+            // this.acao == 'editar' ? this.editarUsuario() : this.criarUsuario()
+        },
+        criarUsuario() {
+            // this.usuarioId ? this.usuario.usuarioId = this.usuarioId : () => { }
             let body = this.usuario;
             console.log('body', JSON.stringify(body))
             let headers = {
@@ -124,12 +150,47 @@ export default {
                 })
                 .catch((error) => (this.msg = error.response));
         },
+        editarUsuario() {
+            // this.usuarioId ? this.usuario.usuarioId = this.usuarioId : () => { }
+            let body = this.usuario;
+            console.log('body', JSON.stringify(body))
+            let headers = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            axios
+                .put(`http://localhost:8000/usuarios/editar/${this.usuarioId}`, body, headers)
+                .then((response) => {
+                    this.msg = response
+                    this.$emit('enviarForm', 'dados')
+                })
+                .catch((error) => (this.msg = error.response));
+        },
+        invativarUsuario() {
+
+        },
+        autoPreencher() {
+            axios
+                .get(`http://localhost:8000/usuarios/ler/${this.usuarioId}`)
+                .then((response) => {
+                    this.usuario = response.data
+                    console.log(this.usuario);
+                })
+                .catch((error) => (this.msg = error.response));
+        },
         mudouStatus(option) {
-            this.statusAtivo = option
+            this.usuario.statusAtivo = option
+        },
+        mudouTipoUsuario(option) {
+            this.usuario.tipoUsuarioId = option
         },
         cancelar() {
             this.$emit('cancelar')
-        }
+        },
+    },
+    created() {
+        this.acao == 'editar' ? this.autoPreencher() : () => { }
     }
 }
 </script>

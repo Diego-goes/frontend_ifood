@@ -2,7 +2,9 @@
 
 <template>
   <div id="painelControle">
-    <CardUsu v-if="exibirCardUsu" @enviarForm="salvarDados" @cancelar="ocultarCard" @atualizarLista="atualizarLista" />
+    <CardUsu v-if="exibirCardUsu" :acao="acaoCrud" :usuarioId="usuarioId" @enviarForm="atualizarLista"
+      @cancelar="ocultarCard" />
+    <CardConfirm style="display:none" />
     <div id="cabecalhoPainel">
       <div>
         <div style="border-radius: 100%;border: 1px solid black;max-width: min-content; aspect-ratio: 1/1;">ifood
@@ -22,12 +24,13 @@
             <input type="text" name="" placeholder="Pesquisar..." id="">
           </div>
           <div>
+            <input type="button" value="Edit" v-on:click="editarSelecionado">
             <input type="button" value="Criar Usuario" v-on:click="criarUsuario">
           </div>
         </div>
         <div id="tabelaCrud">
           <div id="tituloTabela">
-            <input type="checkbox" name="" id="">
+            <input type="checkbox" name="" id="" style="visibility: hidden;">
             <p>ID</p>
             <p>Nome</p>
             <p>Status</p>
@@ -35,19 +38,20 @@
             <p>Criação</p>
           </div>
           <div id="linhasTabela">
-            <LinhaCrudUsuario v-for="linha in linhas" :key="linha.id" :linhaData="linha" />
+            <LinhaCrudUsuario v-for="linha in linhas" :key="linha.usuarioId" @salvarId="pegarIdRadio"
+              :linhaData="linha" />
           </div>
         </div>
       </div>
-      <div id="barraEdicao">
+      <div id="barraEdicao" style="display: none;">
         <div>
           x
           <p>3</p>
           <p>Itens selcionados</p>
         </div>
         <div>
-          <input type="button" value="Edit">
-          <input type="button" value="Delete">
+          <input type="button" value="Edit" v-on:click="editarSelecionado">
+          <input type="button" value="Delete" v-on:click="inativarSelecionado">
         </div>
       </div>
     </div>
@@ -58,19 +62,43 @@
 import axios from "axios";
 import LinhaCrudUsuario from '@/components/LinhaCrudUsuario.vue'
 import CardUsu from '@/components/CardUsu.vue'
+import CardConfirm from '@/components/CardConfirm.vue'
 export default {
   data() {
     return {
       linhas: [],
-      exibirCardUsu: false
+      exibirCardUsu: false,
+      acaoCrud: '',
+      usuarioId: null,
+      linhaSelecionada: ''
     };
   },
   methods: {
     criarUsuario() {
-      // document.querySelector('#linhasTabela').appendChild(this.LinhaCrudUsuario)
+      this.acaoCrud = 'criar'
       this.exibirCardUsu = true
     },
-    salvarDados() {
+    editarSelecionado() {
+      this.acaoCrud = 'editar'
+      this.exibirCardUsu = true
+    },
+    inativarSelecionado() {
+      axios
+        .put(`http://localhost:8000/usuarios/inativar/${this.usuarioId}`)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => (this.msg = error.response));
+    },
+    ativarSelecionado() {
+      axios
+        .put(`http://localhost:8000/usuarios/ativar/${this.usuarioId}`)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => (this.msg = error.response));
+    },
+    atualizarLista() {
       axios
         .get("http://localhost:8000/usuarios")
         .then((response) => {
@@ -82,6 +110,9 @@ export default {
     },
     ocultarCard() {
       this.exibirCardUsu = false
+    },
+    pegarIdRadio(id) {
+      this.usuarioId = id
     }
   },
   created() {
@@ -95,7 +126,8 @@ export default {
   },
   components: {
     LinhaCrudUsuario,
-    CardUsu
+    CardUsu,
+    CardConfirm
   }
 };
 </script>
