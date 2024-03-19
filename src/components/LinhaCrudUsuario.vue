@@ -1,7 +1,8 @@
 <template>
     <label v-bind:for="'radio' + linhaData.usuarioId">
         <div class="linhaCrud" v-bind:id="'linhaCrudUsu' + linhaData.usuarioId">
-            <input type="radio" v-bind:id="'radio' + linhaData.usuarioId" name="selecionar" @change="salvarId" @click="toggleSelecao">
+            <input type="radio" v-bind:id="'radio' + linhaData.usuarioId" name="selecionar" @change="salvarId"
+                @click="toggleSelecao">
             <p>{{ linhaData.usuarioId }}</p>
             <p>{{ linhaData.nomeUsu }}</p>
             <p>{{ formatarStatus }}</p>
@@ -60,11 +61,20 @@ export default {
     display: grid;
     gap: 2%;
     grid-template-columns: 0.2fr 1fr 2fr 1fr 1fr 2fr;
-    padding: 2% 1%;
+    padding: 1.3% 1%;
+    font-weight: bold;
+    color: #3c3b4c;
+    font-size: 0.6rem;
 }
 
-.linhaCrud:nth-child(even) {
-    background-color: rgb(234, 234, 234);
+label:nth-child(even) div {
+    background-color: #f2f2f7;
+}
+
+p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .linhaCrud p {

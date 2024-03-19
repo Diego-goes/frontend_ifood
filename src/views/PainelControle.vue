@@ -7,25 +7,31 @@
     <CardConfirm style="display:none" />
     <div id="cabecalhoPainel">
       <div>
-        <div style="border-radius: 100%;border: 1px solid black;max-width: min-content; aspect-ratio: 1/1;">ifood
-        </div>
+        <img class="logo_painel" src="../assets/logo_ifood.png" alt="">
       </div>
       <div>
-        Painel Controle
+        <p>
+          Painel Controle
+        </p>
       </div>
     </div>
     <div id="centralPainel">
       <div id="crudUsuario">
         <div id="abasCrud">
-          <div id="abaUsuario">M Usuários</div>
+          <div id="abaUsuario">
+            <img class="iconeAvatar" src="../assets/avatar_icon.png" alt="icone_avatar">
+            <p>
+              Usuários
+            </p>
+          </div>
         </div>
         <div id="cabecalhoCrud">
           <div>
-            <input type="text" name="" placeholder="Pesquisar..." id="">
+            <input type="text" name="" placeholder="Pesquisar..." id="" style="visibility: hidden;">
           </div>
-          <div>
-            <input type="button" value="Edit" v-on:click="editarSelecionado">
-            <input type="button" value="Criar Usuario" v-on:click="criarUsuario">
+          <div class="areaBtns">
+            <input type="button" value="Edit" v-on:click="editarSelecionado" class='btnClaro'>
+            <input type="button" value="Criar" v-on:click="criarUsuario" class='btnEscuro'>
           </div>
         </div>
         <div id="tabelaCrud">
@@ -133,13 +139,38 @@ export default {
 </script>
 
 <style scoped>
+input[type='button'] {
+  padding: 2% 10%;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btnClaro {
+  background-color: #ffffff;
+  color: #ce2020;
+  border: 1px solid #ce2020;
+}
+
+.btnEscuro {
+  background-color: #ce2020;
+  color: #ffffff;
+  border: 1px solid transparent;
+}
+
 #painelControle {
   width: 80vw;
   min-height: 70vh;
   border-radius: 10px;
   margin-top: 10vh;
   padding: 1vw;
-  background-color: rgb(255, 255, 255);
+  background-color: white;
+}
+
+.logo_painel {
+  aspect-ratio: 1/1;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
 }
 
 #centralPainel {
@@ -153,6 +184,9 @@ export default {
 
 #cabecalhoPainel {
   display: flex;
+  align-items: center;
+  margin-inline: 1%;
+  gap: 1%;
 }
 
 #crudUsuario {
@@ -165,10 +199,22 @@ export default {
   background-color: white;
   width: fit-content;
   padding-inline: 2vw;
-  padding-top: 1vw;
   border-top-left-radius: 10px;
   border-top-right-radius: 20px;
   margin-top: 3vh;
+}
+
+#abasCrud div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5%;
+}
+
+.iconeAvatar {
+  aspect-ratio: 1/1;
+  width: 1rem;
+  height: 1rem;
 }
 
 #cabecalhoCrud {
@@ -176,23 +222,32 @@ export default {
   justify-content: space-between;
   background-color: white;
   width: 100%;
-  padding: 5vh 0px;
+  padding: 2vh 0px;
   border-top-right-radius: 20px;
 }
 
 #cabecalhoCrud div {
-  margin-inline: 1vw;
+  margin-inline: 2%;
 }
 
-/* #tabelaCrud {
-} */
+.areaBtns {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 30%;
+  justify-content: flex-end;
+  gap: 5%;
+}
 
 #tituloTabela {
-  background-color: rgb(236, 234, 234);
+  background-color: #f2f2f7;
   display: grid;
+  align-items: center;
   gap: 2%;
   grid-template-columns: 0.2fr 1fr 2fr 1fr 1fr 2fr;
-  padding: 5px;
+  /*0.2fr 0.4fr 1.8fr 1fr 1.3fr 2fr*/
+  font-weight: bold;
+  color: #9290a8;
+  font-size: 0.6rem;
 }
 
 #tituloTabela p {
