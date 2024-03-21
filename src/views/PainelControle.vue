@@ -2,7 +2,7 @@
 
 <template>
   <div id="painelControle">
-    <CardUsu v-if="exibirCardUsu" :acao="acaoCrud" :usuarioId="usuarioId" @enviarForm="atualizarLista"
+    <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId" @enviarForm="atualizarLista"
       @cancelar="ocultarCard" />
     <CardConfirm style="display:none" />
     <div id="cabecalhoPainel">
@@ -67,13 +67,13 @@
 <script>
 import axios from "axios";
 import LinhaCrudUsuario from '@/components/LinhaCrudUsuario.vue'
-import CardUsu from '@/components/CardUsu.vue'
+import CardFormCadastro from '@/components/CardFormCadastro.vue'
 import CardConfirm from '@/components/CardConfirm.vue'
 export default {
   data() {
     return {
       linhas: [],
-      exibirCardUsu: false,
+      exibirCardFormCadastro: false,
       acaoCrud: '',
       usuarioId: null,
       linhaSelecionada: ''
@@ -82,11 +82,11 @@ export default {
   methods: {
     criarUsuario() {
       this.acaoCrud = 'criar'
-      this.exibirCardUsu = true
+      this.exibirCardFormCadastro = true
     },
     editarSelecionado() {
       this.acaoCrud = 'editar'
-      this.exibirCardUsu = true
+      this.exibirCardFormCadastro = true
     },
     inativarSelecionado() {
       axios
@@ -115,7 +115,7 @@ export default {
         .catch((error) => (this.msg = error.response));
     },
     ocultarCard() {
-      this.exibirCardUsu = false
+      this.exibirCardFormCadastro = false
     },
     pegarIdRadio(id) {
       this.usuarioId = id
@@ -132,7 +132,7 @@ export default {
   },
   components: {
     LinhaCrudUsuario,
-    CardUsu,
+    CardFormCadastro,
     CardConfirm
   }
 };

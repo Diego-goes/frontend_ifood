@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
 import PainelControle from "../views/PainelControle.vue";
-import CardCriarUsu from "../components/CardUsu.vue";
+import CardCriarUsu from "../components/CamposUsu.vue";
 
 const routes = [
   {
