@@ -30,7 +30,7 @@
             <input type="text" name="" placeholder="Pesquisar..." id="" style="visibility: hidden;">
           </div>
           <div class="areaBtns">
-            <input type="button" value="Edit" v-on:click="editarSelecionado" class='btnClaro'>
+            <input type="button" value="Edit" v-show="!(usuarioId == null)" v-on:click="editarSelecionado" class='btnClaro'>
             <input type="button" value="Criar" v-on:click="criarUsuario" class='btnEscuro'>
           </div>
         </div>

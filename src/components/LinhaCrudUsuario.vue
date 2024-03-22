@@ -1,7 +1,7 @@
 <template>
     <label v-bind:for="'radio' + linhaData.usuarioId">
         <div class="linhaCrud" v-bind:id="'linhaCrudUsu' + linhaData.usuarioId">
-            <input type="radio" v-bind:id="'radio' + linhaData.usuarioId" name="selecionar" @change="salvarId"
+            <input type="radio" v-bind:id="'radio' + linhaData.usuarioId" name="selecionar"
                 @click="toggleSelecao">
             <p>{{ linhaData.usuarioId }}</p>
             <p>{{ linhaData.nomeUsu }}</p>
@@ -17,7 +17,9 @@ export default {
     name: 'linhaCrudUsuario',
     data() {
         return {
-            ultimoRadio: ''
+            ultimoRadio: '',
+            usuarioId: null,
+            focado: false
         }
     },
     props: {
@@ -25,16 +27,19 @@ export default {
     },
     methods: {
         salvarId() {
-            this.$emit('salvarId', this.linhaData.usuarioId)
+            this.$emit('salvarId', this.usuarioId)
         },
         toggleSelecao(event) {
             if (event.target.parentElement.id == this.ultimoRadio) {
                 event.target.checked = false
                 this.ultimoRadio = ''
+                this.usuarioId = null
             } else {
                 event.target.checked = true
                 this.ultimoRadio = event.target.parentElement.id
+                this.usuarioId = this.linhaData.usuarioId
             }
+            this.salvarId()
         }
     }
     , computed: {

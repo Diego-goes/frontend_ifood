@@ -1,7 +1,7 @@
 <template>
     <div>
         <span>{{ spanText }}</span>
-        <input :type="text" :value="value" :placeholder="placeholder">
+        <input :type="type" :value="value" :placeholder="placeholder">
     </div>
 </template>
 <script>
