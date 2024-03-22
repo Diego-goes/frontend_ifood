@@ -5,8 +5,9 @@
         <form @submit.prevent="salvarDados" method="post" class="formUsuario">
             <div id="camposForm">
 
-                <CamposUsu v-show="!exibirEnderecos" />
-                <CamposEnderecos v-show="exibirEnderecos" />
+                <CamposUsu v-if="dadosRecebidos && dadosCadastrais.usuario" v-show="!exibirEnderecos"
+                    :dadosCadastrais="dadosCadastrais" :usuarioId="usuarioId" />
+                <!-- <CamposEnderecos v-show="exibirEnderecos" :dadosEnderecos="dadosCadastrais.enderecos" /> -->
                 <div class="tagsEspecificasEnderecos">
                     <BtnDefault :value="'Ver endereços ->'" v-show="!exibirEnderecos" @click="trocarCampos" />
                 </div>
@@ -25,46 +26,26 @@
 <script>
 import axios from "axios";
 import CamposUsu from "./CamposUsu.vue";
-import CamposEnderecos from "./CamposEnderecos.vue";
+// import CamposEnderecos from "./CamposEnderecos.vue";
 import BtnDefault from "./BtnDefault.vue"
 export default {
     name: 'CardUsu',
     data() {
         return {
-            usuario: {
-                nomeUsu: null,
-                telefoneUsu: null,
-                cpf: '',
-                emailUsu: '',
-                statusAtivo: true,
-                tipoUsuarioId: 0
-            },
-            endereco: {
-                logradouro: '',
-                cep: '',
-                bairro: null,
-                cidade: null,
-                estado: null,
-                numero: null,
-                complemento: null
-            },
-            enderecoEntrega: {
-                enderecoId: '',
-                usuarioId: ''
-            },
-            exibirEnderecos: false
+            exibirEnderecos: false,
+            msg: '',
+            dadosRecebidos: false,
+            dadosCadastrais: {}
         }
     },
     components: {
         CamposUsu,
-        CamposEnderecos,
+        // CamposEnderecos,
         BtnDefault
     },
     props: {
         acao: String,
-        usuarioId: Number,
-        enderecoId: Number,
-        enderecoEntregaId: Number
+        usuarioId: Number
     },
     methods: {
         salvarDados() {
@@ -75,42 +56,20 @@ export default {
                 case 'criar':
                     this.criarUsuario()
                     break;
-                case 'inativar':
-                    this.invativarUsuario()
-                    break;
 
                 default:
                     break;
             }
         },
         criarUsuario() {
-            // if "-" in this.usuario.cep:
-            //     this.usuario.cep = this.usuario.cep.replace("-", "")
-            let body = {
-                'usuario': this.usuario,
-                'endereco': this.endereco
-            }
-
-            let headers = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            axios
-                .post("http://localhost:8000/usuarios/criar/completo", body, headers)
-                .then((response) => {
-                    this.msg = response
-                    this.$emit('enviarForm')
-                })
-                .catch((error) => (this.msg = error.response));
+            // if "-" in this.dadosCadastrais.usuario.cep:
+            //     this.dadosCadastrais.usuario.cep = this.dadosCadastrais.usuario.cep.replace("-", "")
         },
         editarUsuario() {
-            // this.usuarioId ? this.usuario.usuarioId = this.usuarioId : () => { }
-            let usuario = this.usuario;
-            let endereco = this.endereco
+            // this.dadosCadastrais.usuarioId ? this.dadosCadastrais.usuario.usuarioId = this.dadosCadastrais.usuarioId : () => { }
             let body = {
-                'usuario': usuario,
-                'endereco': endereco
+                'usuario': this.dadosCadastrais.usuario,
+                'enderecos': this.dadosCadastrais.enderecos
             }
             console.log('usuario', JSON.stringify(body))
             let headers = {
@@ -122,29 +81,18 @@ export default {
                 .put(`http://localhost:8000/usuarios/editar/${this.usuarioId}`, body, headers)
                 .then((response) => {
                     this.msg = response
-                    this.$emit('enviarForm', 'dados')
+                    // this.$emit('enviarForm', 'dados')
                 })
                 .catch((error) => (this.msg = error.response));
-        },
-        invativarUsuario() {
-
-        },
-        autoPreencher() {
-            alert(this.usuarioId)
+        }, puxarDados() {
             axios
                 .get(`http://localhost:8000/usuarios/ler/${this.usuarioId}`)
                 .then((response) => {
-                    this.endereco = response.data.endereco
-                    this.usuario = response.data.usuario
-                    alert(this.usuario, this.endereco);
+                    this.dadosCadastrais = response.data
+                    this.dadosRecebidos = Object.keys(this.dadosCadastrais).length > 0 ? true : false
+
                 })
                 .catch((error) => (this.msg = error.response));
-        },
-        mudouStatus(option) {
-            this.usuario.statusAtivo = option
-        },
-        mudouTipoUsuario(option) {
-            this.usuario.tipoUsuarioId = option
         },
         cancelar() {
             this.$emit('cancelar')
@@ -158,7 +106,7 @@ export default {
         }
     },
     created() {
-        this.acao == 'editar' ? this.autoPreencher() : () => { }
+        this.puxarDados()
     }
 }
 </script>
