@@ -130,12 +130,13 @@ export default {
 
         },
         autoPreencher() {
+            alert(this.usuarioId)
             axios
                 .get(`http://localhost:8000/usuarios/ler/${this.usuarioId}`)
                 .then((response) => {
                     this.endereco = response.data.endereco
                     this.usuario = response.data.usuario
-                    console.log(this.usuario, this.endereco);
+                    alert(this.usuario, this.endereco);
                 })
                 .catch((error) => (this.msg = error.response));
         },
