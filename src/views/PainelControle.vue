@@ -2,17 +2,15 @@
 
 <template>
   <div id="painelControle">
-    <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId" @enviarForm="atualizarLista"
-      @cancelar="ocultarCard" />
+    <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId"
+      @enviarForm="atualizarLista" />
     <CardConfirm style="display:none" />
     <div id="cabecalhoPainel">
       <div>
         <img class="logo_painel" src="../assets/logo_ifood.png" alt="">
       </div>
       <div>
-        <p>
-          Painel Controle
-        </p>
+        <p>Painel Controle</p>
       </div>
     </div>
     <div id="centralPainel">
@@ -20,9 +18,7 @@
         <div id="abasCrud">
           <div id="abaUsuario">
             <img class="iconeAvatar" src="../assets/avatar_icon.png" alt="icone_avatar">
-            <p>
-              Usuários
-            </p>
+            <p>Usuários</p>
           </div>
         </div>
         <div id="cabecalhoCrud">
@@ -30,7 +26,8 @@
             <input type="text" name="" placeholder="Pesquisar..." id="" style="visibility: hidden;">
           </div>
           <div class="areaBtns">
-            <input type="button" value="Edit" v-show="!(usuarioId == null)" v-on:click="editarSelecionado" class='btnClaro'>
+            <input type="button" value="Edit" v-show="!(usuarioId == null)" v-on:click="editarSelecionado"
+              class='btnClaro'>
             <input type="button" value="Criar" v-on:click="criarUsuario" class='btnEscuro'>
           </div>
         </div>
@@ -82,11 +79,9 @@ export default {
   methods: {
     criarUsuario() {
       this.acaoCrud = 'criar'
-      this.exibirCardFormCadastro = true
     },
     editarSelecionado() {
       this.acaoCrud = 'editar'
-      this.exibirCardFormCadastro = true
     },
     inativarSelecionado() {
       axios
@@ -110,12 +105,9 @@ export default {
         .then((response) => {
           console.log(response.data)
           this.linhas = response.data
-          this.ocultarCard()
+          // this.ocultarCard()
         })
         .catch((error) => (this.msg = error.response));
-    },
-    ocultarCard() {
-      this.exibirCardFormCadastro = false
     },
     pegarIdRadio(id) {
       this.usuarioId = id

@@ -1,8 +1,8 @@
 <template>
-    <div class="cardUsu">
+    <div class="cardUsu" v-if="exibirCardFormCadastro">
         <h2>Dados do Usuário</h2>
         <hr>
-        <form @submit.prevent="salvarDados" method="post" class="formUsuario">
+        <form @submit.prevent="enviarForm" method="post" class="formUsuario">
             <div id="camposForm">
 
                 <CamposUsu v-if="dadosRecebidos && dadosCadastrais.usuario" v-show="!exibirEnderecos"
@@ -35,7 +35,8 @@ export default {
             exibirEnderecos: false,
             msg: '',
             dadosRecebidos: false,
-            dadosCadastrais: {}
+            dadosCadastrais: {},
+            exibirCardFormCadastro: true
         }
     },
     components: {
@@ -48,43 +49,37 @@ export default {
         usuarioId: Number
     },
     methods: {
-        salvarDados() {
-            switch (this.acao) {
-                case 'editar':
-                    this.editarUsuario()
-                    break;
-                case 'criar':
-                    this.criarUsuario()
-                    break;
-
-                default:
-                    break;
-            }
-        },
-        criarUsuario() {
-            // if "-" in this.dadosCadastrais.usuario.cep:
-            //     this.dadosCadastrais.usuario.cep = this.dadosCadastrais.usuario.cep.replace("-", "")
-        },
-        editarUsuario() {
-            // this.dadosCadastrais.usuarioId ? this.dadosCadastrais.usuario.usuarioId = this.dadosCadastrais.usuarioId : () => { }
+        enviarForm() {
             let body = {
                 'usuario': this.dadosCadastrais.usuario,
                 'enderecos': this.dadosCadastrais.enderecos
             }
-            console.log('usuario', JSON.stringify(body))
+
             let headers = {
-                headers: {
-                    'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
+            }
+            let acoes = {
+                'criar': {
+                    'url': 'http://localhost:8000/usuarios/criar/completo',
+                    'method': 'POST'
+                },
+                'editar': {
+                    'url': `http://localhost:8000/usuarios/editar/${this.usuarioId}`,
+                    'method': 'PUT'
                 }
             }
-            axios
-                .put(`http://localhost:8000/usuarios/editar/${this.usuarioId}`, body, headers)
-                .then((response) => {
-                    this.msg = response
-                    // this.$emit('enviarForm', 'dados')
-                })
-                .catch((error) => (this.msg = error.response));
-        }, puxarDados() {
+            axios({
+                method: acoes[this.acao][`method`],
+                url: acoes[this.acao][`url`],
+                data: body,
+                headers
+            }).then((response) => {
+                this.msg = response
+                this.$emit('enviarForm')
+                // alert(Object.values(response))
+            }).catch((error) => (this.msg = error.response));
+        },
+        puxarDados() {
             axios
                 .get(`http://localhost:8000/usuarios/ler/${this.usuarioId}`)
                 .then((response) => {
@@ -95,7 +90,8 @@ export default {
                 .catch((error) => (this.msg = error.response));
         },
         cancelar() {
-            this.$emit('cancelar')
+            this.exibirCardFormCadastro = false
+
         },
         trocarCampos() {
             this.exibirEnderecos = this.exibirEnderecos == true ? false : true
@@ -103,7 +99,7 @@ export default {
         },
         corrigirJustifySubmitForm() {
             document.querySelector('.opcoesCard div').style.justifyContent = 'flex-end'
-        }
+        },
     },
     created() {
         this.puxarDados()
