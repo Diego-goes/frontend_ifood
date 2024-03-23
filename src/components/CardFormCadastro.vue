@@ -1,5 +1,5 @@
 <template>
-    <div class="cardUsu" v-if="exibirCardFormCadastro">
+    <div class="cardUsu">
         <h2>Dados do Usuário</h2>
         <hr>
         <form @submit.prevent="enviarForm" method="post" class="formUsuario">
@@ -35,8 +35,7 @@ export default {
             exibirEnderecos: false,
             msg: '',
             dadosRecebidos: false,
-            dadosCadastrais: {},
-            exibirCardFormCadastro: true
+            dadosCadastrais: {}
         }
     },
     components: {
@@ -76,7 +75,6 @@ export default {
             }).then((response) => {
                 this.msg = response
                 this.$emit('enviarForm')
-                // alert(Object.values(response))
             }).catch((error) => (this.msg = error.response));
         },
         puxarDados() {
@@ -90,8 +88,7 @@ export default {
                 .catch((error) => (this.msg = error.response));
         },
         cancelar() {
-            this.exibirCardFormCadastro = false
-
+            this.$emit('cancelar', false)
         },
         trocarCampos() {
             this.exibirEnderecos = this.exibirEnderecos == true ? false : true

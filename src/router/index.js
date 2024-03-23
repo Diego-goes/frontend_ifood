@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
 import PainelControle from "../views/PainelControle.vue";
 import CardCriarUsu from "../components/CamposUsu.vue";
+import compPai from "@/views/compPai.vue";
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     path: "/painelControle",
     name: "painelControle",
     component: PainelControle
+  },
+  {
+    path: "/teste",
+    name: "teste",
+    component: compPai
   },
   {
     path: "/criarUsuario",

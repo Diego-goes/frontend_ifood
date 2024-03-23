@@ -1,9 +1,7 @@
-<!-- src/views/Login.vue -->
-
 <template>
   <div id="painelControle">
     <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId"
-      @enviarForm="atualizarLista" />
+      @enviarForm="atualizarLista" @cancelar="ocultarCardForm"/>
     <CardConfirm style="display:none" />
     <div id="cabecalhoPainel">
       <div>
@@ -79,9 +77,11 @@ export default {
   methods: {
     criarUsuario() {
       this.acaoCrud = 'criar'
+      this.exibirCardFormCadastro = true
     },
     editarSelecionado() {
       this.acaoCrud = 'editar'
+      this.exibirCardFormCadastro = true
     },
     inativarSelecionado() {
       axios
@@ -108,6 +108,9 @@ export default {
           // this.ocultarCard()
         })
         .catch((error) => (this.msg = error.response));
+    },
+    ocultarCardForm(data){
+      this.exibirCardFormCadastro = data
     },
     pegarIdRadio(id) {
       this.usuarioId = id
