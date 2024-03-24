@@ -1,7 +1,7 @@
 <template>
   <div id="painelControle">
     <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId"
-      @enviarForm="atualizarLista" @cancelar="ocultarCardForm"/>
+      @enviarForm="atualizarLista" @ocultarForm="ocultarForm"/>
     <CardConfirm style="display:none" />
     <div id="cabecalhoPainel">
       <div>
@@ -109,7 +109,7 @@ export default {
         })
         .catch((error) => (this.msg = error.response));
     },
-    ocultarCardForm(data){
+    ocultarForm(data){
       this.exibirCardFormCadastro = data
     },
     pegarIdRadio(id) {

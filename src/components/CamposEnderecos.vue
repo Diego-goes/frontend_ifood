@@ -1,47 +1,49 @@
 <template>
     <div class="dadosEndereco">
         <div class="tagsEspecificasEnderecos">
-            <select v-model="selectEndereco.value" name="selectEnderecos" id="selectEndereco">
-                <option value="">Endereços</option>
-                <!-- <option v-for="end, index in enderecos" :key="end.enderecoId" :value="index">{{ end.logradouro }}
-                </option> -->
+            <select v-model="selectEndereco.index" name="selectEnderecos" id="selectEndereco">
+                <option v-for="end, index in enderecos" :key="end.enderecoId" :value="index">{{ end.logradouro }}
+                </option>
             </select>
         </div>
-        <div class="camposEnderecos">
-            <!-- <InputForm :type="'text'" :spanText="'Logradouro'" :value="endereco.logradouro"
-                :placeholder="'Digite seu logradouro'" />
-            <InputForm :type="'text'" :spanText="'CEP'" :value="endereco.cep" :placeholder="'Digite seu CEP'" />
-            <InputForm :type="'text'" :spanText="'Bairro'" :value="endereco.bairro"
-                :placeholder="'Digite seu bairro'" />
-            <InputForm :type="'text'" :spanText="'Cidade'" :value="endereco.cidade"
-                :placeholder="'Digite sua cidade'" />
-            <InputForm :type="'text'" :spanText="'Estado'" :value="endereco.estado"
-                :placeholder="'Digite seu estado'" />
-            <InputForm :type="'number'" :spanText="'Numero'" :value="endereco.numero"
-                :placeholder="'Digite seu numero'" />
-            <InputForm :type="'text'" :spanText="'Complemento'" :value="endereco.complemento"
-                :placeholder="'Digite seu complemento'" />
-            <InputForm :type="'text'" :spanText="'Apelido'" :value="endereco.complemento"
-                :placeholder="'Digite o apelido'" />
-            <InputForm :type="'text'" :spanText="'Ponto de Referência'" :value="endereco.complemento"
-                :placeholder="'Digite uma referência'" />
-            <InputForm :type="'text'" :spanText="'Coordenadas'" :value="endereco.complemento"
-                :placeholder="'Digite as coordenadas'" /> -->
+        <div class="camposEnderecos" @change="retornarDadosEnds">
+            <InputForm :nomeAtributoProp="'logradouro'" :typeProp="'text'" :spanTextProp="'Logradouro'"
+                :valueProp="`${endereco.logradouro}`" @retornarDadoInput="armazenarDadoInput"
+                :placeholderProp="'Digite seu logradouro'" />
+            <InputForm :nomeAtributoProp="'cep'" :typeProp="'text'" :spanTextProp="'CEP'" :valueProp="`${endereco.cep}`"
+                :placeholderProp="'Digite seu CEP'" />
+            <InputForm :nomeAtributoProp="'bairro'" :typeProp="'text'" :spanTextProp="'Bairro'"
+                :valueProp="`${endereco.bairro}`" :placeholderProp="'Digite seu bairro'" />
+            <InputForm :nomeAtributoProp="'cidade'" :typeProp="'text'" :spanTextProp="'Cidade'"
+                :valueProp="`${endereco.cidade}`" :placeholderProp="'Digite sua cidade'" />
+            <InputForm :nomeAtributoProp="'estado'" :typeProp="'text'" :spanTextProp="'Estado'"
+                :valueProp="`${endereco.estado}`" :placeholderProp="'Digite seu estado'" />
+            <InputForm :nomeAtributoProp="'numero'" :typeProp="'number'" :spanTextProp="'Numero'"
+                :valueProp="`${endereco.numero}`" :placeholderProp="'Digite seu numero'" />
+            <InputForm :nomeAtributoProp="'complemento'" :typeProp="'text'" :spanTextProp="'Complemento'"
+                :valueProp="`${endereco.complemento}`" :placeholderProp="'Digite seu complemento'" />
+            <InputForm :nomeAtributoProp="'apelido'" :typeProp="'text'" :spanTextProp="'Apelido'"
+                :valueProp="`${endereco.apelido}`" :placeholderProp="'Digite o apelido'" />
+            <InputForm :nomeAtributoProp="'pontoReferencia'" :typeProp="'text'" :spanTextProp="'Ponto de Referência'"
+                :valueProp="`${endereco.pontoReferencia}`" :placeholderProp="'Digite uma referência'" />
+            <InputForm :nomeAtributoProp="'coordenadas'" :typeProp="'text'" :spanTextProp="'Coordenadas'"
+                :valueProp="`${endereco.coordenadas}`" :placeholderProp="'Digite as coordenadas'" />
+
+            <!-- {{ this.endereco }} -->
         </div>
     </div>
 </template>
 
 <script>
-// import InputForm from "./InputForm.vue";
+import InputForm from "./InputForm.vue";
 export default {
     name: 'CardUsu',
     data() {
         return {
-            enderecos: this.enderecos,
-            endereco: this.enderecos[0],
+            enderecos: this.dadosEnderecos,
             selectEndereco: {
                 text: '',
-                value: 2
+                index: 2
             }
         }
     },
@@ -49,12 +51,25 @@ export default {
         dadosEnderecos: Object
     },
     components: {
-        // InputForm
+        InputForm
     },
     methods: {
+        armazenarDadoInput(inputData) {
+            let value = inputData.value
+            let nomeAtributoProp = inputData.nomeAtributoProp
+            this.endereco[`${nomeAtributoProp}`] = value
+        },
+        retornarDadosEnds() {
+            this.$emit('retornarDadosEnd', this.enderecos)
+        },
     },
-    created(){
-        console.log(`enderecos : ${this.enderecos}`)
+    computed: {
+        endereco: function () {
+            return this.enderecos[this.selectEndereco.index];
+        },
+        enderecoSelecionado(){
+            return this.endereco != null? true :false              
+        }
     }
 }
 </script>

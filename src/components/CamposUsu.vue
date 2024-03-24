@@ -1,10 +1,13 @@
 <template>
-    <div class="dadosGerais">
-        <InputForm :type="'text'" :spanText="'Nome'" :value="usuario.nomeUsu" :placeholder="'Digite seu nome'" />
-        <InputForm :type="'text'" :spanText="'Telefone'" :value="usuario.telefoneUsu"
-            :placeholder="'Digite seu telefone'" />
-        <InputForm :type="'text'" :spanText="'CPF'" :value="usuario.cpf" :placeholder="'Digite seu CPF'" />
-        <InputForm :type="'email'" :spanText="'Email'" :value="usuario.emailUsu" :placeholder="'Digite seu email'" />
+    <div class="dadosGerais" @change="retornarDadosUsu">
+        <InputForm :typeProp="'text'" :nomeAtributoProp="'nomeUsu'" :spanTextProp="'Nome'" :valueProp="usuario.nomeUsu"
+            :placeholderProp="'Digite seu nome'" @retornarDadoInput="armazenarDadoInput" />
+        <InputForm :typeProp="'text'" :nomeAtributoProp="'telefoneUsu'" :spanTextProp="'Telefone'"
+            :valueProp="usuario.telefoneUsu" :placeholderProp="'Digite seu telefone'" />
+        <InputForm :typeProp="'text'" :nomeAtributoProp="'cpf'" :spanTextProp="'CPF'" :valueProp="usuario.cpf"
+            :placeholderProp="'Digite seu CPF'" />
+        <InputForm :typeProp="'email'" :nomeAtributoProp="'emailUsu'" :spanTextProp="'Email'"
+            :valueProp="usuario.emailUsu" :placeholderProp="'Digite seu email'" />
         <div class="divsSelectsForm">
             <span for="statusAtivo">Status Ativo</span>
             <select v-model="usuario.statusAtivo" class="selectCamposForm" name="statusAtivo" id="statusAtivo"
@@ -23,6 +26,7 @@
                 <option value="1">Entregador</option>
             </select>
         </div>
+        <!-- <small style="font-size: 0.7rem;">{{ this.usuario }}</small> -->
     </div>
 </template>
 
@@ -32,26 +36,30 @@ export default {
     name: 'CardUsu',
     data() {
         return {
-            usuario: this.dadosCadastrais.usuario,
+            usuario: this.dadosUsu,
         }
     },
     props: {
-        dadosCadastrais: Object
+        dadosUsu: Object
     },
     components: {
         InputForm
     },
     methods: {
+        armazenarDadoInput(inputData) {
+            let value = inputData.value
+            let nomeAtributoProp = inputData.nomeAtributoProp
+            this.usuario[`${nomeAtributoProp}`] = value
+        },
         mudouStatus(option) {
             this.usuario.statusAtivo = option
         },
         mudouTipoUsuario(option) {
             this.usuario.tipoUsuarioId = option
         },
-        autoPreencher() {
-            this.usuario = this.dadosUsuario
-            console.log('this.usuario', this.usuario)
-        }
+        retornarDadosUsu() {
+            this.$emit('retornarDadosUsu', this.usuario)
+        },
     },
 }
 </script>
@@ -71,13 +79,17 @@ export default {
     width: 100%;
 }
 
+select {
+    font-size: 0.8rem;
+}
+
 span {
     margin-left: 8%;
     margin-bottom: -5px;
     z-index: 1;
     background-color: white;
     border-radius: 10px;
-    color: gray;
+    color: rgb(152, 152, 152);
     padding: 0px 3%;
     width: 5%;
     min-width: fit-content;

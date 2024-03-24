@@ -5,9 +5,12 @@
         <form @submit.prevent="enviarForm" method="post" class="formUsuario">
             <div id="camposForm">
 
-                <CamposUsu v-if="dadosRecebidos && dadosCadastrais.usuario" v-show="!exibirEnderecos"
-                    :dadosCadastrais="dadosCadastrais" :usuarioId="usuarioId" />
-                <!-- <CamposEnderecos v-show="exibirEnderecos" :dadosEnderecos="dadosCadastrais.enderecos" /> -->
+                <CamposUsu v-if="prontoParaExibir" v-show="!exibirEnderecos"
+                    :dadosUsu="dadosCadastrais.usuario" :usuarioId="usuarioId" @retornarDadosUsu="armazenarDadosUsu" />
+
+                <CamposEnderecos v-if="prontoParaExibir" v-show="exibirEnderecos"
+                    :dadosEnderecos="dadosCadastrais.enderecos" @retornarDadosEnds="armazenarDadosEnds" />
+
                 <div class="tagsEspecificasEnderecos">
                     <BtnDefault :value="'Ver endereços ->'" v-show="!exibirEnderecos" @click="trocarCampos" />
                 </div>
@@ -15,7 +18,7 @@
             <div class="opcoesCard">
                 <BtnDefault :value="'<- Meus dados'" v-show="exibirEnderecos" @click="trocarCampos" />
                 <div>
-                    <BtnDefault :value="'Cancelar'" @click="cancelar" />
+                    <BtnDefault :value="'Cancelar'" @click="ocultarForm" />
                     <BtnDefault :type="'submit'" :value="'Registrar'" />
                 </div>
             </div>
@@ -26,7 +29,7 @@
 <script>
 import axios from "axios";
 import CamposUsu from "./CamposUsu.vue";
-// import CamposEnderecos from "./CamposEnderecos.vue";
+import CamposEnderecos from "./CamposEnderecos.vue";
 import BtnDefault from "./BtnDefault.vue"
 export default {
     name: 'CardUsu',
@@ -40,7 +43,7 @@ export default {
     },
     components: {
         CamposUsu,
-        // CamposEnderecos,
+        CamposEnderecos,
         BtnDefault
     },
     props: {
@@ -53,7 +56,6 @@ export default {
                 'usuario': this.dadosCadastrais.usuario,
                 'enderecos': this.dadosCadastrais.enderecos
             }
-
             let headers = {
                 'Content-Type': 'application/json'
             }
@@ -75,6 +77,7 @@ export default {
             }).then((response) => {
                 this.msg = response
                 this.$emit('enviarForm')
+                this.ocultarForm()
             }).catch((error) => (this.msg = error.response));
         },
         puxarDados() {
@@ -87,8 +90,14 @@ export default {
                 })
                 .catch((error) => (this.msg = error.response));
         },
-        cancelar() {
-            this.$emit('cancelar', false)
+        armazenarDadosUsu(dados) {
+            this.dadosCadastrais.usuario = dados
+        },
+        armazenarDadosEnds(dados){
+            this.dadosCadastrais.enderecos = dados
+        },
+        ocultarForm() {
+            this.$emit('ocultarForm', false)
         },
         trocarCampos() {
             this.exibirEnderecos = this.exibirEnderecos == true ? false : true
@@ -100,6 +109,11 @@ export default {
     },
     created() {
         this.puxarDados()
+    },
+    computed: {
+        prontoParaExibir() {
+            return this.dadosRecebidos && this.dadosCadastrais.usuario
+        }
     }
 }
 </script>

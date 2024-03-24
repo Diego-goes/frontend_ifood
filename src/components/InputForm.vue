@@ -1,7 +1,7 @@
 <template>
     <div>
-        <span>{{ spanText }}</span>
-        <input :type="type" :value="value" :placeholder="placeholder">
+        <span>{{ spanTextProp }}</span>
+        <input @change="retornarDadoInput" :type="typeProp" v-model="value" :placeholder="placeholderProp">
     </div>
 </template>
 <script>
@@ -9,24 +9,39 @@ export default {
     name: 'InputForm',
     data() {
         return {
+            value: this.valueProp,
+            nomeAtributo: this.nomeAtributoProp
+        }
+    },
+    methods: {
+        retornarDadoInput() {
+            let inputData = {
+                'value': this.value,
+                'nomeAtributoProp': this.nomeAtributo
+            }
+            this.$emit('retornarDadoInput', inputData)
         }
     },
     props: {
-        spanText: {
+        spanTextProp: {
             type: String,
             default: ''
         },
-        placeholder: {
+        placeholderProp: {
             type: String,
             default: ''
         },
-        value: {
+        valueProp: {
             type: String,
             default: ''
         },
-        type: {
+        typeProp: {
             type: String,
             default: 'text'
+        },
+        nomeAtributoProp: {
+            type: String,
+            default: ''
         }
     }
 }
@@ -44,16 +59,16 @@ span {
     z-index: 1;
     background-color: white;
     border-radius: 10px;
-    color: gray;
+    color: rgb(152, 152, 152);
     padding: 0px 3%;
     width: 5%;
     min-width: fit-content;
-    font-size: 0.8rem;
+    font-size: 0.6rem;
 }
 
 input::placeholder {
     color: lightgray;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 input {
@@ -61,6 +76,6 @@ input {
     margin-bottom: 10px;
     border: 1px solid gray;
     border-radius: 20px;
-    font-size: 1rem
+    font-size: 0.8rem
 }
 </style>
