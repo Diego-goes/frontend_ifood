@@ -1,12 +1,12 @@
 <template>
     <div class="dadosGerais" @change="retornarDadosUsu">
-        <InputForm :typeProp="'text'" :nomeAtributoProp="'nomeUsu'" :spanTextProp="'Nome'" :valueProp="usuario.nomeUsu"
-            :placeholderProp="'Digite seu nome'" @retornarDadoInput="armazenarDadoInput" />
-        <InputForm :typeProp="'text'" :nomeAtributoProp="'telefoneUsu'" :spanTextProp="'Telefone'"
+        <InputForm @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'nomeUsu'" :spanTextProp="'Nome'" :valueProp="usuario.nomeUsu"
+            :placeholderProp="'Digite seu nome'" />
+        <InputForm @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'telefoneUsu'" :spanTextProp="'Telefone'"
             :valueProp="usuario.telefoneUsu" :placeholderProp="'Digite seu telefone'" />
-        <InputForm :typeProp="'text'" :nomeAtributoProp="'cpf'" :spanTextProp="'CPF'" :valueProp="usuario.cpf"
+        <InputForm @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'cpf'" :spanTextProp="'CPF'" :valueProp="usuario.cpf"
             :placeholderProp="'Digite seu CPF'" />
-        <InputForm :typeProp="'email'" :nomeAtributoProp="'emailUsu'" :spanTextProp="'Email'"
+        <InputForm @retornarDadoInput="armazenarDadoInput" :typeProp="'email'" :nomeAtributoProp="'emailUsu'" :spanTextProp="'Email'"
             :valueProp="usuario.emailUsu" :placeholderProp="'Digite seu email'" />
         <div class="divsSelectsForm">
             <span for="statusAtivo">Status Ativo</span>
