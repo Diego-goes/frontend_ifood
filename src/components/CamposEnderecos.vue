@@ -6,28 +6,31 @@
                 </option>
             </select>
         </div>
-        <div class="camposEnderecos" @change="retornarDadosEnds">
-            <InputForm :nomeAtributoProp="'logradouro'" :typeProp="'text'" :spanTextProp="'Logradouro'"
-                :valueProp="`${endereco.logradouro}`" @retornarDadoInput="armazenarDadoInput"
+        <div class="camposEnderecos" v-if="exibirPronto" @change="retornarDadosEnds">
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'logradouro'" :typeProp="'text'"
+                :spanTextProp="'Logradouro'" :valueProp="`${endereco.logradouro}`"
                 :placeholderProp="'Digite seu logradouro'" />
-            <InputForm :nomeAtributoProp="'cep'" :typeProp="'text'" :spanTextProp="'CEP'" :valueProp="`${endereco.cep}`"
-                :placeholderProp="'Digite seu CEP'" />
-            <InputForm :nomeAtributoProp="'bairro'" :typeProp="'text'" :spanTextProp="'Bairro'"
-                :valueProp="`${endereco.bairro}`" :placeholderProp="'Digite seu bairro'" />
-            <InputForm :nomeAtributoProp="'cidade'" :typeProp="'text'" :spanTextProp="'Cidade'"
-                :valueProp="`${endereco.cidade}`" :placeholderProp="'Digite sua cidade'" />
-            <InputForm :nomeAtributoProp="'estado'" :typeProp="'text'" :spanTextProp="'Estado'"
-                :valueProp="`${endereco.estado}`" :placeholderProp="'Digite seu estado'" />
-            <InputForm :nomeAtributoProp="'numero'" :typeProp="'number'" :spanTextProp="'Numero'"
-                :valueProp="`${endereco.numero}`" :placeholderProp="'Digite seu numero'" />
-            <InputForm :nomeAtributoProp="'complemento'" :typeProp="'text'" :spanTextProp="'Complemento'"
-                :valueProp="`${endereco.complemento}`" :placeholderProp="'Digite seu complemento'" />
-            <InputForm :nomeAtributoProp="'apelido'" :typeProp="'text'" :spanTextProp="'Apelido'"
-                :valueProp="`${endereco.apelido}`" :placeholderProp="'Digite o apelido'" />
-            <InputForm :nomeAtributoProp="'pontoReferencia'" :typeProp="'text'" :spanTextProp="'Ponto de Referência'"
-                :valueProp="`${endereco.pontoReferencia}`" :placeholderProp="'Digite uma referência'" />
-            <InputForm :nomeAtributoProp="'coordenadas'" :typeProp="'text'" :spanTextProp="'Coordenadas'"
-                :valueProp="`${endereco.coordenadas}`" :placeholderProp="'Digite as coordenadas'" />
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'cep'" :typeProp="'text'"
+                :spanTextProp="'CEP'" :valueProp="`${endereco.cep}`" :placeholderProp="'Digite seu CEP'" />
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'bairro'" :typeProp="'text'"
+                :spanTextProp="'Bairro'" :valueProp="`${endereco.bairro}`" :placeholderProp="'Digite seu bairro'" />
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'cidade'" :typeProp="'text'"
+                :spanTextProp="'Cidade'" :valueProp="`${endereco.cidade}`" :placeholderProp="'Digite sua cidade'" />
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'estado'" :typeProp="'text'"
+                :spanTextProp="'Estado'" :valueProp="`${endereco.estado}`" :placeholderProp="'Digite seu estado'" />
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'numero'" :typeProp="'number'"
+                :spanTextProp="'Numero'" :valueProp="`${endereco.numero}`" :placeholderProp="'Digite seu numero'" />
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'complemento'" :typeProp="'text'"
+                :spanTextProp="'Complemento'" :valueProp="`${endereco.complemento}`"
+                :placeholderProp="'Digite seu complemento'" />
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'apelido'" :typeProp="'text'"
+                :spanTextProp="'Apelido'" :valueProp="`${endereco.apelido}`" :placeholderProp="'Digite o apelido'" />
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'pontoReferencia'" :typeProp="'text'"
+                :spanTextProp="'Ponto de Referência'" :valueProp="`${endereco.pontoReferencia}`"
+                :placeholderProp="'Digite uma referência'" />
+            <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'coordenadas'" :typeProp="'text'"
+                :spanTextProp="'Coordenadas'" :valueProp="`${endereco.coordenadas}`"
+                :placeholderProp="'Digite as coordenadas'" />
 
             <!-- {{ this.endereco }} -->
         </div>
@@ -44,7 +47,8 @@ export default {
             selectEndereco: {
                 text: '',
                 index: 2
-            }
+            },
+            exibirPronto: true
         }
     },
     props: {
@@ -63,12 +67,18 @@ export default {
             this.$emit('retornarDadosEnd', this.enderecos)
         },
     },
+    watch: {
+        'endereco'() {
+            this.exibirPronto = false
+            setTimeout(() => this.exibirPronto = true, 100)
+        }
+    },
     computed: {
         endereco: function () {
             return this.enderecos[this.selectEndereco.index];
         },
-        enderecoSelecionado(){
-            return this.endereco != null? true :false              
+        enderecoSelecionado() {
+            return this.endereco != null ? true : false
         }
     }
 }
