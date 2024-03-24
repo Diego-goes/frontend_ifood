@@ -32,7 +32,7 @@
                 :spanTextProp="'Coordenadas'" :valueProp="`${endereco.coordenadas}`"
                 :placeholderProp="'Digite as coordenadas'" />
 
-            <!-- {{ this.endereco }} -->
+            {{ this.endereco }}
         </div>
     </div>
 </template>
@@ -46,13 +46,31 @@ export default {
             enderecos: this.dadosEnderecos,
             selectEndereco: {
                 text: '',
-                index: 2
+                index: 0
             },
             exibirPronto: true
         }
     },
     props: {
-        dadosEnderecos: Object
+        dadosEnderecos: {
+            type: Array,
+            default: () => {
+                return [
+                    {
+                        'logradouro': '',
+                        'cep': '',
+                        'bairro': '',
+                        'cidade': '',
+                        'estado': '',
+                        'numero': '',
+                        'complemento': '',
+                        'apelido': '',
+                        'pontoReferencia': '',
+                        'coordenadas': ''
+                    }
+                ]
+            }
+        }
     },
     components: {
         InputForm
@@ -64,7 +82,9 @@ export default {
             this.endereco[`${nomeAtributoProp}`] = value
         },
         retornarDadosEnds() {
-            this.$emit('retornarDadosEnd', this.enderecos)
+            // console.log('\n\nENDEREÇOS:\n\n')
+            // console.log(this.enderecos)
+            this.$emit('retornarDadosEnds', this.enderecos)
         },
     },
     watch: {

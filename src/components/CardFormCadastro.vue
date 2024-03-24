@@ -5,8 +5,8 @@
         <form @submit.prevent="enviarForm" method="post" class="formUsuario">
             <div id="camposForm">
 
-                <CamposUsu v-if="prontoParaExibir" v-show="!exibirEnderecos"
-                    :dadosUsu="dadosCadastrais.usuario" :usuarioId="usuarioId" @retornarDadosUsu="armazenarDadosUsu" />
+                <CamposUsu v-if="prontoParaExibir" v-show="!exibirEnderecos" :dadosUsu="dadosCadastrais.usuario"
+                    :usuarioId="usuarioId" @retornarDadosUsu="armazenarDadosUsu" />
 
                 <CamposEnderecos v-if="prontoParaExibir" v-show="exibirEnderecos"
                     :dadosEnderecos="dadosCadastrais.enderecos" @retornarDadosEnds="armazenarDadosEnds" />
@@ -31,6 +31,7 @@ import axios from "axios";
 import CamposUsu from "./CamposUsu.vue";
 import CamposEnderecos from "./CamposEnderecos.vue";
 import BtnDefault from "./BtnDefault.vue"
+import { removerAtributosVazios } from '../../utils/funcsGerais.js'
 export default {
     name: 'CardUsu',
     data() {
@@ -51,11 +52,12 @@ export default {
         usuarioId: Number
     },
     methods: {
+        removerAtributosVazios,
         enviarForm() {
-            let body = {
+            let body = this.removerAtributosVazios({
                 'usuario': this.dadosCadastrais.usuario,
                 'enderecos': this.dadosCadastrais.enderecos
-            }
+            })
             let headers = {
                 'Content-Type': 'application/json'
             }
@@ -93,7 +95,7 @@ export default {
         armazenarDadosUsu(dados) {
             this.dadosCadastrais.usuario = dados
         },
-        armazenarDadosEnds(dados){
+        armazenarDadosEnds(dados) {
             this.dadosCadastrais.enderecos = dados
         },
         ocultarForm() {
@@ -107,12 +109,21 @@ export default {
             document.querySelector('.opcoesCard div').style.justifyContent = 'flex-end'
         },
     },
-    created() {
-        this.puxarDados()
+    mounted() {
+        if (this.acao == 'editar') {
+            this.puxarDados()
+        } else {
+            this.dadosCadastrais = {
+                usuario: {},
+                enderecos: [{}]
+            }
+        }
     },
     computed: {
         prontoParaExibir() {
-            return this.dadosRecebidos && this.dadosCadastrais.usuario
+            return this.acao == 'editar' ?
+                this.dadosRecebidos && this.dadosCadastrais.usuario :
+                true
         }
     }
 }
