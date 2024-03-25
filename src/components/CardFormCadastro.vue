@@ -1,7 +1,6 @@
 <template>
-    <div class="cardUsu">
+    <div class="CardFormCadastro">
         <h2>Dados do Usuário</h2>
-        <hr>
         <form @submit.prevent="enviarForm" method="post" class="formUsuario">
             <div id="camposForm">
 
@@ -19,7 +18,7 @@
                 <BtnDefault :value="'<- Meus dados'" v-show="exibirEnderecos" @click="trocarCampos" />
                 <div>
                     <BtnDefault :value="'Cancelar'" @click="ocultarForm" />
-                    <BtnDefault :type="'submit'" :value="'Registrar'" />
+                    <BtnDefault :type="'submit'" :value="'Registrar'" :preenchido="true"/>
                 </div>
             </div>
         </form>
@@ -130,11 +129,11 @@ export default {
 </script>
 
 <style scoped>
-.cardUsu {
+.CardFormCadastro {
     max-width: 40vw;
     max-height: 70vh;
-    min-width: min-content;
-    min-height: min-content;
+    min-width: fit-content;
+    min-height: fit-content;
     height: 80vh;
     padding: 3% 5%;
     border: 1px solid #ccc;
@@ -147,12 +146,12 @@ export default {
     background-color: white;
 }
 
-.cardUsu h2 {
-    margin: 2% 0px;
+.CardFormCadastro h2 {
+    margin: 0px 0px 5% 0px;
     color: #3c3b4c;
 }
 
-.cardUsu hr {
+.CardFormCadastro hr {
     border: 1px solid rgb(225, 225, 225);
     width: 50%;
 }

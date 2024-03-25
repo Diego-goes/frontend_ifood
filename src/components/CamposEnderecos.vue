@@ -1,11 +1,17 @@
 <template>
     <div class="dadosEndereco">
         <div class="tagsEspecificasEnderecos">
-            <select v-model="selectEndereco.index" name="selectEnderecos" id="selectEndereco">
+            <select v-show="enderecos.length > 2" v-model="selectEndereco.index" name="selectEnderecos"
+                id="selectEndereco">
                 <option v-for="end, index in enderecos" :key="end.enderecoId" :value="index">{{ end.logradouro }}
                 </option>
             </select>
+            <div>
+                <BtnDefault :value="'Remover'" :preenchido="false" />
+                <BtnDefault :value="'Novo'" :preenchido="true" />
+            </div>
         </div>
+        <hr>
         <div class="camposEnderecos" v-if="exibirPronto" @change="retornarDadosEnds">
             <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'logradouro'" :typeProp="'text'"
                 :spanTextProp="'Logradouro'" :valueProp="`${endereco.logradouro}`"
@@ -32,13 +38,14 @@
                 :spanTextProp="'Coordenadas'" :valueProp="`${endereco.coordenadas}`"
                 :placeholderProp="'Digite as coordenadas'" />
 
-            {{ this.endereco }}
+            <!-- {{ this.endereco }} -->
         </div>
     </div>
 </template>
 
 <script>
 import InputForm from "./InputForm.vue";
+import BtnDefault from "./BtnDefault.vue";
 export default {
     name: 'CardUsu',
     data() {
@@ -73,7 +80,8 @@ export default {
         }
     },
     components: {
-        InputForm
+        InputForm,
+        BtnDefault
     },
     methods: {
         armazenarDadoInput(inputData) {
@@ -109,9 +117,20 @@ export default {
 select {
     font-size: 0.6rem;
 }
-
+hr{
+    border-color: rgba(243, 243, 243, 0.315);
+    margin-bottom: 5%;
+}
 .tagsEspecificasEnderecos {
     display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.tagsEspecificasEnderecos div {
+    display: flex;
+    gap: 15%;
+    margin-right: 5%;
 }
 
 .camposEnderecos {

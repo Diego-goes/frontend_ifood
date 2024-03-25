@@ -1,7 +1,7 @@
 <template>
   <div id="painelControle">
-    <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId"
-      @enviarForm="atualizarLista" @ocultarForm="ocultarForm"/>
+    <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId" @enviarForm="atualizarLista"
+      @ocultarForm="ocultarForm" />
     <CardConfirm style="display:none" />
     <div id="cabecalhoPainel">
       <div>
@@ -24,9 +24,8 @@
             <input type="text" name="" placeholder="Pesquisar..." id="" style="visibility: hidden;">
           </div>
           <div class="areaBtns">
-            <input type="button" value="Edit" v-show="!(usuarioId == null)" v-on:click="editarSelecionado"
-              class='btnClaro'>
-            <input type="button" value="Criar" v-on:click="criarUsuario" class='btnEscuro'>
+            <BtnDefault :type="'button'" :value="'Edit'" v-show="!(usuarioId == null)" v-on:click="editarSelecionado" :preenchido="false"/>
+            <BtnDefault :type="'button'" :value="'Criar'" v-on:click="criarUsuario" :preenchido="true"/>
           </div>
         </div>
         <div id="tabelaCrud">
@@ -64,6 +63,7 @@ import axios from "axios";
 import LinhaCrudUsuario from '@/components/LinhaCrudUsuario.vue'
 import CardFormCadastro from '@/components/CardFormCadastro.vue'
 import CardConfirm from '@/components/CardConfirm.vue'
+import BtnDefault from "@/components/BtnDefault.vue";
 export default {
   data() {
     return {
@@ -109,7 +109,7 @@ export default {
         })
         .catch((error) => (this.msg = error.response));
     },
-    ocultarForm(data){
+    ocultarForm(data) {
       this.exibirCardFormCadastro = data
     },
     pegarIdRadio(id) {
@@ -128,7 +128,8 @@ export default {
   components: {
     LinhaCrudUsuario,
     CardFormCadastro,
-    CardConfirm
+    CardConfirm,
+    BtnDefault
   }
 };
 </script>

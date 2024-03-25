@@ -18,3 +18,31 @@ export function removerAtributosVazios(objeto) {
 
     return objeto;
 }
+
+export function trocarNullPorVazio(objeto) {
+    const objetoNovo = {};
+    for (const chave in objeto) {
+      if (objeto[chave] === null) {
+        objetoNovo[chave] = "";
+      } else if (Array.isArray(objeto[chave])) {
+        // Se for um array, chama a função recursivamente para trocar "null" por "" na lista de objetos
+        objetoNovo[chave] = trocarNullPorVazioLista(objeto[chave]);
+      } else if (typeof objeto[chave] === "object") {
+        // Se for um objeto, chama a função recursivamente para trocar "null" por "" no objeto aninhado
+        objetoNovo[chave] = trocarNullPorVazio(objeto[chave]);
+      } else {
+        // Se for um valor simples, adiciona ao novo objeto
+        objetoNovo[chave] = objeto[chave];
+      }
+    }
+    return objetoNovo;
+  }
+  
+  function trocarNullPorVazioLista(listaObjetos) {
+    const listaObjetosNova = [];
+    for (const obj of listaObjetos) {
+      listaObjetosNova.push(trocarNullPorVazio(obj));
+    }
+    return listaObjetosNova;
+  }
+  

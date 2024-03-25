@@ -1,17 +1,18 @@
 <template>
-    <input :type="type" v-bind:value="value">
+    <input :type="type" :value="value" :class="classe">
 </template>
 <script>
 export default {
     name: 'BtnDefault',
     data() {
         return {
+
         }
     },
     props: {
         preenchido: {
             type: Boolean,
-            default: true
+            default: false
         },
         value: {
             type: String,
@@ -20,6 +21,16 @@ export default {
         type: {
             type: String,
             default: 'button'
+        }
+    },
+    computed: {
+        classe() {
+            if (this.preenchido == true) {
+                return 'preenchido'
+            } else {
+                return 'naoPreenchido'
+
+            }
         }
     }
 }
@@ -33,7 +44,7 @@ input[type="submit"] {
     border-radius: 10px;
 }
 
-input[type="submit"] {
+.preenchido {
     background-color: #ce2020;
     color: #fff;
     border: none;
@@ -41,7 +52,7 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-input[type='button'] {
+.naoPreenchido {
     background-color: #fff;
     color: #ce2020;
     border: 1px solid #ce2020;
