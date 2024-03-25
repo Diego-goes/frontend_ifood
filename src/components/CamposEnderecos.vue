@@ -1,14 +1,15 @@
 <template>
     <div class="dadosEndereco">
         <div class="tagsEspecificasEnderecos">
-            <select v-show="enderecos.length > 2" v-model="selectEndereco.index" name="selectEnderecos"
-                id="selectEndereco">
-                <option v-for="end, index in enderecos" :key="end.enderecoId" :value="index">{{ end.logradouro }}
-                </option>
+            <select v-model="selectEndereco.index" name="selectEnderecos" id="selectEndereco">
+                <!-- <option value="0" selected disabled>Selecione</option> -->
+                <option v-show="enderecos.length > 1" v-for="end, index in enderecos" :key="end.enderecoId"
+                    :value="index">{{end.logradouro }}</option>
             </select>
             <div>
-                <BtnDefault :value="'Remover'" :preenchido="false" />
-                <BtnDefault :value="'Novo'" :preenchido="true" />
+                <BtnDefault :value="'Remover'" @click="removerEndereco" v-show="enderecos.length > 1"
+                    :preenchido="false" />
+                <BtnDefault :value="'Novo'" @click="adicionarEndereco" :preenchido="true" />
             </div>
         </div>
         <hr>
@@ -84,6 +85,12 @@ export default {
         BtnDefault
     },
     methods: {
+        adicionarEndereco() {
+            this.enderecos.push(this.endereco)
+        },
+        removerEndereco() {
+            this.enderecos.pop(this.endereco)
+        },
         armazenarDadoInput(inputData) {
             let value = inputData.value
             let nomeAtributoProp = inputData.nomeAtributoProp
@@ -108,6 +115,13 @@ export default {
         enderecoSelecionado() {
             return this.endereco != null ? true : false
         }
+    },
+    mounted() {
+        if (this.enderecos.length > 1) {
+            this.classeSelect = 'selectVisivel'
+        } else {
+            this.classeSelect = 'selectInvisivel'
+        }
     }
 }
 </script>
@@ -117,10 +131,12 @@ export default {
 select {
     font-size: 0.6rem;
 }
-hr{
+
+hr {
     border-color: rgba(243, 243, 243, 0.315);
     margin-bottom: 5%;
 }
+
 .tagsEspecificasEnderecos {
     display: flex;
     align-items: flex-start;

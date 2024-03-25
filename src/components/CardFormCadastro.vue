@@ -1,27 +1,29 @@
 <template>
-    <div class="CardFormCadastro">
-        <h2>Dados do Usuário</h2>
-        <form @submit.prevent="enviarForm" method="post" class="formUsuario">
-            <div id="camposForm">
+    <div :class="foraCardForm" @click="ocultarForm">
+        <div class="CardFormCadastro" @click.stop>
+            <h2>Dados do Usuário</h2>
+            <form @submit.prevent="enviarForm" method="post" class="formUsuario">
+                <div id="camposForm">
 
-                <CamposUsu v-if="prontoParaExibir" v-show="!exibirEnderecos" :dadosUsu="dadosCadastrais.usuario"
-                    :usuarioId="usuarioId" @retornarDadosUsu="armazenarDadosUsu" />
+                    <CamposUsu v-if="prontoParaExibir" v-show="!exibirEnderecos" :dadosUsu="dadosCadastrais.usuario"
+                        :usuarioId="usuarioId" @retornarDadosUsu="armazenarDadosUsu" />
 
-                <CamposEnderecos v-if="prontoParaExibir" v-show="exibirEnderecos"
-                    :dadosEnderecos="dadosCadastrais.enderecos" @retornarDadosEnds="armazenarDadosEnds" />
+                    <CamposEnderecos v-if="prontoParaExibir" v-show="exibirEnderecos"
+                        :dadosEnderecos="dadosCadastrais.enderecos" @retornarDadosEnds="armazenarDadosEnds" />
 
-                <div class="tagsEspecificasEnderecos">
-                    <BtnDefault :value="'Ver endereços ->'" v-show="!exibirEnderecos" @click="trocarCampos" />
+                    <div class="tagsEspecificasEnderecos">
+                        <BtnDefault :value="'Ver endereços ->'" v-show="!exibirEnderecos" @click="trocarCampos" />
+                    </div>
                 </div>
-            </div>
-            <div class="opcoesCard">
-                <BtnDefault :value="'<- Meus dados'" v-show="exibirEnderecos" @click="trocarCampos" />
-                <div>
-                    <BtnDefault :value="'Cancelar'" @click="ocultarForm" />
-                    <BtnDefault :type="'submit'" :value="'Registrar'" :preenchido="true"/>
+                <div class="opcoesCard">
+                    <BtnDefault :value="'<- Meus dados'" v-show="exibirEnderecos" @click="trocarCampos" />
+                    <div>
+                        <BtnDefault :value="'Cancelar'" @click="ocultarForm" />
+                        <BtnDefault :type="'submit'" :value="'Registrar'" :preenchido="true" />
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -38,7 +40,8 @@ export default {
             exibirEnderecos: false,
             msg: '',
             dadosRecebidos: false,
-            dadosCadastrais: {}
+            dadosCadastrais: {},
+            foraCardForm: 'foraCardForm'
         }
     },
     components: {
@@ -129,6 +132,16 @@ export default {
 </script>
 
 <style scoped>
+.foraCardForm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.509);
+    width: 100vw;
+    height: 100vh;
+    z-index: 1
+}
+
 .CardFormCadastro {
     max-width: 40vw;
     max-height: 70vh;
@@ -142,7 +155,6 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
     background-color: white;
 }
 
