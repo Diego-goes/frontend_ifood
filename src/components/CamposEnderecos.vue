@@ -9,7 +9,8 @@
             </select>
             <div>
                 <BtnDefault :value="'Remover'" @click="removerEndereco"
-                    v-if="typeof (enderecos[enderecos.length - 1]) === 'object'" :preenchido="false" />
+                    v-if="typeof (enderecos[enderecos.length - 1]) === 'object' && selectEndereco.index !== enderecos.length"
+                    :preenchido="false" />
                 <BtnDefault v-if="selectEndereco.index == enderecos.length || enderecos.length == 0"
                     :value="'Adicionar'" @click="adicionarEndereco" :preenchido="true" />
                 <BtnDefault v-if="selectEndereco.index !== enderecos.length" :value="'Editar'" @click="editarEndereco"
@@ -78,7 +79,7 @@ export default {
             this.selectEndereco.index = this.enderecos.length
         },
         removerEndereco() {
-            this.enderecos.splice(this.selectEndereco.index,1)
+            this.enderecos.splice(this.selectEndereco.index, 1)
             this.selectEndereco.index = this.enderecos.length
         },
         armazenarDadoInput(inputData) {
@@ -99,18 +100,20 @@ export default {
     computed: {
         endereco: function () {
             // Se endereco é undefined, retorna um endereço padrão vazio.
-            return { ... this.enderecos[this.selectEndereco.index] || {
-            'logradouro': '',
-            'cep': '',
-            'bairro': '',
-            'cidade': '',
-            'estado': '',
-            'numero': '',
-            'complemento': '',
-            'apelido': '',
-            'pontoReferencia': '',
-            'coordenadas': ''
-        } }
+            return {
+                ... this.enderecos[this.selectEndereco.index] || {
+                    'logradouro': '',
+                    'cep': '',
+                    'bairro': '',
+                    'cidade': '',
+                    'estado': '',
+                    'numero': '',
+                    'complemento': '',
+                    'apelido': '',
+                    'pontoReferencia': '',
+                    'coordenadas': ''
+                }
+            }
         },
         enderecoSelecionado() {
             return this.endereco != null ? true : false
