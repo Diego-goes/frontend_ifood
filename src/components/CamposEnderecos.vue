@@ -12,6 +12,8 @@
                     v-if="typeof (enderecos[enderecos.length - 1]) === 'object'" :preenchido="false" />
                 <BtnDefault v-if="selectEndereco.index == enderecos.length || enderecos.length == 0"
                     :value="'Adicionar'" @click="adicionarEndereco" :preenchido="true" />
+                <BtnDefault v-if="selectEndereco.index !== enderecos.length" :value="'Editar'" @click="editarEndereco"
+                    :preenchido="true" />
             </div>
         </div>
         <hr>
@@ -58,7 +60,7 @@ export default {
                 text: '',
                 index: 0
             },
-            exibirPronto: true
+            exibirPronto: true,
         }
     },
     props: {
@@ -76,7 +78,7 @@ export default {
             this.selectEndereco.index = this.enderecos.length
         },
         removerEndereco() {
-            this.enderecos.pop(this.endereco)
+            this.enderecos.splice(this.selectEndereco.index,1)
             this.selectEndereco.index = this.enderecos.length
         },
         armazenarDadoInput(inputData) {
