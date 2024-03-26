@@ -1,7 +1,8 @@
 <template>
     <div>
         <span>{{ spanTextProp }}</span>
-        <input @change="retornarDadoInput" :type="typeProp" v-model="value" :placeholder="placeholderProp">
+        <input @change="retornarDadoInput" :type="typeProp" v-model="value"
+            :placeholder="placeholderProp">
     </div>
 </template>
 <script>
@@ -14,9 +15,12 @@ export default {
         }
     },
     methods: {
+        validateValue(value) {
+            return value !== undefined && value !== 'undefined'; // Simplified validation
+        },
         retornarDadoInput() {
             let inputData = {
-                'value': this.value,
+                'value': this.removerUndefined,
                 'nomeAtributoProp': this.nomeAtributo
             }
             this.$emit('retornarDadoInput', inputData)
@@ -42,6 +46,15 @@ export default {
         nomeAtributoProp: {
             type: String,
             default: ''
+        }
+    },
+    computed: {
+        removerUndefined() {
+            if (this.value == undefined || this.value == 'undefined') {
+                return ''
+            } else {
+                return this.value
+            }
         }
     }
 }

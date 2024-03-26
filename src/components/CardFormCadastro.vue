@@ -9,7 +9,7 @@
                         :usuarioId="usuarioId" @retornarDadosUsu="armazenarDadosUsu" />
 
                     <CamposEnderecos v-if="prontoParaExibir" v-show="exibirEnderecos"
-                        :dadosEnderecos="dadosCadastrais.enderecos" @retornarDadosEnds="armazenarDadosEnds" />
+                        :dadosEnderecos="dadosEnderecos" @retornarDadosEnds="armazenarDadosEnds" />
 
                     <div class="tagsEspecificasEnderecos">
                         <BtnDefault :value="'Ver endereços ->'" v-show="!exibirEnderecos" @click="trocarCampos" />
@@ -114,11 +114,6 @@ export default {
     mounted() {
         if (this.acao == 'editar') {
             this.puxarDados()
-        } else {
-            this.dadosCadastrais = {
-                usuario: {},
-                enderecos: [{}]
-            }
         }
     },
     computed: {
@@ -126,6 +121,26 @@ export default {
             return this.acao == 'editar' ?
                 this.dadosRecebidos && this.dadosCadastrais.usuario :
                 true
+        },
+        dadosEnderecos(){
+            if('enderecos' in this.dadosCadastrais){
+                return this.dadosCadastrais.enderecos
+            } else {
+                return [
+                //     {
+                //     'logradouro': '',
+                //     'cep': '',
+                //     'bairro': '',
+                //     'cidade': '',
+                //     'estado': '',
+                //     'numero': '',
+                //     'complemento': '',
+                //     'apelido': '',
+                //     'pontoReferencia': '',
+                //     'coordenadas': ''
+                // }
+            ]
+            }
         }
     }
 }
@@ -171,7 +186,7 @@ export default {
 .formUsuario {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     height: 65vh;
 }

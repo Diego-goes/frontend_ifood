@@ -2,17 +2,20 @@
     <div class="dadosEndereco">
         <div class="tagsEspecificasEnderecos">
             <select v-model="selectEndereco.index" name="selectEnderecos" id="selectEndereco">
-                <!-- <option value="0" selected disabled>Selecione</option> -->
-                <option v-show="enderecos.length > 1" v-for="end, index in enderecos" :key="end.enderecoId"
-                    :value="index">{{end.logradouro }}</option>
+                <option v-for="end, index in enderecos" :key="end.enderecoId" :value="index">{{ index + 1 }} - {{
+                end.logradouro }}
+                </option>
+                <option :value="enderecos.length" :selected="true">Novo Endereço</option>
             </select>
             <div>
-                <BtnDefault :value="'Remover'" @click="removerEndereco" v-show="enderecos.length > 1"
-                    :preenchido="false" />
-                <BtnDefault :value="'Novo'" @click="adicionarEndereco" :preenchido="true" />
+                <BtnDefault :value="'Remover'" @click="removerEndereco"
+                    v-if="typeof (enderecos[enderecos.length - 1]) === 'object'" :preenchido="false" />
+                <BtnDefault v-if="selectEndereco.index == enderecos.length || enderecos.length == 0"
+                    :value="'Adicionar'" @click="adicionarEndereco" :preenchido="true" />
             </div>
         </div>
         <hr>
+        {{ this.selectEndereco.index }}
         <div class="camposEnderecos" v-if="exibirPronto" @change="retornarDadosEnds">
             <InputForm @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'logradouro'" :typeProp="'text'"
                 :spanTextProp="'Logradouro'" :valueProp="`${endereco.logradouro}`"
@@ -39,7 +42,6 @@
                 :spanTextProp="'Coordenadas'" :valueProp="`${endereco.coordenadas}`"
                 :placeholderProp="'Digite as coordenadas'" />
 
-            <!-- {{ this.endereco }} -->
         </div>
     </div>
 </template>
@@ -61,23 +63,7 @@ export default {
     },
     props: {
         dadosEnderecos: {
-            type: Array,
-            default: () => {
-                return [
-                    {
-                        'logradouro': '',
-                        'cep': '',
-                        'bairro': '',
-                        'cidade': '',
-                        'estado': '',
-                        'numero': '',
-                        'complemento': '',
-                        'apelido': '',
-                        'pontoReferencia': '',
-                        'coordenadas': ''
-                    }
-                ]
-            }
+            type: Array
         }
     },
     components: {
@@ -87,9 +73,11 @@ export default {
     methods: {
         adicionarEndereco() {
             this.enderecos.push(this.endereco)
+            this.selectEndereco.index = this.enderecos.length
         },
         removerEndereco() {
             this.enderecos.pop(this.endereco)
+            this.selectEndereco.index = this.enderecos.length
         },
         armazenarDadoInput(inputData) {
             let value = inputData.value
@@ -97,30 +85,21 @@ export default {
             this.endereco[`${nomeAtributoProp}`] = value
         },
         retornarDadosEnds() {
-            // console.log('\n\nENDEREÇOS:\n\n')
-            // console.log(this.enderecos)
             this.$emit('retornarDadosEnds', this.enderecos)
         },
     },
     watch: {
         'endereco'() {
             this.exibirPronto = false
-            setTimeout(() => this.exibirPronto = true, 100)
+            setTimeout(() => this.exibirPronto = true, 10)
         }
     },
     computed: {
         endereco: function () {
-            return this.enderecos[this.selectEndereco.index];
+            return { ... this.enderecos[this.selectEndereco.index] }
         },
         enderecoSelecionado() {
             return this.endereco != null ? true : false
-        }
-    },
-    mounted() {
-        if (this.enderecos.length > 1) {
-            this.classeSelect = 'selectVisivel'
-        } else {
-            this.classeSelect = 'selectInvisivel'
         }
     }
 }
