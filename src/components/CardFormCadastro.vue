@@ -123,24 +123,8 @@ export default {
                 true
         },
         dadosEnderecos(){
-            if('enderecos' in this.dadosCadastrais){
-                return this.dadosCadastrais.enderecos
-            } else {
-                return [
-                //     {
-                //     'logradouro': '',
-                //     'cep': '',
-                //     'bairro': '',
-                //     'cidade': '',
-                //     'estado': '',
-                //     'numero': '',
-                //     'complemento': '',
-                //     'apelido': '',
-                //     'pontoReferencia': '',
-                //     'coordenadas': ''
-                // }
-            ]
-            }
+            return 'enderecos' in this.dadosCadastrais ?
+            this.dadosCadastrais.enderecos : []
         }
     }
 }

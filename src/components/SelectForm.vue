@@ -12,10 +12,11 @@ export default {
     name: 'SelectForm',
     data() {
         return {
+            value: this.valueProp
         }
     },
     props: {
-        value: {
+        valueProp: {
             type: String,
             default: ''
         }

@@ -5,7 +5,7 @@
     <CardConfirm style="display:none" />
     <div id="cabecalhoPainel">
       <div>
-        <img class="logo_painel" src="../assets/logo_ifood.png" alt="">
+        <img class="logo_painel" src="../assets/logo.png" alt="">
       </div>
       <div>
         <p>Painel Controle</p>
@@ -24,8 +24,9 @@
             <input type="text" name="" placeholder="Pesquisar..." id="" style="visibility: hidden;">
           </div>
           <div class="areaBtns">
-            <BtnDefault :type="'button'" :value="'Edit'" v-show="!(usuarioId == null)" v-on:click="editarSelecionado" :preenchido="false"/>
-            <BtnDefault :type="'button'" :value="'Criar'" v-on:click="criarUsuario" :preenchido="true"/>
+            <BtnDefault :type="'button'" :value="'Edit'" v-show="!(usuarioId == null)" v-on:click="editarSelecionado"
+              :preenchido="false" />
+            <BtnDefault :type="'button'" :value="'Criar'" v-on:click="criarUsuario" :preenchido="true" />
           </div>
         </div>
         <div id="tabelaCrud">
@@ -196,7 +197,8 @@ input[type='button'] {
   width: fit-content;
   padding-inline: 2vw;
   border-top-left-radius: 10px;
-  border-top-right-radius: 20px;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: -30px;
   margin-top: 3vh;
 }
 
@@ -205,6 +207,11 @@ input[type='button'] {
   align-items: center;
   justify-content: space-between;
   gap: 5%;
+  padding: 10% 0%;
+}
+
+#abasCrud div p {
+  margin: 0;
 }
 
 .iconeAvatar {
