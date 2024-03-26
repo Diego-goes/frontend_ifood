@@ -26,7 +26,10 @@
           <div class="areaBtns">
             <BtnDefault :type="'button'" :value="'Edit'" v-show="!(usuarioId == null)" v-on:click="editarSelecionado"
               :preenchido="false" />
-            <BtnDefault :type="'button'" :value="'Criar'" v-on:click="criarUsuario" :preenchido="true" />
+            <BtnDefault :type="'button'" :value="'Detalhes'" v-show="!(usuarioId == null)"
+              v-on:click="exibirDadosUsuario" :preenchido="true" />
+            <BtnDefault :type="'button'" :value="'Criar'" v-show="usuarioId == null" v-on:click="criarUsuario"
+              :preenchido="true" />
           </div>
         </div>
         <div id="tabelaCrud">
@@ -78,6 +81,10 @@ export default {
   methods: {
     criarUsuario() {
       this.acaoCrud = 'criar'
+      this.exibirCardFormCadastro = true
+    },
+    exibirDadosUsuario() {
+      this.acaoCrud = 'exibir'
       this.exibirCardFormCadastro = true
     },
     editarSelecionado() {
@@ -136,6 +143,7 @@ export default {
 </script>
 
 <style scoped>
+
 input[type='button'] {
   padding: 2% 10%;
   border-radius: 3px;

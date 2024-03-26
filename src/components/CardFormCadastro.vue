@@ -5,21 +5,20 @@
             <form @submit.prevent="enviarForm" method="post" class="formUsuario">
                 <div id="camposForm">
 
-                    <CamposUsu v-if="prontoParaExibir" v-show="!exibirEnderecos" :dadosUsu="dadosCadastrais.usuario"
-                        :usuarioId="usuarioId" @retornarDadosUsu="armazenarDadosUsu" />
+                    <CamposUsu v-if="prontoParaExibir && !exibirEnderecos"  :dadosUsu="dadosCadastrais.usuario"
+                        :usuarioId="usuarioId" @retornarDadosUsu="armazenarDadosUsu" :podeEditarProp="podeEditar" />
 
-                    <CamposEnderecos v-if="prontoParaExibir" v-show="exibirEnderecos"
-                        :dadosEnderecos="dadosEnderecos" @retornarDadosEnds="armazenarDadosEnds" />
-
+                    <CamposEnderecos v-if="prontoParaExibir && exibirEnderecos" :dadosEnderecos="dadosEnderecos"
+                        @retornarDadosEnds="armazenarDadosEnds" :podeEditarProp="podeEditar" />
                     <div class="tagsEspecificasEnderecos">
                         <BtnDefault :value="'Ver endereços ->'" v-show="!exibirEnderecos" @click="trocarCampos" />
                     </div>
                 </div>
                 <div class="opcoesCard">
-                    <BtnDefault :value="'<- Meus dados'" v-show="exibirEnderecos" @click="trocarCampos" />
+                    <BtnDefault :value="'<- Dados Cadastrais'" v-show="exibirEnderecos" @click="trocarCampos" />
                     <div>
-                        <BtnDefault :value="'Cancelar'" @click="ocultarForm" />
-                        <BtnDefault :type="'submit'" :value="'Registrar'" :preenchido="true" />
+                        <BtnDefault :value="valueBtnCancelar" @click="ocultarForm" />
+                        <BtnDefault :type="'submit'" v-show="podeEditar" :value="'Registrar'" :preenchido="true" />
                     </div>
                 </div>
             </form>
@@ -41,7 +40,9 @@ export default {
             msg: '',
             dadosRecebidos: false,
             dadosCadastrais: {},
-            foraCardForm: 'foraCardForm'
+            foraCardForm: 'foraCardForm',
+            podeEditar: true,
+            valueBtnCancelar: 'Cancelar'
         }
     },
     components: {
@@ -114,17 +115,21 @@ export default {
     mounted() {
         if (this.acao == 'editar') {
             this.puxarDados()
+        } else if (this.acao == 'exibir') {
+            this.puxarDados()
+            this.podeEditar = false
+            this.valueBtnCancelar = 'Voltar'
         }
     },
     computed: {
         prontoParaExibir() {
-            return this.acao == 'editar' ?
+            return this.acao == 'editar' || this.acao == 'exibir' ?
                 this.dadosRecebidos && this.dadosCadastrais.usuario :
                 true
         },
-        dadosEnderecos(){
+        dadosEnderecos() {
             return 'enderecos' in this.dadosCadastrais ?
-            this.dadosCadastrais.enderecos : []
+                this.dadosCadastrais.enderecos : []
         }
     }
 }

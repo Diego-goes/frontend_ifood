@@ -1,7 +1,7 @@
 <template>
     <div>
         <span>{{ spanTextProp }}</span>
-        <input @change="retornarDadoInput" :type="typeProp" v-model="value" :placeholder="placeholderProp">
+        <input @change="retornarDadoInput" :type="typeProp" v-model="value" :placeholder="placeholderProp" :disabled="!podeEditar">
     </div>
 </template>
 <script>
@@ -10,7 +10,9 @@ export default {
     data() {
         return {
             value: this.valueProp,
-            nomeAtributo: this.nomeAtributoProp
+            nomeAtributo: this.nomeAtributoProp,
+            podeEditar: this.podeEditarProp
+
         }
     },
     methods: {
@@ -45,6 +47,10 @@ export default {
         nomeAtributoProp: {
             type: String,
             default: ''
+        },
+        podeEditarProp: {
+            type: Boolean,
+            default: true
         }
     },
     computed: {

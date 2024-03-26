@@ -1,17 +1,21 @@
 <template>
     <div class="dadosGerais" @change="retornarDadosUsu">
-        <InputForm @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'nomeUsu'"
-            :spanTextProp="'Nome'" :valueProp="usuario.nomeUsu" :placeholderProp="'Digite seu nome'" />
-        <InputForm @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'telefoneUsu'"
-            :spanTextProp="'Telefone'" :valueProp="usuario.telefoneUsu" :placeholderProp="'Digite seu telefone'" />
-        <InputForm @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'cpf'"
-            :spanTextProp="'CPF'" :valueProp="usuario.cpf" :placeholderProp="'Digite seu CPF'" />
-        <InputForm @retornarDadoInput="armazenarDadoInput" :typeProp="'email'" :nomeAtributoProp="'emailUsu'"
-            :spanTextProp="'Email'" :valueProp="usuario.emailUsu" :placeholderProp="'Digite seu email'" />
+        <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :typeProp="'text'"
+            :nomeAtributoProp="'nomeUsu'" :spanTextProp="'Nome'" :valueProp="usuario.nomeUsu"
+            :placeholderProp="'Digite seu nome'" />
+        <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :typeProp="'text'"
+            :nomeAtributoProp="'telefoneUsu'" :spanTextProp="'Telefone'" :valueProp="usuario.telefoneUsu"
+            :placeholderProp="'Digite seu telefone'" />
+        <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :typeProp="'text'"
+            :nomeAtributoProp="'cpf'" :spanTextProp="'CPF'" :valueProp="usuario.cpf"
+            :placeholderProp="'Digite seu CPF'" />
+        <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :typeProp="'email'"
+            :nomeAtributoProp="'emailUsu'" :spanTextProp="'Email'" :valueProp="usuario.emailUsu"
+            :placeholderProp="'Digite seu email'" />
         <div class="divsSelectsForm">
             <span for="statusAtivo">Status Ativo</span>
-            <select v-model="usuario.statusAtivo" class="selectCamposForm" name="statusAtivo" id="statusAtivo"
-                @click="mudouStatus($event.target.value)">
+            <select :disabled="!podeEditar" v-model="usuario.statusAtivo" class="selectCamposForm" name="statusAtivo"
+                id="statusAtivo" @click="mudouStatus($event.target.value)">
                 <option value="">Selecione</option>
                 <option value="true">Ativo</option>
                 <option value="false">Inativo</option>
@@ -19,8 +23,8 @@
         </div>
         <div class="divsSelectsForm">
             <span for="tipoContaId">Tipo Conta</span>
-            <select v-model="usuario.tipoUsuarioId" class="selectCamposForm" name="tipoContaId" id="tipoContaId"
-                @click="mudouTipoUsuario($event.target.value)">
+            <select :disabled="!podeEditar" v-model="usuario.tipoUsuarioId" class="selectCamposForm" name="tipoContaId"
+                id="tipoContaId" @click="mudouTipoUsuario($event.target.value)">
                 <option value="">Selecione</option>
                 <option value="0">Comprador</option>
                 <option value="1">Entregador</option>
@@ -37,6 +41,7 @@ export default {
     data() {
         return {
             usuario: this.dadosUsu,
+            podeEditar: this.podeEditarProp
         }
     },
     props: {
@@ -52,6 +57,10 @@ export default {
                     'tipoUsuarioId': '',
                 }
             }
+        },
+        podeEditarProp: {
+            type: Boolean,
+            default: true
         }
     },
     components: {
@@ -93,6 +102,10 @@ export default {
 
 select {
     font-size: 0.8rem;
+}
+
+select[disabled]{
+    color: #000000;
 }
 
 span {
