@@ -1,5 +1,6 @@
 <template>
     <div :class="foraCardForm" @click="ocultarForm">
+        <MensagemAviso/>
         <div class="CardFormCadastro" @click.stop>
             <h2>Dados do Usuário</h2>
             <form @submit.prevent="enviarForm" method="post" class="formUsuario">
@@ -32,6 +33,7 @@ import CamposUsu from "./CamposUsu.vue";
 import CamposEnderecos from "./CamposEnderecos.vue";
 import BtnDefault from "./BtnDefault.vue"
 import { removerAtributosVazios } from '../../utils/funcsGerais.js'
+import MensagemAviso from './MensagemAviso.vue'
 export default {
     name: 'CardUsu',
     data() {
@@ -48,7 +50,8 @@ export default {
     components: {
         CamposUsu,
         CamposEnderecos,
-        BtnDefault
+        BtnDefault,
+        MensagemAviso
     },
     props: {
         acao: String,
