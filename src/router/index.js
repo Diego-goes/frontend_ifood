@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+// import HomeView from "../views/HomeView.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
 import PainelControle from "../views/PainelControle.vue";
 import CardCriarUsu from "../components/CamposUsu.vue";
 import compPai from "@/views/compPai.vue";
 
 const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: HomeView,
-  },
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: HomeView,
+  // },
   {
     path: "/about",
     name: "about",
@@ -26,7 +26,7 @@ const routes = [
     component: LoginUsuario
   },
   {
-    path: "/painelControle",
+    path: "/",
     name: "painelControle",
     component: PainelControle
   },
