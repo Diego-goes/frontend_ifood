@@ -1,8 +1,7 @@
 <template>
     <div>
         <span>{{ spanTextProp }}</span>
-        <input @change="retornarDadoInput" :type="typeProp" v-model="value"
-            :placeholder="placeholderProp">
+        <input @change="retornarDadoInput" :type="typeProp" v-model="value" :placeholder="placeholderProp">
     </div>
 </template>
 <script>
@@ -36,7 +35,7 @@ export default {
             default: ''
         },
         valueProp: {
-            type: String,
+            type: [String, Number],
             default: ''
         },
         typeProp: {

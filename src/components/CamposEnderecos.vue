@@ -98,7 +98,19 @@ export default {
     },
     computed: {
         endereco: function () {
-            return { ... this.enderecos[this.selectEndereco.index] }
+            // Se endereco é undefined, retorna um endereço padrão vazio.
+            return { ... this.enderecos[this.selectEndereco.index] || {
+            'logradouro': '',
+            'cep': '',
+            'bairro': '',
+            'cidade': '',
+            'estado': '',
+            'numero': '',
+            'complemento': '',
+            'apelido': '',
+            'pontoReferencia': '',
+            'coordenadas': ''
+        } }
         },
         enderecoSelecionado() {
             return this.endereco != null ? true : false
