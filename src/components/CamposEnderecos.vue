@@ -82,6 +82,9 @@ export default {
             this.enderecos.splice(this.selectEndereco.index, 1)
             this.selectEndereco.index = this.enderecos.length
         },
+        editarEndereco(){
+            this.enderecos.splice(this.selectEndereco.index,1,this.endereco);
+        },
         armazenarDadoInput(inputData) {
             let value = inputData.value
             let nomeAtributoProp = inputData.nomeAtributoProp
