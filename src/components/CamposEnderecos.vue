@@ -25,8 +25,9 @@
                 :spanTextProp="'Logradouro'" :valueProp="`${endereco.logradouro}`"
                 :placeholderProp="'Digite seu logradouro'" />
             <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
-                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'cep'" :typeProp="'text'"
-                :spanTextProp="'CEP'" :valueProp="`${endereco.cep}`" :placeholderProp="'Digite seu CEP'" />
+                @retornarDadoInput="armazenarDadoInput" @change="autoPreencherPorCep" :nomeAtributoProp="'cep'"
+                :typeProp="'text'" :spanTextProp="'CEP'" :valueProp="`${endereco.cep}`"
+                :placeholderProp="'Digite seu CEP'" />
             <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
                 @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'bairro'" :typeProp="'text'"
                 :spanTextProp="'Bairro'" :valueProp="`${endereco.bairro}`" :placeholderProp="'Digite seu bairro'" />
@@ -63,6 +64,7 @@
 import InputForm from "./InputForm.vue";
 import BtnDefault from "./BtnDefault.vue";
 import MensagemAviso from './MensagemAviso.vue'
+import axios from "axios";
 export default {
     emits: ['retornarDadosEnds'],
     name: 'CardUsu',
@@ -81,6 +83,9 @@ export default {
                 titulo: '',
                 msgs: []
             },
+            enderecoPorCep: {
+
+            }
         }
     },
     props: {
@@ -98,17 +103,21 @@ export default {
         MensagemAviso
     },
     methods: {
+        limparCampoEndereco() {
+            for (let campo of Object.keys(this.endereco)) {
+                this.endereco[campo] = ''
+            }
+        },
         adicionarEndereco() {
             if (this.enderecosValidos()) {
                 this.enderecos.push(this.endereco)
+                this.limparCampoEndereco()
                 this.selectEndereco.index = this.enderecos.length
             } else {
                 this.aviso.msgs = ["Campos 'Logradouro', 'CEP' e 'Número' são obrigatórios."]
             }
         },
         enderecosValidos() {
-            // alert('oi')
-            // console.log(this.endereco['cep'])
             for (let campo of this.camposObrigatorios) {
                 if (this.endereco[campo] == '') {
                     return false
@@ -123,9 +132,38 @@ export default {
         editarEndereco() {
             this.enderecos.splice(this.selectEndereco.index, 1, this.endereco);
         },
+        puxarDadosPorCEP(cep) {
+            let headers = {
+                'Content-Type': 'application/json'
+            }
+            axios({
+                method: `GET`,
+                url: `https://viacep.com.br/ws/${cep}/json/`,
+                headers
+            }).then((response) => {
+                for (let [attKey, attValue] of Object.entries(response.data)) {
+                    attKey = attKey == 'uf' ? 'estado' : attKey
+                    attKey = attKey == 'localidade' ? 'cidade' : attKey
+                    if (this.endereco[attKey] != undefined && attValue != '') {
+                        this.endereco[attKey] = attValue
+                        // console.log(this.endereco)
+                    }
+
+                }
+            }).catch((error) => {
+                console.log('error', error)
+            });
+        },
+        autoPreencherPorCep() {
+            this.exibirPronto = false
+            setTimeout(() => (this.exibirPronto = true), 10)
+        },
         armazenarDadoInput(inputData) {
             let value = inputData.value
             let nomeAtributoProp = inputData.nomeAtributoProp
+            if (nomeAtributoProp == 'cep') {
+                this.puxarDadosPorCEP(value)
+            }
             this.endereco[`${nomeAtributoProp}`] = value
         },
         retornarDadosEnds() {
@@ -133,9 +171,20 @@ export default {
         },
     },
     watch: {
-        'endereco'() {
-            this.exibirPronto = false
-            setTimeout(() => this.exibirPronto = true, 10)
+        'endereco': {
+            handler() {
+                // newEndereco, oldEndereco
+                // if (newEndereco.cep !== oldEndereco.cep) {
+                //     alert('enderecoMudou');
+                //     this.exibirPronto = false;
+                //     setTimeout(() => (this.exibirPronto = true), 10);
+                // }
+                this.exibirPronto = false;
+                this.exibirPronto = true;
+                // setTimeout(() => (this.exibirPronto = true), 10);
+
+            },
+            deep: true
         },
         'exibirAviso'() {
             setTimeout(() => {
