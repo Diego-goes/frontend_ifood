@@ -1,17 +1,17 @@
 <template>
     <div class="dadosGerais" @change="retornarDadosUsu">
-        <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :typeProp="'text'"
-            :nomeAtributoProp="'nomeUsu'" :spanTextProp="'Nome'" :valueProp="usuario.nomeUsu"
-            :placeholderProp="'Digite seu nome'" />
-        <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :typeProp="'text'"
-            :nomeAtributoProp="'telefoneUsu'" :spanTextProp="'Telefone'" :valueProp="usuario.telefoneUsu"
-            :placeholderProp="'Digite seu telefone'" />
-        <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :typeProp="'text'"
-            :nomeAtributoProp="'cpf'" :spanTextProp="'CPF'" :valueProp="usuario.cpf"
-            :placeholderProp="'Digite seu CPF'" />
-        <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :typeProp="'email'"
-            :nomeAtributoProp="'emailUsu'" :spanTextProp="'Email'" :valueProp="usuario.emailUsu"
-            :placeholderProp="'Digite seu email'" />
+        <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+            @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'nomeUsu'"
+            :spanTextProp="'Nome'" :valueProp="usuario.nomeUsu" :placeholderProp="'Digite seu nome'" />
+        <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+            @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'telefoneUsu'"
+            :spanTextProp="'Telefone'" :valueProp="usuario.telefoneUsu" :placeholderProp="'Digite seu telefone'" />
+        <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+            @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'cpf'" :spanTextProp="'CPF'"
+            :valueProp="usuario.cpf" :placeholderProp="'Digite seu CPF'" />
+        <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+            @retornarDadoInput="armazenarDadoInput" :typeProp="'email'" :nomeAtributoProp="'emailUsu'"
+            :spanTextProp="'Email'" :valueProp="usuario.emailUsu" :placeholderProp="'Digite seu email'" />
         <div class="divsSelectsForm">
             <span for="statusAtivo">Status Ativo</span>
             <select :disabled="!podeEditar" v-model="usuario.statusAtivo" class="selectCamposForm" name="statusAtivo"
@@ -41,7 +41,8 @@ export default {
     data() {
         return {
             usuario: this.dadosUsu,
-            podeEditar: this.podeEditarProp
+            podeEditar: this.podeEditarProp,
+            camposSaoRequeridos: true,
         }
     },
     props: {
@@ -104,7 +105,7 @@ select {
     font-size: 0.8rem;
 }
 
-select[disabled]{
+select[disabled] {
     color: #000000;
 }
 

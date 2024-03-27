@@ -1,9 +1,10 @@
 <template>
+    <MensagemAviso @click.stop v-if="exibirAviso" :avisosProp="aviso.msgs" />
     <div class="dadosEndereco">
         <div class="tagsEspecificasEnderecos">
             <select v-model="selectEndereco.index" name="selectEnderecos" id="selectEndereco">
                 <option v-for="end, index in enderecos" :key="end.enderecoId" :value="index">{{ index + 1 }} - {{
-                end.logradouro }}
+        end.logradouro }}
                 </option>
                 <option v-show="podeEditar" :value="enderecos.length" :selected="true">Novo Endereço</option>
             </select>
@@ -12,35 +13,45 @@
                     v-if="typeof (enderecos[enderecos.length - 1]) === 'object' && selectEndereco.index !== enderecos.length"
                     :preenchido="false" />
                 <BtnDefault v-show="podeEditar" v-if="selectEndereco.index == enderecos.length || enderecos.length == 0"
-                    :value="'Novo'" @click="adicionarEndereco" :preenchido="true" />
+                    :value="'Adicionar Endereço'" @click="adicionarEndereco" :preenchido="true" />
                 <BtnDefault v-show="podeEditar" v-if="selectEndereco.index !== enderecos.length"
                     :value="'Salvar Endereço'" @click="editarEndereco" :preenchido="true" />
             </div>
         </div>
         <hr>
         <div class="camposEnderecos" v-if="exibirPronto" @change="retornarDadosEnds">
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'logradouro'" :typeProp="'text'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'logradouro'" :typeProp="'text'"
                 :spanTextProp="'Logradouro'" :valueProp="`${endereco.logradouro}`"
                 :placeholderProp="'Digite seu logradouro'" />
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'cep'" :typeProp="'text'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'cep'" :typeProp="'text'"
                 :spanTextProp="'CEP'" :valueProp="`${endereco.cep}`" :placeholderProp="'Digite seu CEP'" />
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'bairro'" :typeProp="'text'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'bairro'" :typeProp="'text'"
                 :spanTextProp="'Bairro'" :valueProp="`${endereco.bairro}`" :placeholderProp="'Digite seu bairro'" />
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'cidade'" :typeProp="'text'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'cidade'" :typeProp="'text'"
                 :spanTextProp="'Cidade'" :valueProp="`${endereco.cidade}`" :placeholderProp="'Digite sua cidade'" />
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'estado'" :typeProp="'text'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'estado'" :typeProp="'text'"
                 :spanTextProp="'Estado'" :valueProp="`${endereco.estado}`" :placeholderProp="'Digite seu estado'" />
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'numero'" :typeProp="'number'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'numero'" :typeProp="'number'"
                 :spanTextProp="'Numero'" :valueProp="`${endereco.numero}`" :placeholderProp="'Digite seu numero'" />
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'complemento'" :typeProp="'text'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'complemento'" :typeProp="'text'"
                 :spanTextProp="'Complemento'" :valueProp="`${endereco.complemento}`"
                 :placeholderProp="'Digite seu complemento'" />
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'apelido'" :typeProp="'text'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'apelido'" :typeProp="'text'"
                 :spanTextProp="'Apelido'" :valueProp="`${endereco.apelido}`" :placeholderProp="'Digite o apelido'" />
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'pontoReferencia'" :typeProp="'text'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'pontoReferencia'" :typeProp="'text'"
                 :spanTextProp="'Ponto de Referência'" :valueProp="`${endereco.pontoReferencia}`"
                 :placeholderProp="'Digite uma referência'" />
-            <InputForm :podeEditarProp="podeEditar" @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'coordenadas'" :typeProp="'text'"
+            <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
+                @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'coordenadas'" :typeProp="'text'"
                 :spanTextProp="'Coordenadas'" :valueProp="`${endereco.coordenadas}`"
                 :placeholderProp="'Digite as coordenadas'" />
 
@@ -51,17 +62,25 @@
 <script>
 import InputForm from "./InputForm.vue";
 import BtnDefault from "./BtnDefault.vue";
+import MensagemAviso from './MensagemAviso.vue'
 export default {
+    emits: ['retornarDadosEnds'],
     name: 'CardUsu',
     data() {
         return {
+            camposSaoRequeridos: false,
             enderecos: this.dadosEnderecos,
+            camposObrigatorios: ['logradouro', 'cep', 'numero'],
             selectEndereco: {
                 text: '',
                 index: 0
             },
             exibirPronto: true,
-            podeEditar: this.podeEditarProp
+            podeEditar: this.podeEditarProp,
+            aviso: {
+                titulo: '',
+                msgs: []
+            },
         }
     },
     props: {
@@ -75,12 +94,27 @@ export default {
     },
     components: {
         InputForm,
-        BtnDefault
+        BtnDefault,
+        MensagemAviso
     },
     methods: {
         adicionarEndereco() {
-            this.enderecos.push(this.endereco)
-            this.selectEndereco.index = this.enderecos.length
+            if (this.enderecosValidos()) {
+                this.enderecos.push(this.endereco)
+                this.selectEndereco.index = this.enderecos.length
+            } else {
+                this.aviso.msgs = ["Campos 'Logradouro', 'CEP' e 'Número' são obrigatórios."]
+            }
+        },
+        enderecosValidos() {
+            // alert('oi')
+            // console.log(this.endereco['cep'])
+            for (let campo of this.camposObrigatorios) {
+                if (this.endereco[campo] == '') {
+                    return false
+                }
+            }
+            return true
         },
         removerEndereco() {
             this.enderecos.splice(this.selectEndereco.index, 1)
@@ -102,6 +136,14 @@ export default {
         'endereco'() {
             this.exibirPronto = false
             setTimeout(() => this.exibirPronto = true, 10)
+        },
+        'exibirAviso'() {
+            setTimeout(() => {
+                this.aviso = {
+                    titulo: '',
+                    msgs: []
+                }
+            }, 4000)
         }
     },
     computed: {
@@ -124,7 +166,10 @@ export default {
         },
         enderecoSelecionado() {
             return this.endereco != null ? true : false
-        }
+        },
+        exibirAviso() {
+            return this.aviso.msgs.length > 0
+        },
     }
 }
 </script>

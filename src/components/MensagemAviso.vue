@@ -1,7 +1,8 @@
 <template>
     <div class="modal">
         <div :class="['cardAlerta', classesPrioridade]">
-            <p> {{ msg }} </p>
+            <small>Aviso!</small>
+            <p v-for="aviso, index in avisos" :key="index"> {{ aviso }} </p>
         </div>
     </div>
 </template>
@@ -9,7 +10,7 @@
 export default {
     data() {
         return {
-            msg: this.msgProp,
+            avisos: this.avisosProp,
             nivelPrioridade: this.nivelPrioridadeProp,
             classesPrioridades : {
             1: "prioridade1",
@@ -19,9 +20,9 @@ export default {
         }
     },
     props: {
-        msgProp: {
-            type: String,
-            default: 'Mensagem de Aviso!'
+        avisosProp: {
+            type: Array,
+            default: ()=>['Mensagem de Aviso!']
         },
         nivelPrioridadeProp: {
             type: Number,

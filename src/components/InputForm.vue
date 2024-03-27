@@ -1,7 +1,13 @@
 <template>
     <div>
         <span>{{ spanTextProp }}</span>
-        <input @change="retornarDadoInput" :type="typeProp" v-model="value" :placeholder="placeholderProp" :disabled="!podeEditar">
+        <input @change="retornarDadoInput" 
+        :type="typeProp" 
+        v-model="value" 
+        :placeholder="placeholderProp" 
+        :disabled="!podeEditar"
+        :required="requeridoProp">
+        
     </div>
 </template>
 <script>
@@ -51,6 +57,10 @@ export default {
         podeEditarProp: {
             type: Boolean,
             default: true
+        },
+        requeridoProp: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {

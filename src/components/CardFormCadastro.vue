@@ -1,12 +1,11 @@
 <template>
     <div :class="foraCardForm" @click="ocultarForm">
-        <MensagemAviso/>
+        <MensagemAviso @click.stop v-if="exibirAviso" :avisosProp="aviso.msgs" />
         <div class="CardFormCadastro" @click.stop>
             <h2>Dados do Usuário</h2>
             <form @submit.prevent="enviarForm" method="post" class="formUsuario">
                 <div id="camposForm">
-
-                    <CamposUsu v-if="prontoParaExibir && !exibirEnderecos"  :dadosUsu="dadosCadastrais.usuario"
+                    <CamposUsu v-if="prontoParaExibir && !exibirEnderecos" :dadosUsu="dadosCadastrais.usuario"
                         :usuarioId="usuarioId" @retornarDadosUsu="armazenarDadosUsu" :podeEditarProp="podeEditar" />
 
                     <CamposEnderecos v-if="prontoParaExibir && exibirEnderecos" :dadosEnderecos="dadosEnderecos"
@@ -39,7 +38,10 @@ export default {
     data() {
         return {
             exibirEnderecos: false,
-            msg: '',
+            aviso: {
+                titulo: '',
+                msgs: []
+            },
             dadosRecebidos: false,
             dadosCadastrais: {},
             foraCardForm: 'foraCardForm',
@@ -86,7 +88,11 @@ export default {
                 this.msg = response
                 this.$emit('enviarForm')
                 this.ocultarForm()
-            }).catch((error) => (this.msg = error.response));
+            }).catch((error) => {
+                this.aviso.titulo = error.response.data.message
+                this.aviso.msgs = error.response.data.errors
+                console.log(this.aviso)
+            });
         },
         puxarDados() {
             axios
@@ -114,6 +120,11 @@ export default {
         corrigirJustifySubmitForm() {
             document.querySelector('.opcoesCard div').style.justifyContent = 'flex-end'
         },
+        limparAviso() {
+            this.aviso = {
+
+            }
+        }
     },
     mounted() {
         if (this.acao == 'editar') {
@@ -124,11 +135,24 @@ export default {
             this.valueBtnCancelar = 'Voltar'
         }
     },
+    watch: {
+        'exibirAviso'() {
+            setTimeout(() => {
+                this.aviso = {
+                    titulo: '',
+                    msgs: []
+                }
+            }, 4000)
+        }
+    },
     computed: {
         prontoParaExibir() {
             return this.acao == 'editar' || this.acao == 'exibir' ?
                 this.dadosRecebidos && this.dadosCadastrais.usuario :
                 true
+        },
+        exibirAviso() {
+            return this.aviso.msgs.length > 0
         },
         dadosEnderecos() {
             return 'enderecos' in this.dadosCadastrais ?
