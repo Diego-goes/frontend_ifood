@@ -115,10 +115,14 @@ export default {
         },
         trocarCampos() {
             this.exibirEnderecos = this.exibirEnderecos == true ? false : true
-            this.corrigirJustifySubmitForm()
+            this.corrigirJustifySubmitForm(this.exibirEnderecos)
         },
-        corrigirJustifySubmitForm() {
-            document.querySelector('.opcoesCard div').style.justifyContent = 'flex-end'
+        corrigirJustifySubmitForm(booleano) {
+            if (booleano){
+                document.querySelector('.opcoesCard div').style.justifyContent = 'flex-end'
+            } else {
+                document.querySelector('.opcoesCard div').style.justifyContent = 'space-between'
+            }
         },
         limparAviso() {
             this.aviso = {

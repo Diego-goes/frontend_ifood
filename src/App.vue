@@ -1,8 +1,7 @@
 <template>
   <nav>
-    <!-- <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/login">login</router-link> -->
+    <router-link to="/">Home</router-link> |
+    <router-link to="/loginUsuario">login</router-link>
   </nav>
   <router-view />
 </template>
@@ -18,25 +17,34 @@ export default {
 </script>
 
 <style>
-*{
-  font-family: Montserrat,Avenir, Helvetica, Arial, sans-serif;
+* {
+  font-family: Montserrat, Avenir, Helvetica, Arial, sans-serif;
 }
+
+body {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-body{
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-image: linear-gradient(rgb(255, 255, 255), rgb(226, 219, 219));
+  align-items: stretch;
+  align-content: center;
+  background-color: white;
+  /*background-image: linear-gradient(rgb(255, 255, 255), rgb(226, 219, 219));*/
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  height: 100vh;
 }
-
 </style>

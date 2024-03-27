@@ -1,65 +1,67 @@
 <template>
-  <div id="painelControle">
-    <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId" @enviarForm="atualizarLista"
-      @ocultarForm="ocultarForm" />
-    <CardConfirm style="display:none" />
-    <div id="cabecalhoPainel">
-      <div>
-        <img class="logo_painel" src="../assets/logo.png" alt="">
+  <section class="sectionPainelControle">
+    <div id="painelControle">
+      <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId"
+        @enviarForm="atualizarLista" @ocultarForm="ocultarForm" />
+      <CardConfirm style="display:none" />
+      <div id="cabecalhoPainel">
+        <div>
+          <img class="logo_painel" src="./../../public/img/icons/android-chrome-maskable-192x192.png" alt="">
+        </div>
+        <div>
+          <p>Painel Controle</p>
+        </div>
       </div>
-      <div>
-        <p>Painel Controle</p>
-      </div>
-    </div>
-    <div id="centralPainel">
-      <div id="crudUsuario">
-        <div id="abasCrud">
-          <div id="abaUsuario">
-            <img class="iconeAvatar" src="../assets/avatar_icon.png" alt="icone_avatar">
-            <p>Usuários</p>
+      <div id="centralPainel">
+        <div id="crudUsuario">
+          <div id="abasCrud">
+            <div id="abaUsuario">
+              <img class="iconeAvatar" src="../assets/avatar_icon.png" alt="icone_avatar">
+              <p>Usuários</p>
+            </div>
+          </div>
+          <div id="cabecalhoCrud">
+            <div>
+              <input type="text" name="" placeholder="Pesquisar..." id="" style="visibility: hidden;">
+            </div>
+            <div class="areaBtns">
+              <BtnDefault :type="'button'" :value="'Edit'" v-show="!(usuarioId == null)" v-on:click="editarSelecionado"
+                :preenchido="false" />
+              <BtnDefault :type="'button'" :value="'Detalhes'" v-show="!(usuarioId == null)"
+                v-on:click="exibirDadosUsuario" :preenchido="true" />
+              <BtnDefault :type="'button'" :value="'Criar'" v-show="usuarioId == null" v-on:click="criarUsuario"
+                :preenchido="true" />
+            </div>
+          </div>
+          <div id="tabelaCrud">
+            <div id="tituloTabela">
+              <input type="checkbox" name="" id="" style="visibility: hidden;">
+              <p>ID</p>
+              <p>Nome</p>
+              <p>Status</p>
+              <p>Tipo</p>
+              <p>Criação</p>
+            </div>
+            <div id="linhasTabela">
+              <LinhaCrudUsuario v-for="linha in linhas" :key="linha.usuarioId" @salvarId="pegarIdRadio"
+                :linhaData="linha" />
+            </div>
           </div>
         </div>
-        <div id="cabecalhoCrud">
+        <div id="barraEdicao" style="display: none;">
           <div>
-            <input type="text" name="" placeholder="Pesquisar..." id="" style="visibility: hidden;">
+            x
+            <p>3</p>
+            <p>Itens selcionados</p>
           </div>
-          <div class="areaBtns">
-            <BtnDefault :type="'button'" :value="'Edit'" v-show="!(usuarioId == null)" v-on:click="editarSelecionado"
-              :preenchido="false" />
-            <BtnDefault :type="'button'" :value="'Detalhes'" v-show="!(usuarioId == null)"
-              v-on:click="exibirDadosUsuario" :preenchido="true" />
-            <BtnDefault :type="'button'" :value="'Criar'" v-show="usuarioId == null" v-on:click="criarUsuario"
-              :preenchido="true" />
+          <div>
+            <input type="button" value="Edit" v-on:click="editarSelecionado">
+            <input type="button" value="Delete" v-on:click="inativarSelecionado">
           </div>
-        </div>
-        <div id="tabelaCrud">
-          <div id="tituloTabela">
-            <input type="checkbox" name="" id="" style="visibility: hidden;">
-            <p>ID</p>
-            <p>Nome</p>
-            <p>Status</p>
-            <p>Tipo</p>
-            <p>Criação</p>
-          </div>
-          <div id="linhasTabela">
-            <LinhaCrudUsuario v-for="linha in linhas" :key="linha.usuarioId" @salvarId="pegarIdRadio"
-              :linhaData="linha" />
-          </div>
-        </div>
-      </div>
-      <div id="barraEdicao" style="display: none;">
-        <div>
-          x
-          <p>3</p>
-          <p>Itens selcionados</p>
-        </div>
-        <div>
-          <input type="button" value="Edit" v-on:click="editarSelecionado">
-          <input type="button" value="Delete" v-on:click="inativarSelecionado">
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -143,6 +145,11 @@ export default {
 </script>
 
 <style scoped>
+.sectionPainelControle {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
 
 input[type='button'] {
   padding: 2% 10%;
@@ -168,7 +175,9 @@ input[type='button'] {
   border-radius: 10px;
   margin-top: 10vh;
   padding: 1vw;
-  background-color: white;
+  background-color: rgb(243, 243, 247);
+  box-shadow: 5px 5px 3px #c7c7c7,
+    -5px -5px 3px #f9f9f9;
 }
 
 .logo_painel {
@@ -179,12 +188,14 @@ input[type='button'] {
 }
 
 #centralPainel {
-  min-height: 70vh;
-  background-color: rgb(240, 241, 246);
+  min-height: 50vh;
+  background-color: rgb(242, 242, 242);
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 20px;
+  box-shadow: inset 5px 5px 3px #c7c7c7,
+    inset -5px -5px 3px #f9f9f9;
 }
 
 #cabecalhoPainel {
@@ -195,7 +206,8 @@ input[type='button'] {
 }
 
 #crudUsuario {
-  width: 90%;
+  width: 98%;
+  height: 98%;
   border-radius: 20px;
 }
 
