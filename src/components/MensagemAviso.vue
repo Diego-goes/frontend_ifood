@@ -44,6 +44,7 @@ export default {
     bottom: 10vh;
     right: 10vw;
     z-index: 2;
+    font-size: 0.7rem;
 }
 
 .prioridade1{
