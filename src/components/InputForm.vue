@@ -1,13 +1,9 @@
 <template>
     <div>
         <span>{{ spanTextProp }}</span>
-        <input @change="retornarDadoInput" 
-        :type="typeProp" 
-        v-model="value" 
-        :placeholder="placeholderProp" 
-        :disabled="!podeEditar"
-        :required="requeridoProp">
-        
+        <input @change="retornarDadoInput" :type="typeProp" v-model="value" :placeholder="placeholderProp"
+            :disabled="!podeEditar" :required="requeridoProp" :pattern="patternProp">
+
     </div>
 </template>
 <script>
@@ -18,7 +14,6 @@ export default {
             value: this.valueProp,
             nomeAtributo: this.nomeAtributoProp,
             podeEditar: this.podeEditarProp
-
         }
     },
     methods: {
@@ -27,7 +22,7 @@ export default {
         },
         retornarDadoInput() {
             let inputData = {
-                'value': this.removerUndefined,
+                'value': this.formatarInput,
                 'nomeAtributoProp': this.nomeAtributo
             }
             this.$emit('retornarDadoInput', inputData)
@@ -61,12 +56,18 @@ export default {
         requeridoProp: {
             type: Boolean,
             default: false
-        }
+        },
+        patternProp: {
+            type: String,
+            default: '.*'
+        },
     },
     computed: {
-        removerUndefined() {
+        formatarInput() {
             if (this.value == undefined || this.value == 'undefined') {
                 return ''
+            } else if (this.nomeAtributo == 'cep' && this.value.includes('-')) {
+                return this.value.replace('-', '')
             } else {
                 return this.value
             }

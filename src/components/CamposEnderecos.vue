@@ -27,7 +27,7 @@
             <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
                 @retornarDadoInput="armazenarDadoInput" @change="autoPreencherPorCep" :nomeAtributoProp="'cep'"
                 :typeProp="'text'" :spanTextProp="'CEP'" :valueProp="`${endereco.cep}`"
-                :placeholderProp="'Digite seu CEP'" />
+                :placeholderProp="'Digite seu CEP'" :patternProp="'[0-9]{5}[0-9]{3}'" />
             <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
                 @retornarDadoInput="armazenarDadoInput" :nomeAtributoProp="'bairro'" :typeProp="'text'"
                 :spanTextProp="'Bairro'" :valueProp="`${endereco.bairro}`" :placeholderProp="'Digite seu bairro'" />
@@ -142,6 +142,7 @@ export default {
                 headers
             }).then((response) => {
                 for (let [attKey, attValue] of Object.entries(response.data)) {
+                    attValue = attKey == 'cep' ? attValue.replace('-','') : attValue
                     attKey = attKey == 'uf' ? 'estado' : attKey
                     attKey = attKey == 'localidade' ? 'cidade' : attKey
                     if (this.endereco[attKey] != undefined && attValue != '') {
@@ -180,8 +181,7 @@ export default {
                 //     setTimeout(() => (this.exibirPronto = true), 10);
                 // }
                 this.exibirPronto = false;
-                this.exibirPronto = true;
-                // setTimeout(() => (this.exibirPronto = true), 10);
+                setTimeout(() => (this.exibirPronto = true), 10);
 
             },
             deep: true
