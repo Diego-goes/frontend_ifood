@@ -6,11 +6,11 @@ import CardCriarUsu from "../components/CamposUsu.vue";
 import compPai from "@/views/compPai.vue";
 
 const routes = [
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: HomeView,
-  // },
+  {
+    path: "/",
+    name: "home",
+    component: PainelControle,
+  },
   {
     path: "/about",
     name: "about",
@@ -25,11 +25,11 @@ const routes = [
     name: "loginUsuario",
     component: LoginUsuario
   },
-  {
-    path: "/",
-    name: "painelControle",
-    component: PainelControle
-  },
+  // {
+  //   path: "/",
+  //   name: "painelControle",
+  //   component: PainelControle
+  // },
   {
     path: "/teste",
     name: "teste",

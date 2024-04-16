@@ -4,7 +4,7 @@
     <section>
       <img id="imgPessoas" src="../assets/bg_login-removebg-preview.png" alt="">
     </section>
-    <section class="formulario">
+    <section v-if="!exibirCampoTelefone" class="formulario">
       <section>
         <h2>Falta pouco para <br>matar sua fome!</h2>
         <p>Como deseja continuar?</p>
@@ -20,11 +20,19 @@
         </label>
       </section>
       <section class="btnsIntegracao2">
-        <input class="btns" type="button" value="Celular">
+        <input @click="alterarVisibilidadeCampoTelefone" class="btns" type="button" value="Celular">
         <input class="btns" type="button" value="E-mail">
       </section>
       <hr>
     </section>
+
+    <section v-if="exibirCampoTelefone" class="formulario">
+      <h2>INSERIR ENDEREÇO</h2>
+      <input @click="alterarVisibilidadeCampoTelefone" class="btns" type="button" value="Enviar">
+    </section>
+
+    
+
   </section>
 </template>
 
@@ -32,6 +40,16 @@
 export default {
   data() {
     return {
+      exibirCampoTelefone: false,
+    }
+  },
+  methods: {
+    alterarVisibilidadeCampoTelefone(){
+      if (this.exibirCampoTelefone == false){
+        this.exibirCampoTelefone = true
+      } else {
+        this.exibirCampoTelefone = false
+      }
     }
   }
 }
