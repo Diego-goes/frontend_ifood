@@ -2,9 +2,9 @@
   <div class="body-pagina-deslogada">
     <header>
 
-
-    <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
-
+    <router-link to="/">
+        <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
+    </router-link>
     <div class="palavra">Entregador</div>
     <div class="palavra">Restaurante e Mercado</div>
     <div class="palavra">Carreiras</div>

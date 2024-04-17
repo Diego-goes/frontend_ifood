@@ -1,7 +1,8 @@
 <template>
 <div class="paginaLogin1">
-    
-    <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
+    <router-link to="/">
+        <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
+    </router-link>
     <img src="../assets/pessoas.png">
     <img src="../assets/QuadroBranco.png" id="quadro-branco">
 
