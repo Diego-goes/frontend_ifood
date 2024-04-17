@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-// import HomeView from "../views/HomeView.vue";
+import HomeView from "../views/HomeView.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
-import PainelControle from "../views/PainelControle.vue";
 import CardCriarUsu from "../components/CamposUsu.vue";
 import compPai from "@/views/compPai.vue";
 
@@ -9,7 +8,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: PainelControle,
+    component: HomeView,
   },
   {
     path: "/about",
