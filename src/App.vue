@@ -1,7 +1,7 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/loginUsuario">login</router-link>
+    <router-link to="/PaginaLogin1">login</router-link>
   </nav>
   <router-view />
 </template>
@@ -47,4 +47,13 @@ a {
   background-position: center;
   background-size: cover;
 }
+
+#imagem-principal{  
+    width: 120px;
+    height: auto;
+    margin-left: 30px;
+    top: 40px;
+
+}
+
 </style>

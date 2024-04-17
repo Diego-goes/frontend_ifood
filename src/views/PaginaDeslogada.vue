@@ -2,19 +2,19 @@
   <div class="body-pagina-deslogada">
     <header>
 
-<div class="container">
+
     <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
 
     <div class="palavra">Entregador</div>
     <div class="palavra">Restaurante e Mercado</div>
     <div class="palavra">Carreiras</div>
     <div class="palavra">Hifood Card</div>
-</div>    
+    
 
 <div class= "botao" >
     
-    <router-link to ="paginalogin1" class="btn-menu" id="btn-criar">Criar Conta</router-link> 
-    <router-link to ="paginalogin1" class="btn-menu" id="btn-entrar">Entrar</router-link>     
+    <router-link to ="PaginaLogin1" class="btn-menu" id="btn-criar">Criar Conta </router-link> 
+    <router-link to ="PaginaLogin1" class="btn-menu" id="btn-entrar"> Entrar </router-link>     
 
 </div>
 

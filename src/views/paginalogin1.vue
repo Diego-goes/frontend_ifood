@@ -1,5 +1,5 @@
 <template>
-<div class="pagina-login1">
+<div class="paginaLogin1">
     
     <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
     <img src="../assets/pessoas.png">
@@ -8,7 +8,7 @@
     <main class="cadastro">
         <p>Falta pouco para <br> matar a sua fome!<br> </p>
         <p class="titulo-destaque">Como deseja continuar?</p>
-        <label for="btnFacebook">
+        <!-- <label for="btnFacebook">
             <input name= "btnFacebook"class= "Facebook" type="button"value=" Continuar com Facebook"><br>
             <img src="../assets/logoface.png" alt="Imagem" class="logoF">   
         </label>
@@ -17,7 +17,7 @@
             <input name= "btnGoogle"class="Google" type="button"value=" Fazer login com o Google"><br>
             <img src="../assets/logoGoogle.png" alt="Imagem" class="logoG">
         </label>
-    
+     -->
         <input class="Celular" type="button" value="Celular">
         <input class="E-mail" type="button" value="E-mail">
     
@@ -32,7 +32,7 @@
 </script>
 
 <style scoped>
-.pagina-login1{
+.paginaLogin1{
       height: 100vh;
       box-sizing: border-box; 
       background-color: white;
@@ -101,7 +101,7 @@
 
 }
 
-.Facebook{
+/* .Facebook{
     background-color: #4065b4;
     color: white; 
     padding: 15px 25px; 
@@ -148,7 +148,7 @@
     margin-left: 10px; 
     margin-top: 217px;
     vertical-align: middle;
-}
+} */
 
 .Celular{
     display: flex; 
