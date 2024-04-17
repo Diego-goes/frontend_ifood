@@ -13,8 +13,8 @@
 
 <div class= "botao" >
     
-    <a href="paginalogin1.html" class="btn-menu" id="btn-criar">Criar Conta</a >
-    <a href="paginalogin1.html" class="btn-menu" id="btn-entrar">Entrar</a >     
+    <router-link to ="paginalogin1" class="btn-menu" id="btn-criar">Criar Conta</router-link> 
+    <router-link to ="paginalogin1" class="btn-menu" id="btn-entrar">Entrar</router-link>     
 
 </div>
 

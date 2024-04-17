@@ -3,6 +3,7 @@ import PaginaDeslogada from "../views/PaginaDeslogada.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
 import CardCriarUsu from "../components/CamposUsu.vue";
 import compPai from "@/views/compPai.vue";
+import paginalogin1 from "../views/paginalogin1.vue";
 
 const routes = [
   {
@@ -38,6 +39,11 @@ const routes = [
     path: "/criarUsuario",
     name: "criarUsuario",
     component: CardCriarUsu
+  },
+  {
+    path: "/paginalogin1",
+    name: "paginalogin1",
+    component: paginalogin1
   }
 ];
 
