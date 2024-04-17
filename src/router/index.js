@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import PaginaDeslogada from "../views/PaginaDeslogada.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
 import CardCriarUsu from "../components/CamposUsu.vue";
 import compPai from "@/views/compPai.vue";
@@ -8,7 +8,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    component: PaginaDeslogada,
   },
   {
     path: "/about",
