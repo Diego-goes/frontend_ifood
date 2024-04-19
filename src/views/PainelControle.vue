@@ -66,10 +66,10 @@
 
 <script>
 import axios from "axios";
-import LinhaCrudUsuario from '@/components/LinhaCrudUsuario.vue'
-import CardFormCadastro from '@/components/CardFormCadastro.vue'
-import CardConfirm from '@/components/CardConfirm.vue'
-import BtnDefault from "@/components/BtnDefault.vue";
+import LinhaCrudUsuario from '@/components/base/LinhaCrudUsuario.vue'
+import CardFormCadastro from '@/components/forms/CardFormCadastro.vue'
+import CardConfirm from '@/components/forms/CardConfirm.vue'
+import BtnDefault from "@/components/base/BtnDefault.vue";
 export default {
   name: "PainelControle",
   data() {
