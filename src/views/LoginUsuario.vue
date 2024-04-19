@@ -4,26 +4,10 @@
     <section>
       <img id="imgPessoas" src="../assets/bg_login-removebg-preview.png" alt="">
     </section>
-    <section v-if="!exibirCampoTelefone" class="formulario">
-      <section>
-        <h2>Falta pouco para <br>matar sua fome!</h2>
-        <p>Como deseja continuar?</p>
-      </section>
-      <!-- <section class="btnsIntegracao1">
-        <label class="btns" id="btnFacebook" for="btnFacebook">
-          <img src="../assets/icon_facebook-removebg-preview.png" alt="">
-          <input name="btnFacebook" type="button" value="Continuar com Facebook">
-        </label>
-        <label class="btns" id="btnGoogle" for="btnGoogle">
-          <img src="../assets/google_93818.png" alt="">
-          <input name="btnGoogle" type="button" value="Fazer login com o Google">
-        </label>
-      </section> -->
-      <section class="btnsIntegracao2">
-        <input @click="alterarVisibilidadeCampoTelefone" class="btns" type="button" value="Celular">
-        <input class="btns" type="button" value="E-mail">
-      </section>
-      <hr>
+    <section class="formulario">
+      <CardFormasLogin v-if="false" />
+      <CardValidarCelular v-if="true" />
+      <CardCodCelular v-if="false" />
     </section>
 
     <section v-if="exibirCampoTelefone" class="formulario">
@@ -37,12 +21,20 @@
 </template>
 
 <script>
+import CardFormasLogin from  '@/components/forms/CardFormasLogin'
+import CardCodCelular from  '@/components/forms/CardCodCelular'
+import CardValidarCelular from '@/components/forms/CardValidarCelular'
 export default {
   name: "LoginUsuario",
   data() {
     return {
-      exibirCampoTelefone: false,
+      exibirCampoCelular: false,
     }
+  },
+  components:{
+    CardFormasLogin,
+    CardCodCelular,
+    CardValidarCelular
   },
   methods: {
     alterarVisibilidadeCampoTelefone(){
