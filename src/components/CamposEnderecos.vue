@@ -67,7 +67,7 @@ import MensagemAviso from './MensagemAviso.vue'
 import axios from "axios";
 export default {
     emits: ['retornarDadosEnds'],
-    name: 'CardUsu',
+    name: 'CamposEnderecos',
     data() {
         return {
             camposSaoRequeridos: false,

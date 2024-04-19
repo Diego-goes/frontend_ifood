@@ -28,7 +28,9 @@
 </template>
 
 <script>
-
+export default{
+    name: "PaginaLogin"
+}
 
 </script>
 
@@ -198,4 +200,4 @@
 }
 
 
-</style>
+</style>./PaginaLogin.vue

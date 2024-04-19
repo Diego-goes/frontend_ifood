@@ -37,7 +37,7 @@
 <script>
 import InputForm from "./InputForm.vue";
 export default {
-    name: 'CardUsu',
+    name: 'CamposUsu',
     data() {
         return {
             usuario: this.dadosUsu,

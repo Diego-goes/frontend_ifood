@@ -34,7 +34,7 @@ import BtnDefault from "./BtnDefault.vue"
 import { removerAtributosVazios } from '../../utils/funcsGerais.js'
 import MensagemAviso from './MensagemAviso.vue'
 export default {
-    name: 'CardUsu',
+    name: 'CardFormCadastro',
     data() {
         return {
             exibirEnderecos: false,

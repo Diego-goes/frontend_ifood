@@ -8,7 +8,8 @@
 <script>
 import CompFilho from '../components/CompFilho.vue';
 
-export default {
+export default {  
+    name: "CompPai",
     data() {
         return {
             exibirFilho: false,
@@ -26,4 +27,4 @@ export default {
         CompFilho,
     },
 };
-</script>
+</script>./CompPai.vue

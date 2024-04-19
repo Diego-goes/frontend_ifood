@@ -8,6 +8,7 @@
 </template>
 <script>
 export default {
+    name: "MensagemAviso",
     data() {
         return {
             avisos: this.avisosProp,

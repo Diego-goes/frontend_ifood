@@ -38,6 +38,7 @@
 
 <script>
 export default {
+  name: "LoginUsuario",
   data() {
     return {
       exibirCampoTelefone: false,

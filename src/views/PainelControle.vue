@@ -71,6 +71,7 @@ import CardFormCadastro from '@/components/CardFormCadastro.vue'
 import CardConfirm from '@/components/CardConfirm.vue'
 import BtnDefault from "@/components/BtnDefault.vue";
 export default {
+  name: "PainelControle",
   data() {
     return {
       linhas: [],

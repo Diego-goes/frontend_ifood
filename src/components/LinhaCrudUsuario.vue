@@ -14,7 +14,7 @@
 
 <script>
 export default {
-    name: 'linhaCrudUsuario',
+    name: 'LinhaCrudUsuario',
     data() {
         return {
             ultimoRadio: '',

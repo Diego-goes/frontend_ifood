@@ -1,19 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
 import PaginaDeslogada from "../views/PaginaDeslogada.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
-import CardCriarUsu from "../components/CamposUsu.vue";
-import compPai from "@/views/compPai.vue";
-import PaginaLogin1 from "../views/PaginaLogin1";
+import PaginaLogin from "../views/PaginaLogin";
+import PainelControle from "@/views/PainelControle.vue";
 
 const routes = [
+  // {
+  //   path: "/teste",
+  //   component: compPai
+  // },
   {
     path: "/",
-    name: "home",
     component: PaginaDeslogada,
   },
   {
     path: "/about",
-    name: "about",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -22,28 +23,15 @@ const routes = [
   },
   {
     path: "/loginUsuario",
-    name: "loginUsuario",
     component: LoginUsuario
   },
-  // {
-  //   path: "/",
-  //   name: "painelControle",
-  //   component: PainelControle
-  // },
   {
-    path: "/teste",
-    name: "teste",
-    component: compPai
+    path: "/painelControle",
+    component: PainelControle
   },
   {
-    path: "/criarUsuario",
-    name: "criarUsuario",
-    component: CardCriarUsu
-  },
-  {
-    path: "/paginaLogin1",
-    name: "paginaLogin1",
-    component: PaginaLogin1
+    path: "/paginaLogin",
+    component: PaginaLogin
   }
 ];
 

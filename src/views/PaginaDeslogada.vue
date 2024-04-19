@@ -61,8 +61,9 @@
 </template>
 
 <script>
-
-
+export default{
+    name: "PaginaDeslogada"
+}
 </script>
 
 <style scoped>

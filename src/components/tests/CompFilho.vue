@@ -7,6 +7,8 @@
 
 <script>
 export default {
+    name: "CompPai",
+
     props: {
         exibir: {
             type: Boolean,
