@@ -28,11 +28,11 @@
 
 <script>
 import axios from "axios";
-import CamposUsu from "./CamposUsu.vue";
-import CamposEnderecos from "./CamposEnderecos.vue";
-import BtnDefault from "./BtnDefault.vue"
-import { removerAtributosVazios } from '../../utils/funcsGerais.js'
-import MensagemAviso from './MensagemAviso.vue'
+import CamposUsu from "../base/CamposUsu.vue";
+import CamposEnderecos from "../base/CamposEnderecos.vue";
+import BtnDefault from "../base/BtnDefault.vue"
+import { removerAtributosVazios } from '../../../utils/funcsGerais'
+import MensagemAviso from '../base/MensagemAviso.vue';
 export default {
     name: 'CardFormCadastro',
     data() {
@@ -237,4 +237,4 @@ export default {
     width: 100%;
     gap: 5%
 }
-</style>
+</style>../../../utils/funcsGerais.js../base/CamposUsu.vue

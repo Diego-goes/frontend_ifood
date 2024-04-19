@@ -121,4 +121,4 @@ span {
     min-width: fit-content;
     font-size: 0.8rem;
 }
-</style>
+</style>./forms/InputForm.vue
