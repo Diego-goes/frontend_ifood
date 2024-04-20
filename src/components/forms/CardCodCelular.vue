@@ -10,15 +10,48 @@
             <img src="../../assets/BandeiraBrasil_2.png" alt="Imagem" class="bandeira">
         </label>
 
-        <input class="informe-numero-celular" type="text" value="Informe o seu número de celular">
-        <input name="btnWhatsApp" class="WhatsApp" type="button" value=" WhatsApp">
-        <a href="paginalogin1.html"></a>
-        <img src="../../assets/SetaVermelha.png" alt="seta" class="SetaVermelha">
+        <input class="informe-numero-celular" type="number" v-model="telefoneUsu"
+            placeholder="Informe o seu número de celular">
+        <input name="btnWhatsApp" @click="solicitarCodCelular()" class="WhatsApp" type="button" value=" WhatsApp">
+        <router-link to="/">
+            <img src="../../assets/SetaVermelha.png" @click="irParaFormasLogin" alt="seta" class="SetaVermelha">
+        </router-link>
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
-    name: "CardCodTelefone"
+    name: "CardCodTelefone",
+    data() {
+        return {
+            telefoneUsu: ""
+        }
+    },
+    methods: {
+        irParaFormasLogin() {
+            this.$emit('irParaFormasLogin')
+        },
+        irParaValidarCelular() {
+            this.$emit('irParaValidarCelular', `${this.telefoneUsu}`)
+        },
+        solicitarCodCelular() {
+            let body = {
+                'telefoneUsu': `55${this.telefoneUsu}`
+            }
+            axios({
+                method: "POST",
+                url: "https://backendhifood-production.up.railway.app/codVerif",
+                data: body,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(() => {
+                this.irParaValidarCelular()
+            }).catch((error) => {
+                alert(error.response.data.mensagem)
+            });
+        }
+    }
 }
 </script>
 <style scoped>
