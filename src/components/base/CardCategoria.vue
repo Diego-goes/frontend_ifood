@@ -1,7 +1,7 @@
 <template>
     <div class="cardCategoria">
         <img src="@/assets/image 16.png" alt="">
-        <p>Lanches</p>
+        <p>{{this.nome}}</p>
     </div>
 </template>
 <script>
@@ -11,6 +11,9 @@ export default {
         return {
 
         }
+    },
+    props:{
+        nome: String
     }
 }
 </script>
@@ -23,6 +26,7 @@ export default {
     min-width: 10vw;
     padding: 0.8vw;
     border-radius: 1rem;
+    transition: all 1s
 }
 
 .cardCategoria:hover {

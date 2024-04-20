@@ -8,13 +8,13 @@
         <section class="section-categorias">
             <h4>Categorias</h4>
             <SliderComp>
-                <CardCategoria v-for="i in 10" :key="i" />
+                <CardCategoria v-for="i in 300" :key="i" :nome="'Categoria '+i" />
             </SliderComp>
         </section>
         <section class="section-estabelecimentos">
             <h4>Estabelecimentos Parceiros</h4>
             <SliderComp>
-                <CardEstabelecimento v-for="i in 10" :key="i" />
+                <CardEstabelecimento v-for="i in 300" :key="i" :nome="'Estabelecimento '+i" />
             </SliderComp>
         </section>
     </div>
@@ -39,7 +39,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: left;
-    width: 90vw;
 }
 
 .filter {

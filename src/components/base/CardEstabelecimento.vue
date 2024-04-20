@@ -4,7 +4,7 @@
         <img class="mainImage" src="@/assets/mcdonalds_logo.png" alt="">
         <div class="mainCard">
             <p>Mcdonald's</p>
-            <small>Lanches</small>
+            <small>{{this.nome}}</small>
         </div>
         <div>
             <img class="pin_verificado" src="@/assets/pin_verificado.png" alt="">
@@ -18,6 +18,9 @@ export default {
         return {
 
         }
+    },
+    props:{
+        nome: String
     }
 }
 </script>
@@ -42,10 +45,10 @@ p {
     box-shadow: 1px 1px 5px rgb(219, 219, 219);
     border-radius: 0.8rem;
     min-width: fit-content;
+    transition: all 0.3s;
 }
 
 .cardEstabelecimentos:hover {
-    transition: all 0.3s;
     box-shadow: 1px 1px 5px rgb(208, 208, 208);
     transform: scale(1.05);
 }
