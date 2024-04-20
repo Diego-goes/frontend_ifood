@@ -13,8 +13,8 @@
 
 <div class= "botao" >
     
-    <router-link to ="PaginaLogin1" class="btn-menu" id="btn-criar">Criar Conta </router-link> 
-    <router-link to ="PaginaLogin1" class="btn-menu" id="btn-entrar"> Entrar </router-link>     
+    <router-link to ="LoginUsuario" class="btn-menu" id="btn-criar">Criar Conta </router-link> 
+    <router-link to ="LoginUsuario" class="btn-menu" id="btn-entrar"> Entrar </router-link>     
 
 </div>
 

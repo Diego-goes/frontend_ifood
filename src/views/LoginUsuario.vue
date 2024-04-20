@@ -5,46 +5,64 @@
       <img id="imgPessoas" src="../assets/bg_login-removebg-preview.png" alt="">
     </section>
     <section class="formulario">
-      <CardFormasLogin v-if="false" />
-      <CardValidarCelular v-if="true" />
-      <CardCodCelular v-if="false" />
+      <CardFormasLogin @irParaEnvioCelular=irParaEnvioCelular v-if="visibilidadeForms['cardFormasLogin']" />
+      <CardCodCelular v-if="visibilidadeForms['cardCodCelular']"
+        @irParaValidarCelular="irParaValidarCelular" />
+      <CardValidarCelular :telefoneUsuProps="telefoneUsu" v-if="visibilidadeForms['cardValidarCelular']"
+        @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial=irParaTelaInicial />
     </section>
-
-    <section v-if="exibirCampoTelefone" class="formulario">
-      <h2>INSERIR ENDEREÇO</h2>
-      <input @click="alterarVisibilidadeCampoTelefone" class="btns" type="button" value="Enviar">
-    </section>
-
-    
-
   </section>
 </template>
 
 <script>
-import CardFormasLogin from  '@/components/forms/CardFormasLogin'
-import CardCodCelular from  '@/components/forms/CardCodCelular'
+import CardFormasLogin from '@/components/forms/CardFormasLogin'
+import CardCodCelular from '@/components/forms/CardCodCelular'
 import CardValidarCelular from '@/components/forms/CardValidarCelular'
 export default {
   name: "LoginUsuario",
   data() {
     return {
       exibirCampoCelular: false,
+      visibilidadeForms: {
+        'cardFormasLogin': false,
+        'cardCodCelular': true,
+        'cardValidarCelular': false,
+      },
+      telefoneUsu: ''
     }
   },
-  components:{
+  components: {
     CardFormasLogin,
     CardCodCelular,
     CardValidarCelular
   },
   methods: {
-    alterarVisibilidadeCampoTelefone(){
-      if (this.exibirCampoTelefone == false){
-        this.exibirCampoTelefone = true
-      } else {
-        this.exibirCampoTelefone = false
+    exibirCard(nomeCard) {
+      for (let chave of Object.keys(this.visibilidadeForms)) {
+        if (chave == nomeCard) {
+          this.visibilidadeForms[chave] = true
+        } else {
+          this.visibilidadeForms[chave] = false
+        }
       }
+    },
+    irParaTelaInicial(){
+      this.$router.push('/')
+    },
+    irParaEnvioCelular() {
+      this.exibirCard('cardCodCelular')
+    },
+    // irParaFormasLogin() {
+    //   this.exibirCard('cardFormasLogin')
+    // },
+    irParaValidarCelular(telefoneUsu) {
+      this.telefoneUsu = telefoneUsu
+      this.exibirCard('cardValidarCelular')
     }
-  }
+  },
+  // created(){
+  //   this.exibirCard('cardCodCelular')
+  // }
 }
 </script>
 

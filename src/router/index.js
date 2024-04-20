@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import PaginaDeslogada from "../views/PaginaDeslogada.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
+import PaginaCadastro from "../views/PaginaCadastro.vue";
 import PaginaLogin from "../views/PaginaLogin";
 import PainelControle from "@/views/PainelControle.vue";
 
@@ -20,6 +21,10 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
+  {
+    path: "/cadastro",
+    component: PaginaCadastro
   },
   {
     path: "/loginUsuario",
