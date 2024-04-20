@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import PaginaLogada from "../views/PaginaLogada.vue";
 import PaginaDeslogada from "../views/PaginaDeslogada.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
 import PaginaCadastro from "../views/PaginaCadastro.vue";
