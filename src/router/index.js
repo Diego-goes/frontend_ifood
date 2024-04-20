@@ -3,6 +3,7 @@ import PaginaDeslogada from "../views/PaginaDeslogada.vue";
 import LoginUsuario from "../views/LoginUsuario.vue";
 import PaginaLogin from "../views/PaginaLogin";
 import PainelControle from "@/views/PainelControle.vue";
+import PaginaLogada from "../views/PaginaLogada"; 
 
 const routes = [
   // {
@@ -12,6 +13,10 @@ const routes = [
   {
     path: "/",
     component: PaginaDeslogada,
+  },
+  {
+    path: "/inicio",
+    component: PaginaLogada,
   },
   {
     path: "/about",
