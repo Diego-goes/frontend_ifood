@@ -39,9 +39,15 @@ p {
     display: flex;
     padding: 1.5vw 1vw;
     gap: 0.6vw;
-    box-shadow: 1px 1px 5px rgb(174, 174, 174);
-    border-radius: 0.4rem;
+    box-shadow: 1px 1px 5px rgb(219, 219, 219);
+    border-radius: 0.8rem;
     min-width: fit-content;
+}
+
+.cardEstabelecimentos:hover {
+    transition: all 0.3s;
+    box-shadow: 1px 1px 5px rgb(208, 208, 208);
+    transform: scale(1.05);
 }
 
 .mainCard {

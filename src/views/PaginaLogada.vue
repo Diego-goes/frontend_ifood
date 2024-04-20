@@ -14,7 +14,7 @@
         <section class="section-estabelecimentos">
             <h4>Estabelecimentos Parceiros</h4>
             <SliderComp>
-                <!-- <CardEstabelecimento v-for="i in 10" :key="i" /> -->
+                <CardEstabelecimento v-for="i in 10" :key="i" />
             </SliderComp>
         </section>
     </div>
