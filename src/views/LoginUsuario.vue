@@ -50,7 +50,7 @@ export default {
       }
     },
     irParaTelaInicial(){
-      this.$router.push('/')
+      this.$router.push('/inicio')
     },
     irParaEnvioCelular() {
       this.exibirCard('cardCodCelular')
