@@ -16,7 +16,15 @@
         <CardFormCadastro />
       </section>
     </section>
-  </div>
+    <section class="formulario">
+      <CardFormasLogin @irParaEnvioCelular="irParaEnvioCelular" v-if="visibilidadeForms['cardFormasLogin']" />
+      <CardCodCelular v-if="visibilidadeForms['cardCodCelular']"
+        @irParaValidarCelular="irParaValidarCelular" @irParaCadastro="irParaCadastro" />
+      <CardValidarCelular :telefoneUsuProps="telefoneUsu" v-if="visibilidadeForms['cardValidarCelular']"
+        @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial="irParaTelaInicial" />
+      <CardFormCadastro v-if="visibilidadeForms['cardFormCadastro']"  />
+    </section>
+  </section>
 </template>
 
 <script>
@@ -71,10 +79,10 @@ export default {
     irParaCadastro() {
       this.exibirCard('cardFormCadastro')
     }
-  },
-  created() {
-    this.exibirCard('cardFormCadastro')
-  }
+  } //tirar a ',' se comentar o exibir Card
+  // created(){
+  //   this.exibirCard('cardFormCadastro')
+  // }
 }
 </script>
 

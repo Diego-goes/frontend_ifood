@@ -11,10 +11,11 @@
         </label>
             
         <input class="informe-numero-celular" type="text" v-model="telefoneUsu"
-            placeholder="Informe o seu número de celular" @keyup.enter="solicitarCodCelular()" @input="bloquearCaracter">
-        <input name="btnWhatsApp" @click="solicitarCodCelular()" class="WhatsApp" type="button" value=" WhatsApp">
+            placeholder="Informe o seu número de celular" @keyup.enter="solicitarCodCelular" @input="bloquearCaracter">
+        <input name="btnWhatsApp" @click="solicitarCodCelular" class="WhatsApp" type="button" value=" WhatsApp">
         <div class="cadastro-link">
-            <p>Não possui cadastro? <a href="Cadastro">clique aqui!</a></p>
+            <p>Não possui cadastro? <a @click="irParaCadastro">Aqui</a> </p>
+            
         </div>
         <router-link to="/">
             <img src="../../assets/SetaVermelha.png" @click="irParaFormasLogin" alt="seta" class="SetaVermelha">
@@ -31,6 +32,9 @@ export default {
         }
     },
     methods: {
+        irParaCadastro() {
+            this.$emit('irParaCadastro')
+        },
         bloquearCaracter(event) {
             const inputValue = event.target.value;
             // Remove caracteres não numéricos
@@ -200,5 +204,10 @@ img {
     font-family: "iFood RC Titulos", iFood RC Textos, helvetica, sans-serif;
     color: #717171;
 }
+.cadastro-link a{
+    color:red;
+    cursor: pointer;
+}
+
 
 </style>
