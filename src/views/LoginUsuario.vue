@@ -1,5 +1,8 @@
 <!-- src/views/Login.vue -->
 <template>
+    <router-link to="/">
+        <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
+    </router-link>
   <section class="sectionPagLogin">
     <section>
       <img id="imgPessoas" src="../assets/bg_login-removebg-preview.png" alt="">
@@ -10,6 +13,7 @@
         @irParaValidarCelular="irParaValidarCelular" />
       <CardValidarCelular :telefoneUsuProps="telefoneUsu" v-if="visibilidadeForms['cardValidarCelular']"
         @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial=irParaTelaInicial />
+      <CardFormCadastro/>
     </section>
   </section>
 </template>
@@ -18,6 +22,8 @@
 import CardFormasLogin from '@/components/forms/CardFormasLogin'
 import CardCodCelular from '@/components/forms/CardCodCelular'
 import CardValidarCelular from '@/components/forms/CardValidarCelular'
+import CardFormCadastro from '@/components/forms/CardFormCadastro.vue'
+
 export default {
   name: "LoginUsuario",
   data() {
@@ -27,6 +33,7 @@ export default {
         'cardFormasLogin': false,
         'cardCodCelular': true,
         'cardValidarCelular': false,
+        'cardFormCadastro': false,
       },
       telefoneUsu: ''
     }
@@ -34,7 +41,8 @@ export default {
   components: {
     CardFormasLogin,
     CardCodCelular,
-    CardValidarCelular
+    CardValidarCelular,
+    CardFormCadastro,
   },
   methods: {
     exibirCard(nomeCard) {
@@ -47,7 +55,7 @@ export default {
       }
     },
     irParaTelaInicial(){
-      this.$router.push('/')
+      this.$router.push('/inicio')
     },
     irParaEnvioCelular() {
       this.exibirCard('cardCodCelular')
@@ -58,11 +66,14 @@ export default {
     irParaValidarCelular(telefoneUsu) {
       this.telefoneUsu = telefoneUsu
       this.exibirCard('cardValidarCelular')
+    },
+    irParaCadastro() {
+      this.exibirCard('cardFormCadastro')
     }
   },
-  // created(){
-  //   this.exibirCard('cardCodCelular')
-  // }
+  created(){
+    this.exibirCard('cardFormCadastro')
+  }
 }
 </script>
 
@@ -186,4 +197,14 @@ hr {
 input[type="button"] {
   background-color: transparent;
 }
+
+#imagem-principal{  
+  width: 120px;
+  height: auto;
+  margin-left: 0; /* Remova o valor negativo de margin-left */
+  position: absolute; /* Ou use 'relative' se desejar que ela fique relativa ao fluxo do documento */
+  top: 30px;
+  left: 30px; /* Posiciona a imagem 30px da borda esquerda */
+
+  }
 </style>

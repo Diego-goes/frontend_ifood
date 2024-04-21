@@ -9,10 +9,13 @@
             <p class="ddd"> +55 </p>
             <img src="../../assets/BandeiraBrasil_2.png" alt="Imagem" class="bandeira">
         </label>
-
-        <input class="informe-numero-celular" type="number" v-model="telefoneUsu"
-            placeholder="Informe o seu número de celular">
+            
+        <input class="informe-numero-celular" type="text" v-model="telefoneUsu"
+            placeholder="Informe o seu número de celular" @keyup.enter="solicitarCodCelular()" @input="bloquearCaracter">
         <input name="btnWhatsApp" @click="solicitarCodCelular()" class="WhatsApp" type="button" value=" WhatsApp">
+        <div class="cadastro-link">
+            <p>Não possui cadastro? <a href="Cadastro">clique aqui!</a></p>
+        </div>
         <router-link to="/">
             <img src="../../assets/SetaVermelha.png" @click="irParaFormasLogin" alt="seta" class="SetaVermelha">
         </router-link>
@@ -28,6 +31,15 @@ export default {
         }
     },
     methods: {
+        bloquearCaracter(event) {
+            const inputValue = event.target.value;
+            // Remove caracteres não numéricos
+            const numericValue = inputValue.replace(/\D/g, '');
+            // Limita o comprimento para 11 caracteres
+            const limitedValue = numericValue.slice(0, 11);
+            // Atualiza o valor do campo de entrada
+            event.target.value = limitedValue;
+        },
         irParaFormasLogin() {
             this.$emit('irParaFormasLogin')
         },
@@ -178,4 +190,15 @@ img {
     right: 490px;
     top: 175px;
 }
+
+.cadastro-link{
+    position: fixed;
+    top: 440px;
+    right: 90px;
+    text-align: center;
+    font-size: 15px;
+    font-family: "iFood RC Titulos", iFood RC Textos, helvetica, sans-serif;
+    color: #717171;
+}
+
 </style>
