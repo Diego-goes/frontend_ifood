@@ -18,13 +18,13 @@
     </section>
     <section class="formulario">
       <CardFormasLogin @irParaEnvioCelular="irParaEnvioCelular" v-if="visibilidadeForms['cardFormasLogin']" />
-      <CardCodCelular v-if="visibilidadeForms['cardCodCelular']"
-        @irParaValidarCelular="irParaValidarCelular" @irParaCadastro="irParaCadastro" />
+      <CardCodCelular v-if="visibilidadeForms['cardCodCelular']" @irParaValidarCelular="irParaValidarCelular"
+        @irParaCadastro="irParaCadastro" />
       <CardValidarCelular :telefoneUsuProps="telefoneUsu" v-if="visibilidadeForms['cardValidarCelular']"
         @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial="irParaTelaInicial" />
-      <CardFormCadastro v-if="visibilidadeForms['cardFormCadastro']"  />
+      <CardFormCadastro v-if="visibilidadeForms['cardFormCadastro']" />
     </section>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -228,8 +228,5 @@ input[type="button"] {
 
 }
 
-*{
-
-}
-
+* {}
 </style>
