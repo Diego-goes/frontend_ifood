@@ -8,12 +8,12 @@
       <img id="imgPessoas" src="../assets/bg_login-removebg-preview.png" alt="">
     </section>
     <section class="formulario">
-      <CardFormasLogin @irParaEnvioCelular=irParaEnvioCelular v-if="visibilidadeForms['cardFormasLogin']" />
+      <CardFormasLogin @irParaEnvioCelular="irParaEnvioCelular" v-if="visibilidadeForms['cardFormasLogin']" />
       <CardCodCelular v-if="visibilidadeForms['cardCodCelular']"
-        @irParaValidarCelular="irParaValidarCelular" />
+        @irParaValidarCelular="irParaValidarCelular" @irParaCadastro="irParaCadastro" />
       <CardValidarCelular :telefoneUsuProps="telefoneUsu" v-if="visibilidadeForms['cardValidarCelular']"
-        @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial=irParaTelaInicial />
-      <CardFormCadastro/>
+        @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial="irParaTelaInicial" />
+      <CardFormCadastro v-if="visibilidadeForms['cardFormCadastro']"  />
     </section>
   </section>
 </template>
@@ -70,10 +70,10 @@ export default {
     irParaCadastro() {
       this.exibirCard('cardFormCadastro')
     }
-  },
-  created(){
-    this.exibirCard('cardFormCadastro')
-  }
+  } //tirar a ',' se comentar o exibir Card
+  // created(){
+  //   this.exibirCard('cardFormCadastro')
+  // }
 }
 </script>
 
