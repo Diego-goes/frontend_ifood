@@ -22,20 +22,14 @@ export default{
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-    background-color: white;
-    width: 40vw;
-    height: 550px;
-    float: right;
-    margin-right: 3vw;
-    margin-top: 40px;
-    border-radius: 7px;
-    box-shadow: 0 4px 8px rgba(7, 7, 7, 0.2);
-    font-family: "iFood RC Titulos", iFood RC Textos, helvetica, sans-serif;
+    height: 500px;
+    font-family: "iFood RC Titulos", iFood RC Textos, helvetica, sans-serif;    
 
 }
 
 #cadastrar{
     font-size: 30px;
+    margin: 0;
 
 }
 

@@ -1,21 +1,22 @@
 <!-- src/views/Login.vue -->
 <template>
+  <div class=" fundo ">
     <router-link to="/">
-        <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
+      <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
     </router-link>
-  <section class="sectionPagLogin">
-    <section>
-      <img id="imgPessoas" src="../assets/bg_login-removebg-preview.png" alt="">
+    <section class="sectionPagLogin">
+      <section>
+        <img id="imgPessoas" src="../assets/bg_login-removebg-preview.png" alt="">
+      </section>
+      <section class="formulario">
+        <CardFormasLogin @irParaEnvioCelular=irParaEnvioCelular v-if="visibilidadeForms['cardFormasLogin']" />
+        <CardCodCelular v-if="visibilidadeForms['cardCodCelular']" @irParaValidarCelular="irParaValidarCelular" />
+        <CardValidarCelular :telefoneUsuProps="telefoneUsu" v-if="visibilidadeForms['cardValidarCelular']"
+          @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial=irParaTelaInicial />
+        <CardFormCadastro />
+      </section>
     </section>
-    <section class="formulario">
-      <CardFormasLogin @irParaEnvioCelular=irParaEnvioCelular v-if="visibilidadeForms['cardFormasLogin']" />
-      <CardCodCelular v-if="visibilidadeForms['cardCodCelular']"
-        @irParaValidarCelular="irParaValidarCelular" />
-      <CardValidarCelular :telefoneUsuProps="telefoneUsu" v-if="visibilidadeForms['cardValidarCelular']"
-        @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial=irParaTelaInicial />
-      <CardFormCadastro/>
-    </section>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -54,7 +55,7 @@ export default {
         }
       }
     },
-    irParaTelaInicial(){
+    irParaTelaInicial() {
       this.$router.push('/inicio')
     },
     irParaEnvioCelular() {
@@ -71,7 +72,7 @@ export default {
       this.exibirCard('cardFormCadastro')
     }
   },
-  created(){
+  created() {
     this.exibirCard('cardFormCadastro')
   }
 }
@@ -82,7 +83,8 @@ export default {
   display: flex;
   align-items: center;
   height: 100vh;
-  justify-content: center;
+  width: 100vw;
+  justify-content: space-evenly;
   overflow: hidden;
   background-image: url('../assets/Ellipse\ 10.png');
   background-size: 70vw;
@@ -100,6 +102,7 @@ main {
 
 #imgPessoas {
   width: 80%;
+  margin-top: 5vw;
 }
 
 
@@ -139,7 +142,7 @@ main {
 
 .formulario {
   background-color: white;
-  padding: 3%;
+  padding: 1.5%;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -198,13 +201,27 @@ input[type="button"] {
   background-color: transparent;
 }
 
-#imagem-principal{  
+#imagem-principal {
   width: 120px;
   height: auto;
-  margin-left: 0; /* Remova o valor negativo de margin-left */
-  position: absolute; /* Ou use 'relative' se desejar que ela fique relativa ao fluxo do documento */
+  margin-left: 0;
+  /* Remova o valor negativo de margin-left */
+  position: absolute;
+  /* Ou use 'relative' se desejar que ela fique relativa ao fluxo do documento */
   top: 30px;
-  left: 30px; /* Posiciona a imagem 30px da borda esquerda */
+  left: 30px;
+  /* Posiciona a imagem 30px da borda esquerda */
 
-  }
+}
+
+.fundo {
+  width: 100vw;
+  display: flex;
+
+}
+
+*{
+
+}
+
 </style>
