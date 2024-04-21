@@ -39,21 +39,22 @@ a {
   margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
   align-content: center;
   background-color: white;
   /*background-image: linear-gradient(rgb(255, 255, 255), rgb(226, 219, 219));*/
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  overflow-x: hidden;
 }
 
-#imagem-principal{  
-    width: 120px;
-    height: auto;
-    margin-left: 30px;
-    top: 40px;
+#imagem-principal {
+  width: 120px;
+  height: auto;
+  margin-left: 30px;
+  top: 40px;
 
 }
-
 </style>
