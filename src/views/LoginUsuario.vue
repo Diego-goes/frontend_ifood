@@ -8,13 +8,6 @@
       <section>
         <img id="imgPessoas" src="../assets/bg_login-removebg-preview.png" alt="">
       </section>
-      <section class="formulario">
-        <CardFormasLogin @irParaEnvioCelular=irParaEnvioCelular v-if="visibilidadeForms['cardFormasLogin']" />
-        <CardCodCelular v-if="visibilidadeForms['cardCodCelular']" @irParaValidarCelular="irParaValidarCelular" />
-        <CardValidarCelular :telefoneUsuProps="telefoneUsu" v-if="visibilidadeForms['cardValidarCelular']"
-          @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial=irParaTelaInicial />
-        <CardFormCadastro />
-      </section>
     </section>
     <section class="formulario">
       <CardFormasLogin @irParaEnvioCelular="irParaEnvioCelular" v-if="visibilidadeForms['cardFormasLogin']" />
@@ -37,7 +30,6 @@ export default {
   name: "LoginUsuario",
   data() {
     return {
-      exibirCampoCelular: false,
       visibilidadeForms: {
         'cardFormasLogin': false,
         'cardCodCelular': true,
