@@ -1,5 +1,8 @@
 <!-- src/views/Login.vue -->
 <template>
+    <router-link to="/">
+        <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
+    </router-link>
   <section class="sectionPagLogin">
     <section>
       <img id="imgPessoas" src="../assets/bg_login-removebg-preview.png" alt="">
@@ -186,4 +189,14 @@ hr {
 input[type="button"] {
   background-color: transparent;
 }
+
+#imagem-principal{  
+  width: 120px;
+  height: auto;
+  margin-left: 0; /* Remova o valor negativo de margin-left */
+  position: absolute; /* Ou use 'relative' se desejar que ela fique relativa ao fluxo do documento */
+  top: 30px;
+  left: 30px; /* Posiciona a imagem 30px da borda esquerda */
+
+  }
 </style>
