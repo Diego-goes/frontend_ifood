@@ -213,5 +213,5 @@ input[type="button"] {
 
 }
 
-* {}
+/* * {} */
 </style>
