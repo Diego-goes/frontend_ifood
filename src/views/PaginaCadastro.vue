@@ -10,18 +10,18 @@
       </section>
     </section>
     <section class="formulario">
-      <CardFormCadastro/>
+      <CardFormCadastro />
     </section>
   </div>
 </template>
 
 <script>
 import CardFormCadastro from '@/components/forms/CardFormCadastro.vue'
-
 export default {
   name: "PaginaLogin",
   data() {
     return {
+      
     }
   },
   components: {
@@ -173,6 +173,4 @@ input[type="button"] {
   display: flex;
 
 }
-
-* {}
 </style>
