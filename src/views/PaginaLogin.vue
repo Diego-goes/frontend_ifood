@@ -15,7 +15,6 @@
         @irParaCadastro="irParaCadastro" />
       <CardValidarCelular :telefoneUsuProps="telefoneUsu" v-if="visibilidadeForms['cardValidarCelular']"
         @irParaEnvioCelular="irParaEnvioCelular" @irParaTelaInicial="irParaTelaInicial" />
-      <CardFormCadastro v-if="visibilidadeForms['cardFormCadastro']" />
     </section>
   </div>
 </template>
@@ -24,17 +23,15 @@
 import CardFormasLogin from '@/components/forms/CardFormasLogin'
 import CardCodCelular from '@/components/forms/CardCodCelular'
 import CardValidarCelular from '@/components/forms/CardValidarCelular'
-import CardFormCadastro from '@/components/forms/CardFormCadastro.vue'
 
 export default {
-  name: "LoginUsuario",
+  name: "PaginaLogin",
   data() {
     return {
       visibilidadeForms: {
         'cardFormasLogin': false,
         'cardCodCelular': true,
         'cardValidarCelular': false,
-        'cardFormCadastro': false,
       },
       telefoneUsu: ''
     }
@@ -43,7 +40,6 @@ export default {
     CardFormasLogin,
     CardCodCelular,
     CardValidarCelular,
-    CardFormCadastro,
   },
   methods: {
     exibirCard(nomeCard) {
@@ -67,9 +63,6 @@ export default {
     irParaValidarCelular(telefoneUsu) {
       this.telefoneUsu = telefoneUsu
       this.exibirCard('cardValidarCelular')
-    },
-    irParaCadastro() {
-      this.exibirCard('cardFormCadastro')
     }
   } //tirar a ',' se comentar o exibir Card
   // created(){
