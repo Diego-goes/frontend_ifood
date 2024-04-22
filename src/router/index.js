@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import PaginaLogada from "../views/PaginaLogada.vue";
 import PaginaDeslogada from "../views/PaginaDeslogada.vue";
-import LoginUsuario from "../views/LoginUsuario.vue";
+import PaginaLogin from "../views/PaginaLogin.vue";
 import PainelControle from "@/views/PainelControle.vue";
+import PaginaCadastro from "@/views/PaginaCadastro.vue";
 
 const routes = [
   // {
@@ -11,6 +12,10 @@ const routes = [
   // },
   {
     path: "/",
+    component: PaginaDeslogada,
+  },
+  {
+    path: "/pagina",
     component: PaginaDeslogada,
   },
   {
@@ -27,8 +32,12 @@ const routes = [
   },
  
   {
-    path: "/loginUsuario",
-    component: LoginUsuario
+    path: "/paginaCadastro",
+    component: PaginaCadastro
+  },
+  {
+    path: "/paginaLogin",
+    component: PaginaLogin
   },
   {
     path: "/painelControle",

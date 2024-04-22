@@ -7,11 +7,11 @@
 </template>
 
 <script>
-// import LoginUsuario from '@/views/LoginUsuario.vue'; // Importe o componente de login
+// import PaginaLogin from '@/views/PaginaLogin.vue'; // Importe o componente de login
 
 export default {
   components: {
-    // LoginUsuario // Adicione o componente de login como um componente filho
+    // PaginaLogin // Adicione o componente de login como um componente filho
   }
 };
 </script>

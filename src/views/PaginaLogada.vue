@@ -4,17 +4,16 @@
             <img src="@/assets/lupa.png" alt="icon_filter">
             <input type="text" id="inputFilter" placeholder="Busque por item ou loja">
         </label>
-        <CardEstabelecimento style="display: none" />
         <section class="section-categorias">
             <h4>Categorias</h4>
             <SliderComp>
-                <CardCategoria v-for="i in 300" :key="i" :nome="'Categoria '+i" />
+                <CardCategoria v-for="i in qtdCards" :key="i" :nome="'Categoria '+i" />
             </SliderComp>
         </section>
         <section class="section-estabelecimentos">
             <h4>Estabelecimentos Parceiros</h4>
             <SliderComp>
-                <CardEstabelecimento v-for="i in 300" :key="i" :nome="'Estabelecimento '+i" />
+                <CardEstabelecimento v-for="i in qtdCards" :key="i" :nome="'Estabelecimento '+i" />
             </SliderComp>
         </section>
     </div>
@@ -26,6 +25,11 @@ import CardEstabelecimento from '@/components/base/CardEstabelecimento.vue'
 import SliderComp from '@/components/base/SliderComp.vue'
 export default {
     name: "PaginaLogada",
+    data(){
+        return {
+            qtdCards: 8
+        }
+    },
     components: {
         CardCategoria,
         CardEstabelecimento,
