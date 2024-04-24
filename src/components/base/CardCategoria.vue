@@ -1,7 +1,7 @@
 <template>
     <div class="cardCategoria">
         <img :src="this.imagemPathProps" alt="">
-        <p>{{this.nome}}</p>
+        <p>{{ this.nome }}</p>
     </div>
 </template>
 <script>
@@ -12,7 +12,7 @@ export default {
 
         }
     },
-    props:{
+    props: {
         nome: String,
         imagemPathProps: {
             type: String,
@@ -32,6 +32,8 @@ export default {
     border-radius: 1rem;
     transition: all 1s;
     align-items: center;
+    background-color: rgb(248, 248, 248);
+    gap: 1vw;
 }
 
 .cardCategoria:hover {
@@ -42,6 +44,7 @@ export default {
 
 .cardCategoria img {
     max-width: 30%;
+    border-radius: 1rem;
 }
 
 .cardCategoria p {

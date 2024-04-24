@@ -33,6 +33,7 @@ export default {
 img {
     height: auto;
     object-fit: contain;
+    border-radius: 1rem;
 }
 
 .mainImage {
@@ -51,6 +52,8 @@ p {
     border-radius: 0.8rem;
     min-width: fit-content;
     transition: all 0.3s;
+    background-color: rgb(248, 248, 248);
+    gap: 1vw;
 }
 
 .cardEstabelecimentos:hover {

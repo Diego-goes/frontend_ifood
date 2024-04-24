@@ -36,12 +36,13 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 0.1vw 2vw 3vw 2vw;
+    padding: 2vw 3vw;
     border-radius: 1rem;
     transition: all 1s;
     align-items: flex-start;
-    width: 15vw;
+    width: 10vw;
     gap: 1rem;
+    background-color: rgb(248, 248, 248);
 }
 
 .cardProduto:hover {
@@ -50,10 +51,13 @@ export default {
     transform: scale(1.05);
 }
 
-.cardProduto > img:nth-child(1) {
+.cardProduto>img:nth-child(1) {
+    border-radius: 1rem;
     max-width: 100%;
 }
-.infos_restaurantes > img:nth-child(1) {
+
+.infos_restaurantes>img:nth-child(1) {
+    border-radius: 0.5rem;
     max-width: 20%;
 }
 
@@ -72,5 +76,6 @@ hr {
 .infos_restaurantes {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 </style>

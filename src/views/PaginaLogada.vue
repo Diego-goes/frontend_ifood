@@ -11,8 +11,8 @@
                     :nomeProps="`${rotaProduto.nomeProd}`" 
                     :imagemPathProps="imagemSrc(rotaProduto.imagemProd)" 
                     :precoProps="rotaProduto.preco"
-                    :nomeEstabProps="puxarEstab(rotaProduto.estabelecimentoId_id).nomeEstab"
-                    :imagemPathEstabProps="imagemSrc(puxarEstab(rotaProduto.estabelecimentoId_id).imagemEstab)"
+                    :nomeEstabProps="puxarEstab(rotaProduto.estabelecimentoId).nomeEstab"
+                    :imagemPathEstabProps="imagemSrc(puxarEstab(rotaProduto.estabelecimentoId).imagemEstab)"
                     />
             </SliderComp>
         </section>
@@ -79,13 +79,13 @@ export default {
         SliderComp
     },
     methods: {
-        puxarEstab(estabecimentoId) {
-            let estabecimentos = Object.values(this.rotas[0].data)
-            for (let estabecimento of estabecimentos) {
-                if (estabecimento.estabecimentoId == estabecimentoId) {
-                    return estabecimento
-                }
-            }
+        puxarEstab(estabelecimentoId) {
+            let estabelecimentos = Object.values(this.rotas[0].data)
+            for (let estabelecimento of estabelecimentos) {
+                    if (estabelecimento.estabelecimentoId == estabelecimentoId) {
+                            return estabelecimento
+                        }
+                    }
         },
         puxarCategoria(categoriaId) {
             let categorias = Object.values(this.rotas[3].data)
