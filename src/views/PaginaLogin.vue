@@ -64,8 +64,8 @@ export default {
       this.telefoneUsu = telefoneUsu
       this.exibirCard('cardValidarCelular')
     }
-  } //tirar a ',' se comentar o exibir Card
-  // created(){
+  } 
+  // ,created(){
   //   this.exibirCard('cardFormCadastro')
   // }
 }
