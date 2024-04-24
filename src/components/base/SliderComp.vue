@@ -128,6 +128,7 @@ export default {
     width: 85vw;
     display: flex;
     justify-content: space-between;
+    z-index: 1;
 }
 
 .disabled {
