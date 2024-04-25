@@ -4,9 +4,15 @@ const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
-    https: {
-      key: fs.readFileSync('./certs/cert.key'),
-      cert: fs.readFileSync('./certs/cert.crt'),
+    host: '0.0.0.0',
+    port: 8080,
+    server: {
+      type: 'https',
+      options: {
+        key: fs.readFileSync('./certs/cert.key'),
+        cert: fs.readFileSync('./certs/cert.crt'),
+        ca: fs.readFileSync('./certs/ca.crt'),
+      },
     },
   },
   pwa: {
