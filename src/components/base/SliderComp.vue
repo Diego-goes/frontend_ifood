@@ -79,9 +79,9 @@ export default {
             // area visiveil == top> 0, left > 0
             let leftEl = this.pegarCoordenadas(this.ultimoChildMainSlider).left
             let larguraTela = window.innerWidth 
-            console.log(this.pegarCss(this.ultimoChildMainSlider).left);
-            console.log(`\n\n left: ${leftEl}\n\n`);
-            console.log(`\n\n larguraTela: ${larguraTela}\n\n`);
+            // console.log(this.pegarCss(this.ultimoChildMainSlider).left);
+            // console.log(`\n\n left: ${leftEl}\n\n`);
+            // console.log(`\n\n larguraTela: ${larguraTela}\n\n`);
             if (leftEl > larguraTela) {
                 this.desabilitarBtn(this.btnProximo)
             } else {
@@ -128,6 +128,7 @@ export default {
     width: 85vw;
     display: flex;
     justify-content: space-between;
+    z-index: 1;
 }
 
 .disabled {
