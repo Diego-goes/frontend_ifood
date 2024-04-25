@@ -21,7 +21,7 @@ WORKDIR /app
 COPY . .
 
 # Expose the port on which the application will run (adjust as needed)
-EXPOSE 8080
+EXPOSE $PORT
 
 # Define the command to start the application
 CMD ["npm", "run", "serve"]
