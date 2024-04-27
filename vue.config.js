@@ -2,19 +2,10 @@ const fs = require('fs');
 const { defineConfig } = require("@vue/cli-service");
 
 module.exports = defineConfig({
-  transpileDependencies: true,
-  devServer: {
-    host: '0.0.0.0',
-    port: 5600,
-    server: {
-      type: 'https',
-      options: {
-        key: fs.readFileSync('./certs/cert.key'),
-        cert: fs.readFileSync('./certs/cert.crt'),
-        ca: fs.readFileSync('./certs/ca.crt'),
-      },
-    },
-  },
+  // devServer: {
+  //   host: '0.0.0.0',
+  //   port: process.env.$PORT || 8080,
+  // },
   pwa: {
     name: 'frontend_ifood', // Nome da sua PWA
     short_name: 'ifood', // Nome curto
