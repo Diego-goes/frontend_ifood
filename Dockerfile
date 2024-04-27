@@ -10,13 +10,6 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Cria o certificado SSL
-RUN npm install -g mkcert
-WORKDIR /app/certs
-RUN mkcert create-ca
-RUN mkcert create-cert
-WORKDIR /app
-
 # Copy the rest of the application code to the working directory
 COPY . .
 
