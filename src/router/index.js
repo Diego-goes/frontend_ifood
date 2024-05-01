@@ -4,6 +4,8 @@ import PaginaDeslogada from "../views/PaginaDeslogada.vue";
 import PaginaLogin from "../views/PaginaLogin.vue";
 import PainelControle from "@/views/PainelControle.vue";
 import PaginaCadastro from "@/views/PaginaCadastro.vue";
+import PaginaEstabelecimento from "@/views/PaginaEstabelecimento.vue";
+import ModalItemPedido from "@/components/forms/ModalItemPedido";
 
 const routes = [
   // {
@@ -15,12 +17,16 @@ const routes = [
     component: PaginaDeslogada,
   },
   {
-    path: "/pagina",
-    component: PaginaDeslogada,
+    path: "/paginaEstabelecimento",
+    component: PaginaEstabelecimento,
   },
   {
     path: "/inicio",
     component: PaginaLogada,
+  },
+  {
+    path: "/nath",
+    component: ModalItemPedido,
   },
   {
     path: "/about",

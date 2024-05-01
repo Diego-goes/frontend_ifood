@@ -37,13 +37,8 @@ export default {
   display: flex;
   align-items: center;
   height: 100vh;
-  width: 100vw;
   justify-content: space-evenly;
   overflow: hidden;
-  background-image: url('../assets/Ellipse\ 10.png');
-  background-size: 70vw;
-  background-position: left;
-  background-repeat: no-repeat;
 }
 
 main {
@@ -171,6 +166,12 @@ input[type="button"] {
 .fundo {
   width: 100vw;
   display: flex;
-
+  align-items: center;
+  justify-content: space-around;
+  background-image: url('../assets/Ellipse\ 10.png');
+  background-size: 70vw;
+  background-position: left;
+  background-repeat: no-repeat;
 }
+
 </style>
