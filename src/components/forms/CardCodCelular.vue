@@ -14,7 +14,7 @@
             placeholder="Informe o seu número de celular" @keyup.enter="solicitarCodCelular" @input="bloquearCaracter">
         <input name="btnWhatsApp" @click="solicitarCodCelular" class="WhatsApp" type="button" value=" WhatsApp">
         <div class="cadastro-link">
-            <p>Não possui cadastro? <a @click="irParaCadastro">Aqui</a> </p>
+            <p>Não Possui Cadastro? <router-link to="/paginaCadastro"><span class="destaque">Aqui</span></router-link></p>
             
         </div>
         <router-link to="/">
