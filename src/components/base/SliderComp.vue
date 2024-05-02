@@ -124,11 +124,9 @@ export default {
 }
 */
 .btns {
-    transform: translateY(-15vh);
     width: 85vw;
     display: flex;
     justify-content: space-between;
-    z-index: 1;
 }
 
 .disabled {
@@ -137,10 +135,11 @@ export default {
 }
 
 .btnSlider {
+    transform: translateY(-20vh);
     width: 2rem;
     object-fit: contain;
     opacity: 50%;
-    z-index: 1;
+    z-index: 2;
 }
 
 .btnSlider:hover {

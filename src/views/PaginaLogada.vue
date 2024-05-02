@@ -26,10 +26,11 @@
         <section class="section-estabelecimentos">
             <h4>Estabelecimentos Parceiros</h4>
             <SliderComp>
-                <CardEstabelecimento v-for="(rotaEstabelecimento, i) in Object.values(rotas)[0].data"
-                    :key="`rotaEstabelecimento-${i}`" :nomeEstabProps="rotaEstabelecimento.nomeEstab"
-                    :nomeCategoriaProps="puxarCategoria(rotaEstabelecimento.categoriaId).nomeCategoria"
-                    :imagemPathProps="imagemSrc(rotaEstabelecimento.imagemEstab)" />
+                    <CardEstabelecimento v-for="(rotaEstabelecimento, i) in Object.values(rotas)[0].data"
+                        :key="`rotaEstabelecimento-${i}`" :nomeEstabProps="rotaEstabelecimento.nomeEstab"
+                        :nomeCategoriaProps="puxarCategoria(rotaEstabelecimento.categoriaId).nomeCategoria"
+                        :imagemPathProps="imagemSrc(rotaEstabelecimento.imagemEstab)"
+                        :estabelecimentoIdProps="rotaEstabelecimento.estabelecimentoId"/>
             </SliderComp>
         </section>
     </div>
@@ -40,7 +41,8 @@ import CardProduto from '@/components/base/CardProduto.vue'
 import CardCategoria from '@/components/base/CardCategoria.vue'
 import CardEstabelecimento from '@/components/base/CardEstabelecimento.vue'
 import SliderComp from '@/components/base/SliderComp.vue'
-import axios from 'axios'
+import { puxarDados } from '../../utils/funcsGerais'
+
 export default {
     name: "PaginaLogada",
     data() {
@@ -79,6 +81,7 @@ export default {
         SliderComp
     },
     methods: {
+        puxarDados,
         puxarEstab(estabelecimentoId) {
             let estabelecimentos = Object.values(this.rotas[0].data)
             for (let estabelecimento of estabelecimentos) {
@@ -96,20 +99,6 @@ export default {
             }
             return {}
         },
-        async puxarDados(url, method = 'get', token_jwt, body = {}) {
-            let headers = token_jwt ?
-                { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token_jwt}` } :
-                { 'Content-Type': 'application/json' };
-
-            try {
-                const response = await axios({ method, url, data: body, headers });
-                // console.log(response.data);
-                return response.data;
-            } catch (error) {
-                console.error(error);
-                throw error;
-            }
-        },
         imagemSrc(imageBase64) {
             // Retorna Url Blob da imagem codificada, caso nada seja passado, retorna imagem default
             return imageBase64 ?
@@ -124,8 +113,7 @@ export default {
             } catch (error) {
                 console.log(error)
             }
-        }
-        // console.table(this.puxarCategoria(this.rotas[0]).data[0])    
+        }  
     }
 
 }
