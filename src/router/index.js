@@ -6,6 +6,9 @@ import PainelControle from "@/views/PainelControle.vue";
 import PaginaCadastro from "@/views/PaginaCadastro.vue";
 import PaginaEstabelecimento from "@/views/PaginaEstabelecimento.vue";
 import ModalItemPedido from "@/components/forms/ModalItemPedido";
+import AcompanharPedido from "@/views/AcompanharPedido.vue";
+import FinalizarPedido from "@/views/FinalizarPedido.vue";
+import FormasPagamento from "@/views/FormasPagamento";
 
 const routes = [
   // {
@@ -19,6 +22,18 @@ const routes = [
   {
     path: "/paginaEstabelecimento",
     component: PaginaEstabelecimento,
+  },
+  {
+    path: "/acompanharPedido",
+    component: AcompanharPedido,
+  },
+  {
+    path: "/finalizarPedido",
+    component: FinalizarPedido,
+  },
+  {
+    path: "/formasPagamento",
+    component: FormasPagamento,
   },
   {
     path: "/inicio",
@@ -36,19 +51,19 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
- 
+
   {
     path: "/paginaCadastro",
-    component: PaginaCadastro
+    component: PaginaCadastro,
   },
   {
     path: "/paginaLogin",
-    component: PaginaLogin
+    component: PaginaLogin,
   },
   {
     path: "/painelControle",
-    component: PainelControle
-  }
+    component: PainelControle,
+  },
 ];
 
 const router = createRouter({
