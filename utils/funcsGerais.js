@@ -51,7 +51,7 @@ export function trocarNullPorVazioLista(listaObjetos) {
 export async function puxarDados(url, method = "GET", tokenJWT, body = {}) {
   let headers = tokenJWT  ? {
       "Content-Type": "application/json",
-      'Authorization': `Bearer ${tokenJWT}`
+      'Authorization': `"Bearer ${tokenJWT}"`
     }
     : { "Content-Type": "application/json" };
   console.log(headers)
