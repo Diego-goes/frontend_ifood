@@ -48,20 +48,31 @@ export function trocarNullPorVazioLista(listaObjetos) {
   return listaObjetosNova;
 }
 
-export async function puxarDados(url, method = "get", token_jwt, body = {}) {
-  let headers = token_jwt
-    ? {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token_jwt}`,
-      }
+export async function puxarDados(url, method = "GET", tokenJWT, body = {}) {
+  let headers = tokenJWT  ? {
+      "Content-Type": "application/json",
+      'Authorization': `"Bearer ${tokenJWT}"`
+    }
     : { "Content-Type": "application/json" };
-
+  console.log(headers)
   try {
-    const response = await axios({ method, url, data: body, headers });
-    // console.log(response.data);
+    const response = await axios({ method, url, data: body, headers: headers });
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
+  // axios({
+  //   method: method,
+  //   url: url,
+  //   data: body,
+  //   headers: headers
+  // })
+  //   .then(response => {
+  //     console.log('Requisição enviada com sucesso:', response.data);
+  //   })
+  //   .catch(error => {
+  //     console.error('Erro ao fazer requisição:', error);
+  //   });
 }
