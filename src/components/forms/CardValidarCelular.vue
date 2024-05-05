@@ -18,11 +18,12 @@
 </template>
 <script>
 import axios from 'axios';
-import {puxarDados} from '../../../utils/funcsGerais'
+import {requisicao} from '../../../utils/funcsGerais'
 export default {
   name: "CardValidarCelular",
   data() {
     return {
+      usuarioDados: {},
       token_jwt: '',
       codVerifArr: [null, null, null, null, null, null],
       codVerif: "",
@@ -36,7 +37,7 @@ export default {
     }
   },
   methods: {
-    puxarDados,
+    requisicao: requisicao,
     juntarCodVerif() {
       this.codVerif = this.codVerifArr.join('')
     },
@@ -54,12 +55,15 @@ export default {
         }
       }).then((response) => {
         this.token_jwt = response.data.token_jwt
+        this.armazenarTelefoneUsu(`55${this.telefoneUsu}`)
         this.armazenarTokenJWT(response.data.token_jwt)
         this.irParaTelaInicial()
-        // this.armazenarDadosUsu()
       }).catch((error) => {
         alert(error.response.data.mensagem)
       });
+    },
+    armazenarTelefoneUsu(telefoneUsu) {
+      localStorage.setItem('telefoneUsu', telefoneUsu)
     },
     armazenarTokenJWT(token) {
       localStorage.setItem('tokenJWT', token)
@@ -71,7 +75,6 @@ export default {
       this.$emit('irParaEnvioCelular')
     },
     autoTab(i) {
-
       // Auto dar tab
       if (i + 1 < this.allInputs.length) {
         this.allInputs[i + 1].focus()
@@ -85,20 +88,7 @@ export default {
       this.codVerifArr[i] = input.value[0]
       // Juntar código em string
       this.codVerif = this.codVerifArr.join('')
-    },
-    
-  //   async armazenarDadosUsu() {
-  //   // console.log("Tokem:", this.token_jwt)
-  //   // const IdUsu = 5511954487458
-  //   // await this.puxarDados("https://backendhifood-production.up.railway.app/usuarios/ler/telefone/" +IdUsu, 'GET' ,this.token_jwt)
-  //   // console.log("Tokem:", this.token_jwt)
-  //   // if (this.token_jwt == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOiI0IiwidGVsZWZvbmVVc3UiOiI1NTExOTU0NDg3NDU4Iiwibm9tZVVzdSI6IkpvXHUwMGUzb0NpbmNvIiwidGlwb1VzdWFyaW9JZCI6IjIiLCJleHAiOjE3MTUzODYzNzF9.CMedjCSEJDz16DUFsYj4rCO8tkN9desi53dnZTsxhgk") {
-  //   //   console.log("Deu certo")
-  //   // } else {
-  //   //   console.log("Deu ruim")
-  //   // }
-    
-  // }
+    }
   },
   computed: {
     allInputs() {

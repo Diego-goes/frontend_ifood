@@ -91,10 +91,9 @@ export default {
             }).catch((error) => {
                 this.aviso.titulo = error.response.data.message
                 this.aviso.msgs = error.response.data.errors
-                console.log(this.aviso)
             });
         },
-        puxarDados() {
+        requisicao() {
             axios
                 .get(`http://localhost:8000/usuarios/ler/${this.usuarioId}`)
                 .then((response) => {
@@ -132,9 +131,9 @@ export default {
     },
     mounted() {
         if (this.acao == 'editar') {
-            this.puxarDados()
+            this.requisicao()
         } else if (this.acao == 'exibir') {
-            this.puxarDados()
+            this.requisicao()
             this.podeEditar = false
             this.valueBtnCancelar = 'Voltar'
         }
