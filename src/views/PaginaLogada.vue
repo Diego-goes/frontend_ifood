@@ -121,6 +121,13 @@ export default {
     },
     async created() {
         this.modalOpen = true
+        for (let rota of this.rotas) {
+            try {
+                rota.data = await this.requisicao(rota.url);
+            } catch (error) {
+                console.log(error)
+            }
+        }  
     },
     async beforeMount() {
         let token = localStorage.getItem('tokenJWT')
