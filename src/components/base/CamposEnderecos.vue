@@ -147,7 +147,6 @@ export default {
                     attKey = attKey == 'localidade' ? 'cidade' : attKey
                     if (this.endereco[attKey] != undefined && attValue != '') {
                         this.endereco[attKey] = attValue
-                        // console.log(this.endereco)
                     }
 
                 }
