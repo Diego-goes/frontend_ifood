@@ -2,37 +2,26 @@
 <template>
   <div>
     <!-- Botão para abrir o modal -->
-    <button @click="openModal">Ver Endereço</button>
-
-    <!-- Componente Modal -->
-    <address-modal :show-modal="modalOpen" :address="selectedAddress" @close="closeModal" />
+    <input type="button" value="Voltar" @click="closeModal" >
+    <input type="text" placeholder="Seu Endereço">
   </div>
 </template>
 
 <script>
-import AddressModal from './AddressModal.vue';
 
 export default {
-  components: {
-    AddressModal
-  },
+  name:'CardFormEndereco',
   data() {
     return {
-      modalOpen: false,
-      selectedAddress: ''
+      rua: '',
+      numero: '',
+
       // Outros dados da lista de endereços
     };
   },
   methods: {
-    openModal() {
-      // Define o endereço selecionado
-      this.selectedAddress = 'Endereço aqui'; // Aqui você define o endereço a ser exibido
-      // Abre o modal
-      this.modalOpen = true;
-    },
     closeModal() {
-      // Fecha o modal
-      this.modalOpen = false;
+      this.$emit('closeModal')
     }
   }
 };

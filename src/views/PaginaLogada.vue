@@ -1,14 +1,11 @@
 <template>
     <div class="body-pagina-logada">
+        <CardFormEndereco v-if="modalOpen" @closeModal="closeModal" />
         <label class="filter" for="inputFilter">
             <img src="@/assets/lupa.png" alt="icon_filter">
             <input type="text" id="inputFilter" placeholder="Busque por item ou loja">
         </label>
 
-        <div>
-            <button @click="openAddressForm">Inserir Endereço</button>
-            <address-modal :show-modal="modalOpen" @close="closeModal" />
-        </div>
 
         <section>
             <h4>Produtos</h4>
@@ -45,7 +42,7 @@ import CardProduto from '@/components/base/CardProduto.vue'
 import CardCategoria from '@/components/base/CardCategoria.vue'
 import CardEstabelecimento from '@/components/base/CardEstabelecimento.vue'
 import SliderComp from '@/components/base/SliderComp.vue'
-// import CardFormEndereco from '@/components/forms/CardFormEndereco.vue'
+import CardFormEndereco from '@/components/forms/CardFormEndereco.vue'
 import { requisicao } from '../../utils/funcsGerais'
 
 export default {
@@ -81,13 +78,16 @@ export default {
         }
     },
     components: {
-        // CardFormEndereco,
+        CardFormEndereco,
         CardProduto,
         CardCategoria,
         CardEstabelecimento,
         SliderComp
     },
     methods: {
+        closeModal(){
+            this.modalOpen = false
+        },
         requisicao: requisicao,
         puxarEstab(estabelecimentoId) {
             let estabelecimentos = Object.values(this.rotas[0].data)
@@ -114,10 +114,7 @@ export default {
         },
         openAddressForm() {
             this.modalOpen = true;
-        },
-        closeModal() {
-            this.modalOpen = false;
-        },
+        }
     },
     async created() {
         this.modalOpen = true
