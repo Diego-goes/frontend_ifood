@@ -44,11 +44,9 @@ export default {
                 .then(response => {
                     this.msgs = response.data.mensagem
                     this.titulo = response.data.titulo
-                    console.log('Resposta:', response)
                     this.$router.push('/PaginaLogin')
                 })
                 .catch(error => {
-                    console.log('Erro:', error)
                     this.aviso.titulo = error.response.data.message
                     this.aviso.msgs = error.response.data.errors
                 });

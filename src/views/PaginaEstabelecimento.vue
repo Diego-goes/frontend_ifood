@@ -33,7 +33,7 @@
     </div>
 </template>
 <script>
-import { puxarDados } from '../../utils/funcsGerais'
+import { requisicao } from '../../utils/funcsGerais'
 import SliderComp from '@/components/base/SliderComp.vue'
 import CardProdutoEstab from '@/components/base/CardProdutoEstab.vue'
 import ModalItemPedido from '@/components/forms/ModalItemPedido.vue'
@@ -56,15 +56,15 @@ export default {
         ModalItemPedido
     },
     methods: {
-        puxarDados,
+        requisicao: requisicao,
         abriItemPedido(produtoId){
             this.exibirItemPedido = true
             this.produtoSelecionadoId = produtoId
         }
     },
     async created() {
-        this.estabelecimento = await this.puxarDados(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`)
-        this.produtos = await this.puxarDados(`https://backendhifood-production.up.railway.app/produtosEstab/${this.estabelecimentoId}`)
+        this.estabelecimento = await this.requisicao(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`)
+        this.produtos = await this.requisicao(`https://backendhifood-production.up.railway.app/produtosEstab/${this.estabelecimentoId}`)
     }
 }
 </script>
