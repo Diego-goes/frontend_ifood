@@ -18,7 +18,8 @@ export default {
 
 <style>
 * {
-  font-family: Montserrat, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Roboto", Avenir, Helvetica, Arial, sans-serif;
+  
 }
 
 body {

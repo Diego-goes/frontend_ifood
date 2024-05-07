@@ -48,7 +48,7 @@ export function trocarNullPorVazioLista(listaObjetos) {
   return listaObjetosNova;
 }
 
-export async function puxarDados(url, method = "GET", tokenJWT, body = {}) {
+export async function requisicao(url, method = "GET", tokenJWT, body = {}) {
   let headers = tokenJWT  ? {
       "Content-Type": "application/json",
       'Authorization': `"Bearer ${tokenJWT}"`
@@ -57,22 +57,10 @@ export async function puxarDados(url, method = "GET", tokenJWT, body = {}) {
   console.log(headers)
   try {
     const response = await axios({ method, url, data: body, headers: headers });
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
   }
-  // axios({
-  //   method: method,
-  //   url: url,
-  //   data: body,
-  //   headers: headers
-  // })
-  //   .then(response => {
-  //     console.log('Requisição enviada com sucesso:', response.data);
-  //   })
-  //   .catch(error => {
-  //     console.error('Erro ao fazer requisição:', error);
-  //   });
 }
