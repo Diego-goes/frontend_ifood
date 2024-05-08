@@ -51,7 +51,7 @@ export default {
             itemPedido: {
                 ...this.produtoProps,
                 "observacao": '',
-                "qtdItens": 0
+                "qtdItens": 1
             },
             itensPedido: this.itensPedidoProps,
             produto: this.produtoProps
