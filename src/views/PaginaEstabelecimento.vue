@@ -1,6 +1,11 @@
 <template>
     <div class="viewPaginaEstabelecimento">
-        <ModalItemPedido v-if="exibirItemPedido" />
+        <ModalItemPedido v-if="exibirItemPedido" v-model:produtoProps="produtoSelecionado"
+            v-model:itensPedidoProps="itensPedido" :estabelecimentoProps="estabelecimento"
+            @addAoPedido="abrirModalCarrinho" @fecharModalItemPedido="fecharModalItemPedido" />
+        <ModalCarrinho v-if="exibirModalPedido" @fecharModalCarrinho="fecharModalCarrinho"
+            @editarItemPedido="editarItemPedido" @removerItemPedido="removerItemPedido"
+            v-model:itensPedidoProps="itensPedido" :estabelecimentoProps="estabelecimento" />
         <div class="imagem-inicial">
             <img src="../assets/imagem_alteravel.avif" alt="imagem inicial">
         </div>
@@ -14,7 +19,9 @@
             <img id="estrela" src="../assets/estrela.png" alt="estrela avaliação">
             <p id="avaliacao">4.7</p>
             <p id="sifrao">$</p>
-            <p id="pedido-minimo">Pedido mínimo R$ 30,00</p>
+            <p id="pedido-minimo">Pedido mínimo R$ 30,00
+            </p>
+            <input type="button" value="Abrir Carrinho" @click="abrirModalCarrinho">
 
         </div>
 
@@ -22,10 +29,8 @@
             <h3>Pratos</h3>
             <SliderComp>
                 <CardProdutoEstab v-for="produto in produtos" :key="`produto-${produto.produtoId}`"
-                    :nomeProps="produto.nomeProd" :imagemPathProps="`data:image/png;base64,${produto.imagemProd}`"
-                    :precoProps="produto.preco" :nomeEstabProps="estabelecimento.nomeEstab"
-                    :produtoIdProps="produto.produtoId" 
-                    @abriItemPedido=abriItemPedido />
+                    :nomeEstabProps="estabelecimento.nomeEstab" :produtoProps="produto"
+                    @abrirModalItemPedido=abrirModalItemPedido />
             </SliderComp>
 
         </div>
@@ -37,6 +42,7 @@ import { requisicao } from '../../utils/funcsGerais'
 import SliderComp from '@/components/base/SliderComp.vue'
 import CardProdutoEstab from '@/components/base/CardProdutoEstab.vue'
 import ModalItemPedido from '@/components/forms/ModalItemPedido.vue'
+import ModalCarrinho from '@/components/forms/ModalCarrinho.vue'
 export default {
     name: "PaginaEstabelecimento",
     data() {
@@ -47,21 +53,58 @@ export default {
             },
             produtos: [],
             exibirItemPedido: false,
-            produtoSelecionadoId: null
+            produtoSelecionado: {},
+            exibirModalPedido: false,
+            itensPedido: JSON.parse(localStorage.getItem('itensPedido')) || []
+
         }
     },
     components: {
         SliderComp,
         CardProdutoEstab,
-        ModalItemPedido
+        ModalItemPedido,
+        ModalCarrinho
     },
     methods: {
-        requisicao: requisicao,
-        abriItemPedido(produtoId){
+        requisicao,
+        abrirModalItemPedido(produto) {
+            this.itensPedido = JSON.parse(localStorage.getItem('itensPedido'))
             this.exibirItemPedido = true
-            this.produtoSelecionadoId = produtoId
+            this.produtoSelecionado = produto
+        },
+        fecharModalItemPedido() {
+            this.exibirItemPedido = false
+        },
+        fecharModalCarrinho() {
+            this.exibirModalPedido = false
+        },
+        abrirModalCarrinho(bool) {
+            this.itensPedido = JSON.parse(localStorage.getItem('itensPedido'))
+            this.exibirItemPedido = false
+            this.exibirModalPedido = bool
+        },
+        editarItemPedido(produto) {
+            this.fecharModalCarrinho()
+            this.abrirModalItemPedido(produto)
+        },
+        removerItemPedido(produto) {
+            for (let index in this.itensPedido) {
+                let itemPedido = this.itensPedido[index]
+                if (itemPedido.produtoId == produto.produtoId) {
+                    this.itensPedido.splice(index, 1)
+                    // this.exibirModalPedido = false;
+                    break;
+                }
+            }
+            localStorage.setItem('itensPedido', JSON.stringify(this.itensPedido))
+            // setTimeout(() => { this.exibirModalPedido = true; }, 300)
         }
     },
+    // watch:{
+    //     itensPedido(){
+    //         produtos = 
+    //     }
+    // },
     async created() {
         this.estabelecimento = await this.requisicao(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`)
         this.produtos = await this.requisicao(`https://backendhifood-production.up.railway.app/produtosEstab/${this.estabelecimentoId}`)
@@ -136,7 +179,8 @@ export default {
     color: #fff;
     background-color: #a6a6a5;
     margin-right: 5px;
-
+    width: 1rem;
+    height: 1rem;
 }
 
 #pedido-minimo {

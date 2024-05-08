@@ -1,10 +1,14 @@
 <template>
     <div class="body-pagina-logada">
+        <!-- // Aqui aui -->
         <CardFormEndereco v-if="modalOpen" @closeModal="closeModal" />
-        <label class="filter" for="inputFilter">
-            <img src="@/assets/lupa.png" alt="icon_filter">
-            <input type="text" id="inputFilter" placeholder="Busque por item ou loja">
-        </label>
+        <div class="filter-container">
+            <label class="filter" for="inputFilter">
+                <img src="@/assets/lupa.png" alt="icon_filter">
+                <input type="text" id="inputFilter" placeholder="Busque por item ou loja">
+            </label>
+            <button v-if="!modalOpen" @click="openModal">Endereço</button>
+        </div>
 
 
         <section>
@@ -88,6 +92,9 @@ export default {
         closeModal(){
             this.modalOpen = false
         },
+        openModal(){
+            this.modalOpen = true
+        },
         requisicao: requisicao,
         puxarEstab(estabelecimentoId) {
             let estabelecimentos = Object.values(this.rotas[0].data)
@@ -124,7 +131,10 @@ export default {
             } catch (error) {
                 console.log(error)
             }
-        }  
+        }
+        if (!localStorage.getItem('itensPedido')){
+            localStorage.setItem('itensPedido',JSON.stringify([]))
+        }
     },
     async beforeMount() {
         let token = localStorage.getItem('tokenJWT')
@@ -138,6 +148,23 @@ export default {
 </script>
 
 <style scoped>
+
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.body-pagina-logada button {
+    background-color: #ff6f61;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
 .body-pagina-logada {
     display: flex;
     flex-direction: column;

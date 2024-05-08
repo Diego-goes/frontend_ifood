@@ -7,10 +7,8 @@ import PaginaCadastro from "@/views/PaginaCadastro.vue";
 import PaginaEstabelecimento from "@/views/PaginaEstabelecimento.vue";
 import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
-import FormasPagamento from "@/views/FormasPagamento";
 import ModalPerfil from "@/components/forms/ModalPerfil";
-import ModalCarrinhoCheio from "@/components/forms/ModalCarrinhoCheio";
-import ModalCarrinhoVazio from "@/components/forms/ModalCarrinhoVazio";
+import ModalCartao from "@/components/forms/ModalCartao";
 
 const routes = [
   {
@@ -30,24 +28,16 @@ const routes = [
     component: FinalizarPedido,
   },
   {
-    path: "/formasPagamento",
-    component: FormasPagamento,
-  },
-  {
     path: "/inicio",
     component: PaginaLogada,
   },
   {
-    path: "/modalCarrinhoCheio",
-    component: ModalCarrinhoCheio,
-  },
-  {
-    path: "/modalCarrinhoVazio",
-    component: ModalCarrinhoVazio,
-  },
-  {
     path: "/modalPerfil",
     component: ModalPerfil,
+  },
+  {
+    path: "/modalCartao",
+    component: ModalCartao,
   },
   {
     path: "/about",

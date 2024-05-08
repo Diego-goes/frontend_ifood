@@ -1,33 +1,36 @@
 <template>
-    <div class="card-destaque" @click="abriItemPedido">
-        <img class="imagem-produto" :src="imagemPathProps" alt="">
+    <div class="card-destaque" @click="abrirModalItemPedido">
+        <img class="imagem-produto" :src="imagemPath" alt="">
         <div>
-            <p class="nome-prato">{{ this.nomeProps }}</p>
+            <p class="nome-prato">{{ this.produtoProps.nomeProd }}</p>
             <p class="descricao-prato">Descrição do prato</p>
-            <p class="valor-prato">R${{ this.precoProps }}</p>
+            <p class="valor-prato">R${{ this.produtoProps.preco }}</p>
         </div>
     </div>
 </template>
 <script>
 export default {
     name: 'CardProdutoEstab',
-    props: {
-        nomeProps: String,
-        imagemPathProps: String,
-        precoProps: Number,
-        produtoIdProps: Number
+    data() {
+        return{
+            imagemPath: `data:image/png;base64,${this.produtoProps.imagemProd}`
+        }
     },
-    methods:{
-        abriItemPedido(){
-            this.$emit('abriItemPedido',this.produtoIdProps)
+    props: {
+        produtoProps: Object
+    },
+    methods: {
+        abrirModalItemPedido() {
+            this.$emit('abrirModalItemPedido', this.produtoProps)
         }
     }
 }
 </script>
 <style scoped>
-p{
+p {
     width: fit-content;
 }
+
 .card-destaque {
     display: flex;
     flex-direction: column;
