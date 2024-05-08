@@ -102,9 +102,6 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance: textfield;
-}
 
 .fundo_modal {
     position: fixed;
