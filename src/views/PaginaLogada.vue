@@ -131,7 +131,10 @@ export default {
             } catch (error) {
                 console.log(error)
             }
-        }  
+        }
+        if (!localStorage.getItem('itensPedido')){
+            localStorage.setItem('itensPedido',JSON.stringify([]))
+        }
     },
     async beforeMount() {
         let token = localStorage.getItem('tokenJWT')
