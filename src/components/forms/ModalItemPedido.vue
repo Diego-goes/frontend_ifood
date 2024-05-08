@@ -1,20 +1,20 @@
 <template>
-    <!-- Aqui vai o HTML. Como se fosse o BODY -->
     <div class="fundo_modal">
         <div class="modal_selecionado">
             <div class="caixa_selecionado">
                 <div class="fechar_modal">
-                    <img src="@/assets/SetaVermelha.png" alt="imagem-close">
+                    <img @click="fecharModalItemPedido" src="@/assets/SetaVermelha.png" alt="imagem-close">
                 </div>
                 <div class="imagem_pedido">
-                    <img src="@/assets/imagem_default.png" alt="imagem_produto">
+                    <img :src="`data:image/png;base64,${this.produto.imagemProd}` || '../../assets/imagem_default.png'"
+                        alt="imagem_produto">
                 </div>
                 <div class="textos">
-                    <a>Nome do Produto</a>
-                    <a>Descrição do Produto</a>
-                    <a>Valor do Produto</a>
+                    <a>{{ this.produto.nomeProd }} | ID: {{ this.produto.produtoId }}</a>
+                    <a>{{ this.produto.descricao }}</a>
+                    <a>R$ {{ this.produto.preco }}</a>
                     <div class="nome_nota">
-                        <a>Nome do Restaurante</a>
+                        <a>{{ this.estabelecimento.nomeEstab }}</a>
                         <div class="nota">
                             <a>5.0</a>
                             <img src="@/assets/iconeEstrela.png" alt="icone-estrela" id="icone-estrela">
@@ -23,16 +23,18 @@
                     <hr>
                     <a>Algum comentário?</a>
                     <div class="caixa_comentario">
-                        <input class="caixa_inserir" type="text" placeholder="Ex: tirar cebola, maionese à parte etc.">
+                        <input class="caixa_inserir" type="text" v-model="itemPedido.observacao"
+                            placeholder="Ex: tirar cebola, maionese à parte etc.">
                     </div>
                     <hr>
                     <div class="botao_adicao">
                         <div class="botao_quantidade">
-                            <input class="adicao" type="button" value="-">
-                            <input class="texto_quantidade" type="text" value="1">
-                            <input class="adicao" type="button" value="+">
+                            <input class="adicao" type="button" value="-" @click="alterarQtd">
+                            <input class="texto_quantidade" type="number" v-model="itemPedido.qtdItens">
+                            <input class="adicao" type="button" value="+" @click="alterarQtd">
                         </div>
-                        <input class="botao_adcvalor" type="button" value="Adicionar R$100">
+                        <input class="botao_adcvalor" type="button"
+                            :value="`Adicionar R$${produto.preco * itemPedido.qtdItens}`" @click="addAoPedido">
                     </div>
                 </div>
             </div>
@@ -40,11 +42,73 @@
     </div>
 </template>
 <script>
+import { requisicao } from '../../../utils/funcsGerais';
 export default {
-    name: "ModalItemPedido"
+    name: "ModalItemPedido",
+    data() {
+        return {
+            idProduto: this.idProdutoProps,
+            estabelecimento: this.estabelecimentoProps,
+            itemPedido: {
+                "produtoId": this.idProdutoProps,
+                "observacao": '',
+                "qtdItens": 0
+            },
+            itensPedido: JSON.parse(localStorage.getItem('itensPedido')) || [],
+            produto: {
+
+            }
+        }
+    },
+    props: {
+        idProdutoProps: Number,
+        estabelecimentoProps: Object,
+    },
+    methods: {
+        requisicao,
+        alterarQtd(event) {
+            this.itemPedido.qtdItens = event.target.value == '-' ? this.itemPedido.qtdItens - 1 : this.itemPedido.qtdItens + 1
+        },
+        addAoPedido() {
+            for (let index in this.itensPedido) {
+                let itemPedido = this.itensPedido[index]
+                if (itemPedido.produtoId == this.idProduto) {
+                    this.itensPedido[index] = this.itemPedido
+                    localStorage.setItem('itensPedido', JSON.stringify(this.itensPedido))
+                    this.$emit('addAoPedido', true)
+                    return
+                }
+            }
+            this.itensPedido.push(this.itemPedido)
+            localStorage.setItem('itensPedido', JSON.stringify(this.itensPedido))
+            this.$emit('addAoPedido', true)
+        },
+        fecharModalItemPedido() {
+            this.$emit("fecharModalItemPedido")
+        }
+    },
+    async created() {
+        for (let index in this.itensPedido) {
+            let itemPedido = this.itensPedido[index]
+            if (itemPedido.produtoId == this.idProduto) {
+                this.itemPedido = itemPedido
+            }
+        }
+        this.produto = await this.requisicao(`https://backendhifood-production.up.railway.app/produtos/ler/${this.idProduto}`)
+    }
 }
 </script>
 <style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 .fundo_modal {
     position: fixed;
     background-color: #3e3e3ea5;
@@ -73,6 +137,7 @@ export default {
     align-items: flex-start;
     flex-direction: row;
 }
+
 
 .caixa_selecionado {
     background-color: rgba(255, 255, 255, 1);
@@ -156,6 +221,7 @@ export default {
     color: white;
     background-color: red;
     font-size: large;
+    cursor: pointer
 }
 
 .botao_adcvalor {
@@ -164,6 +230,12 @@ export default {
     border: none;
     color: white;
     border-radius: 0.3rem;
+    cursor: pointer
+}
+
+.imagem_pedido img {
+    width: 90%;
+    border-radius: 1rem;
 }
 
 hr {

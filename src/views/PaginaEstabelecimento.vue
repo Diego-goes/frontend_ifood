@@ -1,6 +1,8 @@
 <template>
     <div class="viewPaginaEstabelecimento">
-        <ModalItemPedido v-if="exibirItemPedido" />
+        <ModalItemPedido v-if="exibirItemPedido" :idProdutoProps="produtoSelecionadoId"
+            :estabelecimentoProps="estabelecimento" @addAoPedido="abrirModalPedido"
+            @fecharModalItemPedido="fecharModalItemPedido" />
         <div class="imagem-inicial">
             <img src="../assets/imagem_alteravel.avif" alt="imagem inicial">
         </div>
@@ -24,8 +26,7 @@
                 <CardProdutoEstab v-for="produto in produtos" :key="`produto-${produto.produtoId}`"
                     :nomeProps="produto.nomeProd" :imagemPathProps="`data:image/png;base64,${produto.imagemProd}`"
                     :precoProps="produto.preco" :nomeEstabProps="estabelecimento.nomeEstab"
-                    :produtoIdProps="produto.produtoId" 
-                    @abriItemPedido=abriItemPedido />
+                    :produtoIdProps="produto.produtoId" @abriItemPedido=abriItemPedido />
             </SliderComp>
 
         </div>
@@ -47,7 +48,8 @@ export default {
             },
             produtos: [],
             exibirItemPedido: false,
-            produtoSelecionadoId: null
+            produtoSelecionadoId: null,
+            exibirModalPedido: false
         }
     },
     components: {
@@ -56,10 +58,17 @@ export default {
         ModalItemPedido
     },
     methods: {
-        requisicao: requisicao,
-        abriItemPedido(produtoId){
+        requisicao,
+        abriItemPedido(produtoId) {
             this.exibirItemPedido = true
             this.produtoSelecionadoId = produtoId
+        },
+        abrirModalPedido(bool) {
+            this.exibirItemPedido = false
+            this.exibirModalPedido = bool
+        },
+        fecharModalItemPedido() {
+            this.exibirItemPedido = false
         }
     },
     async created() {
