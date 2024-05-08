@@ -3,10 +3,10 @@
             <div class="modal_carrinho">
                 <div class="caixa_carrinhovazio">
                     <div class="fechar_carrinho">
-                        <img src="../assets/close.png" alt="imagem-close"> 
+                        <img src="../../assets/close.png" alt="imagem-close"> 
                     </div>
                     <div>
-                        <img src="../assets/icone_carrinhovazio.png" alt="imagem-carrinhovazio"> 
+                        <img src="../../assets/icone_carrinhovazio.png" alt="imagem-carrinhovazio"> 
                     </div>
                     <div>
                         <a>Sua sacola está vazia</a>
