@@ -16,7 +16,7 @@
         },
         {
             "nomeRestaurante": "Outback",
-            "categoria": "Comida Australiana",
+            "categoria": "Hamburgueria",
             "avaliacao": 4.7,
             "logotipo": "./assets/logotipooutback.avif",
             "imgBanner": "./assets/banneroutback.avif"
@@ -487,63 +487,59 @@
 
         {
             "nomecategoria": "Hamburgueria",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriahamburguer.avif"
         },
         {
             "nomecategoria": "Pizzaria",
-            "imgcategoria": "peixe"
-        },
-        {
-            "nomecategoria": "Comida Australiana",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriapizza.avif"
         },
         {
             "nomecategoria": "Comida Chinesa",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriachinesa.avif"
         },
         {
             "nomecategoria": "Comida Mexicana",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriamexicana.avif"
     
         },
         {
             "nomecategoria": "Comida Italiana",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriaitaliana.avif"
     
         },
         {
             "nomecategoria": "Comida Árabe",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriaarabe.avif"
     
         },
         {
             "nomecategoria": "Doce",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriadoce.avif"
     
         },
         {
             "nomecategoria": "Comida Indiana",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriaindiana.avif"
     
         },
         {
             "nomecategoria": "Padaria",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriapadaria.avif"
     
         },
         {
             "nomecategoria": "Churracaria",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriachurrasco.avif"
     
         },
         {
             "nomecategoria": "Comida Japonesa",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriajaponesa.avif"
     
         },
         {
             "nomecategoria": "Salgado",
-            "imgcategoria": "peixe"
+            "imgcategoria": "./assets/categoriasalgado.avif"
     
         }
     ]
