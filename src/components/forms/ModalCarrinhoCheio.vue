@@ -1,9 +1,9 @@
 <template>
-    <div class="fundo_modal">
+    <div class="fundo_modal" :style="`transform: translateX(${distanciaModalPedido}vw)`">
         <div class="modal_carrinho">
             <div class="caixa_carrinhocheio">
                 <div class="fechar_carrinho">
-                    <img src="@/assets/close.png" alt="imagem-close">
+                    <img src="@/assets/close.png" alt="imagem-close" @click="fecharModalCarrinho">
                 </div>
                 <a>Seu pedido em</a>
                 <div class="caixas">
@@ -46,36 +46,62 @@ export default {
     name: 'ModalCarrinhoCheio',
     data() {
         return {
-
+            distanciaModalPedido: 50
         }
+    },
+    methods: {
+        fecharModalCarrinho() {
+            this.distanciaModalPedido = 50
+            setTimeout(() => {
+                this.$emit('fecharModalCarrinho')
+            }, 300)
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.distanciaModalPedido = 0
+        }, 300)
     }
 }
 </script>
 <style scoped>
 .fundo_modal {
-    position: fixed;
-    background-color: #3e3e3ea5;
-    width: 100vw;
+    transition: all 0.3s;
+    right: 0;
+    top: 0;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    /*background-color: #3e3e3ea5;
+    width: 100vw;
+    */
+    z-index: 1;
 }
 
-.fechar_carrinho{
-    background-color:rgba(255, 255, 255, 1);
+.fechar_carrinho {
+    background-color: rgba(255, 255, 255, 1);
     display: flex;
     width: 100%;
     align-items: flex-start;
     justify-content: flex-start;
 }
+.fechar_carrinho img{
+    cursor: pointer;
+}
 
 .modal_carrinho {
+    height: 100vh;
     background-color: rgba(255, 255, 255, 1);
-    display        : flex;
-    width          : 350px;
+    display: flex;
+    width: 350px;
     padding: 20px 5vh;
     padding-bottom: 5vh;
     border-radius: 0.3rem;
     justify-content: center;
     align-items: center;
+    box-shadow: -2px 1px 10px lightgray;
 }
 
 .caixa_carrinhocheio {
@@ -89,31 +115,33 @@ export default {
 }
 
 .caixas {
-    background-color:  rgba(255, 255, 255, 1);
+    background-color: rgba(255, 255, 255, 1);
     display: flex;
     width: 100%;
     justify-content: space-between;
     align-items: center;
 }
-.caixas a:nth-child(1){
+
+.caixas a:nth-child(1) {
     color: black;
 }
 
 .caixas_produto {
-    background-color:  rgba(255, 255, 255, 1);
+    background-color: rgba(255, 255, 255, 1);
     display: flex;
     width: 100%;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
 }
-.caixas_produto div:nth-child(1){
+
+.caixas_produto div:nth-child(1) {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-.botoes{
+.botoes {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -147,7 +175,7 @@ export default {
 
 }
 
-.botao-total input[type='button']{
+.botao-total input[type='button'] {
     background-color: red;
     padding: 1rem 1rem;
     border-radius: 0.3rem;
@@ -155,16 +183,16 @@ export default {
     border: none;
 }
 
-*{
-    font-family     : "iFood RC Titulos", iFood RC Textos, helvetica, sans-serif;
+* {
+    font-family: "iFood RC Titulos", iFood RC Textos, helvetica, sans-serif;
 }
 
-hr{
+hr {
     width: 100%;
     color: lightgray;
 }
 
-a{
+a {
     text-decoration: none;
 }
 </style>

@@ -1,8 +1,9 @@
 <template>
     <div class="viewPaginaEstabelecimento">
         <ModalItemPedido v-if="exibirItemPedido" :idProdutoProps="produtoSelecionadoId"
-            :estabelecimentoProps="estabelecimento" @addAoPedido="abrirModalPedido"
+            :estabelecimentoProps="estabelecimento" @addAoPedido="abrirModalCarrinho"
             @fecharModalItemPedido="fecharModalItemPedido" />
+        <ModalCarrinhoCheio v-if="exibirModalPedido" @fecharModalCarrinho="fecharModalCarrinho" />
         <div class="imagem-inicial">
             <img src="../assets/imagem_alteravel.avif" alt="imagem inicial">
         </div>
@@ -16,7 +17,9 @@
             <img id="estrela" src="../assets/estrela.png" alt="estrela avaliação">
             <p id="avaliacao">4.7</p>
             <p id="sifrao">$</p>
-            <p id="pedido-minimo">Pedido mínimo R$ 30,00</p>
+            <p id="pedido-minimo">Pedido mínimo R$ 30,00
+            <input type="button" value="Abrir Carrinho" @click="abrirModalCarrinho" >
+            </p>
 
         </div>
 
@@ -38,6 +41,7 @@ import { requisicao } from '../../utils/funcsGerais'
 import SliderComp from '@/components/base/SliderComp.vue'
 import CardProdutoEstab from '@/components/base/CardProdutoEstab.vue'
 import ModalItemPedido from '@/components/forms/ModalItemPedido.vue'
+import ModalCarrinhoCheio from '@/components/forms/ModalCarrinhoCheio.vue'
 export default {
     name: "PaginaEstabelecimento",
     data() {
@@ -55,7 +59,8 @@ export default {
     components: {
         SliderComp,
         CardProdutoEstab,
-        ModalItemPedido
+        ModalItemPedido,
+        ModalCarrinhoCheio
     },
     methods: {
         requisicao,
@@ -63,7 +68,10 @@ export default {
             this.exibirItemPedido = true
             this.produtoSelecionadoId = produtoId
         },
-        abrirModalPedido(bool) {
+        fecharModalCarrinho(){
+            this.exibirModalPedido = false
+        },
+        abrirModalCarrinho(bool) {
             this.exibirItemPedido = false
             this.exibirModalPedido = bool
         },
