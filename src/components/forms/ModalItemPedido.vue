@@ -53,11 +53,12 @@ export default {
                 "observacao": '',
                 "qtdItens": 0
             },
-            itensPedido: JSON.parse(localStorage.getItem('itensPedido')) || [],
+            itensPedido: this.itensPedidoProps,
             produto: this.produtoProps
         }
     },
     props: {
+        itensPedidoProps: Array,
         produtoProps: Object,
         estabelecimentoProps: Object,
     },
@@ -67,6 +68,21 @@ export default {
             this.itemPedido.qtdItens = event.target.value == '-' ? this.itemPedido.qtdItens - 1 : this.itemPedido.qtdItens + 1
         },
         addAoPedido() {
+            let respostaPrompt = null
+            for (let index in this.itensPedido) {
+                let itemPedido = this.itensPedido[index]
+                if (this.itemPedido.estabelecimentoId != itemPedido.estabelecimentoId) {
+                    if (respostaPrompt === null) {
+                        respostaPrompt = prompt('Você só pode adicionar itens de um restaurante ou mercado por vez, deseja esvaziar a sacola e adicionar este item? (SIM / NÃO)') || ''
+                    }
+                    if ((respostaPrompt).toLowerCase().startsWith('n') || respostaPrompt == '') {
+                        return
+                    } else {
+                        this.itensPedido = []
+                        break
+                    }
+                }
+            }
             for (let index in this.itensPedido) {
                 let itemPedido = this.itensPedido[index]
                 if (itemPedido.produtoId == this.itemPedido.produtoId) {
@@ -87,7 +103,6 @@ export default {
     async created() {
         for (let index in this.itensPedido) {
             let itemPedido = this.itensPedido[index]
-            console.table([itemPedido.produtoId,this.itemPedido.produtoId])
             if (itemPedido.produtoId == this.itemPedido.produtoId) {
                 this.itemPedido = itemPedido
             }
