@@ -47,21 +47,18 @@ export default {
     name: "ModalItemPedido",
     data() {
         return {
-            idProduto: this.idProdutoProps,
             estabelecimento: this.estabelecimentoProps,
             itemPedido: {
-                "produtoId": this.idProdutoProps,
+                ...this.produtoProps,
                 "observacao": '',
                 "qtdItens": 0
             },
             itensPedido: JSON.parse(localStorage.getItem('itensPedido')) || [],
-            produto: {
-
-            }
+            produto: this.produtoProps
         }
     },
     props: {
-        idProdutoProps: Number,
+        produtoProps: Object,
         estabelecimentoProps: Object,
     },
     methods: {
@@ -72,7 +69,7 @@ export default {
         addAoPedido() {
             for (let index in this.itensPedido) {
                 let itemPedido = this.itensPedido[index]
-                if (itemPedido.produtoId == this.idProduto) {
+                if (itemPedido.produtoId == this.itemPedido.produtoId) {
                     this.itensPedido[index] = this.itemPedido
                     localStorage.setItem('itensPedido', JSON.stringify(this.itensPedido))
                     this.$emit('addAoPedido', true)
@@ -90,11 +87,11 @@ export default {
     async created() {
         for (let index in this.itensPedido) {
             let itemPedido = this.itensPedido[index]
-            if (itemPedido.produtoId == this.idProduto) {
+            console.table([itemPedido.produtoId,this.itemPedido.produtoId])
+            if (itemPedido.produtoId == this.itemPedido.produtoId) {
                 this.itemPedido = itemPedido
             }
         }
-        this.produto = await this.requisicao(`https://backendhifood-production.up.railway.app/produtos/ler/${this.idProduto}`)
     }
 }
 </script>
