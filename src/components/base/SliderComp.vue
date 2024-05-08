@@ -139,7 +139,7 @@ export default {
     width: 2rem;
     object-fit: contain;
     opacity: 50%;
-    z-index: 2;
+    z-index: 1;
 }
 
 .btnSlider:hover {
