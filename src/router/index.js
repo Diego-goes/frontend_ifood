@@ -9,7 +9,7 @@ import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
 import ModalPerfil from "@/components/forms/ModalPerfil";
 import ModalCartao from "@/components/forms/ModalCartao";
-
+import CardConfirmRecebimento from "@/components/forms/CardConfirmRecebimento"
 const routes = [
   {
     path: "/",
@@ -34,6 +34,10 @@ const routes = [
   {
     path: "/modalPerfil",
     component: ModalPerfil,
+  },
+  {
+    path: "/cardConfirmRecebimento",
+    component: CardConfirmRecebimento,
   },
   {
     path: "/modalCartao",
