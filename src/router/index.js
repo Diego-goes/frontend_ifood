@@ -11,6 +11,7 @@ import FormasPagamento from "@/views/FormasPagamento";
 import ModalPerfil from "@/components/forms/ModalPerfil";
 import ModalCarrinhoCheio from "@/components/forms/ModalCarrinhoCheio";
 import ModalCarrinhoVazio from "@/components/forms/ModalCarrinhoVazio";
+import ModalCartao from "@/components/forms/ModalCartao";
 
 const routes = [
   {
@@ -48,6 +49,10 @@ const routes = [
   {
     path: "/modalPerfil",
     component: ModalPerfil,
+  },
+  {
+    path: "/modalCartao",
+    component: ModalCartao,
   },
   {
     path: "/about",
