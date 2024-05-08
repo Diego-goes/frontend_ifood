@@ -1,5 +1,5 @@
 <template>
-    <div class="card-destaque" @click="abriItemPedido">
+    <div class="card-destaque" @click="abrirModalItemPedido">
         <img class="imagem-produto" :src="imagemPath" alt="">
         <div>
             <p class="nome-prato">{{ this.produtoProps.nomeProd }}</p>
@@ -20,8 +20,8 @@ export default {
         produtoProps: Object
     },
     methods: {
-        abriItemPedido() {
-            this.$emit('abriItemPedido', this.produtoProps)
+        abrirModalItemPedido() {
+            this.$emit('abrirModalItemPedido', this.produtoProps)
         }
     }
 }
