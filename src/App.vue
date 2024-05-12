@@ -19,7 +19,7 @@ export default {
 <style>
 * {
   font-family: "Roboto", Avenir, Helvetica, Arial, sans-serif;
-  
+
 }
 
 body {
@@ -49,6 +49,31 @@ a {
   background-position: center;
   background-size: cover;
   overflow-x: hidden;
+}
+
+*::-webkit-scrollbar {
+  width: 0.9vw;
+  /* width of the entire scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(225, 225, 225);
+  /* color of the tracking area */
+  border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(190, 190, 190);
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  /*border: 3px solid orange;*/
+  /* creates padding around scroll thumb */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(149, 149, 149);
+  transition: all 1s;
 }
 
 #imagem-principal {

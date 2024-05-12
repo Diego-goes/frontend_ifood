@@ -5,16 +5,12 @@ import PaginaLogin from "../views/PaginaLogin.vue";
 import PainelControle from "@/views/PainelControle.vue";
 import PaginaCadastro from "@/views/PaginaCadastro.vue";
 import PaginaEstabelecimento from "@/views/PaginaEstabelecimento.vue";
-import ModalItemPedido from "@/components/forms/ModalItemPedido";
 import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
-import FormasPagamento from "@/views/FormasPagamento";
-
+import ModalPerfil from "@/components/forms/ModalPerfil";
+import ModalCartao from "@/components/forms/ModalCartao";
+import CardConfirmRecebimento from "@/components/forms/CardConfirmRecebimento"
 const routes = [
-  // {
-  //   path: "/teste",
-  //   component: compPai
-  // },
   {
     path: "/",
     component: PaginaDeslogada,
@@ -32,16 +28,20 @@ const routes = [
     component: FinalizarPedido,
   },
   {
-    path: "/formasPagamento",
-    component: FormasPagamento,
-  },
-  {
     path: "/inicio",
     component: PaginaLogada,
   },
   {
-    path: "/nath",
-    component: ModalItemPedido,
+    path: "/modalPerfil",
+    component: ModalPerfil,
+  },
+  {
+    path: "/cardConfirmRecebimento",
+    component: CardConfirmRecebimento,
+  },
+  {
+    path: "/modalCartao",
+    component: ModalCartao,
   },
   {
     path: "/about",
