@@ -4,7 +4,7 @@
         <p id="cadastrar"> Cadastre-se </p>
         <input v-model="nomeUsu" id="dados" class="nome-completo" type="text" placeholder="Nome completo">
         <input v-model="cpf" id="dados" class="cpf" type="text" placeholder="CPF" maxlength="11">
-        <input v-model="telefoneUsu" id="dados" type="text" placeholder="(__) ____-____" maxlength="11">
+        <input v-model="telefoneUsu" id="dados" type="text" placeholder="(__) ____-____" maxlength="11" @keyup.enter="criarUsuario" >
         <p>Concordo com os <span class="destaque">Termos de uso</span> e a <span class="destaque">Politica de
                 Privacidade</span></p>
         <button class="cadastrar" @click="criarUsuario">Cadastrar</button>

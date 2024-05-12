@@ -124,7 +124,12 @@ export default {
         }
     },
     async created() {
-        this.modalOpen = true
+        let token = localStorage.getItem('tokenJWT')
+        let idUsu = localStorage.getItem('usuarioId');
+        let retornaDados = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/usuario/${idUsu}`, 'GET', token)
+        if (retornaDados.length === 0) {
+            this.modalOpen = true
+        } 
         for (let rota of this.rotas) {
             try {
                 rota.data = await this.requisicao(rota.url);
