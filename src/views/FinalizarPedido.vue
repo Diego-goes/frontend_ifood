@@ -43,12 +43,12 @@
         </div>
         <div class="container-direito">
             <p class="texto-cinza">Seu pedido em...</p>
-            <p class="nome-restaurante">Nome do restaurante</p>
+            <p class="nome-restaurante">{{this.estabelecimento.nomeEstab}}</p>
             <small>Categoria</small>
             <hr>
             <div class="card-itemPedido">
                 <div class="dados-pedido">
-                    <p>Nome do prato</p>
+                    <p>{{this.produtos[0]['nomeProd']||''}}</p>
                     <p>R$ 00,00</p>
         
                 </div>
@@ -79,8 +79,26 @@
     
 </template>
 <script>
+import {requisicao} from "../../utils/funcsGerais"
 export default {
     name: "FinalizarPedido",
+    data(){
+        return {
+            estabelecimentoId: localStorage.getItem('estabSelecionado'),
+            estabelecimento: {},
+            produtos: [],
+        }
+    },
+    methods:{
+        requisicao
+    },
+    async created(){
+        let url = `https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`
+        let token_jwt = localStorage.getItem('tokenJWT')
+        this.estabelecimento = await this.requisicao(url,"GET",token_jwt)
+        console.log(this.estabelecimento)
+        this.produtos = JSON.parse(localStorage.getItem('itensPedido'))
+    }
 }
 </script>
 <style scoped>
