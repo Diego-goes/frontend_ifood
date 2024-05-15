@@ -1,5 +1,5 @@
 <template>
-    <div class="viewFinalizarPedido">  
+    <div class="viewFinalizarPedido">
         <div class="container-esquerdo">
             <h2>Finalize seu pedido</h2>
             <div class="subtitulo">
@@ -13,27 +13,28 @@
                     <p class="texto-cinza">São Paulo, SP</p>
                 </div>
                 <input class="btn-opcao texto-vermelho" type="button" value="Trocar">
-                
+
             </div>
-            
+
             <hr class="linha-divisão">
             <p class="pague-pelo-site">Pague pelo site</p>
 
-                <div class="btn-pix">
-                    <img class="img-pix" src="../assets/logoPix.png" alt="imagem pix">
-                    <div class="dados-pix">
-                        <p>Pague com Pix</p>
-                        <p> Use o QR Code ou copie e cole o código</p>
+            <div class="btn-pix">
+                <img class="img-pix" src="../assets/logoPix.png" alt="imagem pix">
+                <div class="dados-pix">
+                    <p>Pague com Pix</p>
+                    <p> Use o QR Code ou copie e cole o código</p>
 
-                    </div>
                 </div>
-           
+            </div>
+
             <p class="add-cartao">Adicione um cartão no Hifood</p>
             <div class="addcartao">
                 <div>
                     <input type="button" value="Crédito" class="btn-cartao">
                     <input type="button" value="Débito" class="btn-cartao">
-                    <p class="frase-pix">É prático, seguro e você não perde nenhum minuto a mais quando seu pedido chegar.</p>    
+                    <p class="frase-pix">É prático, seguro e você não perde nenhum minuto a mais quando seu pedido
+                        chegar.</p>
                 </div>
                 <img src="../assets/formaPagamento.png" alt="Forma de pagamento">
             </div>
@@ -43,139 +44,173 @@
         </div>
         <div class="container-direito">
             <p class="texto-cinza">Seu pedido em...</p>
-            <p class="nome-restaurante">{{this.estabelecimento.nomeEstab}}</p>
-            <small>Categoria</small>
+            <p class="nome-restaurante">{{ this.estabelecimento.nomeEstab }}</p>
+            <small>{{ this.categoria.nomeCategoria }}</small>
             <hr>
             <div class="card-itemPedido">
-                <div class="dados-pedido">
-                    <p>{{this.produtos[0]['nomeProd']||''}}</p>
-                    <p>R$ 00,00</p>
-        
+                <div class="caixas_produto">
+                    <CardCrudItemCarrinho :itemPedidoProps="itemPedido" v-for="itemPedido in this.itensPedido"
+                        :key="`itemCarrinho_${itemPedido.produtoId}`" @editarItemPedido="editarItemPedido"
+                        @removerItemPedido="removerItemPedido" />
                 </div>
-                <div class="opcoes-itemPedido">
-                    <input  class="btn-opcao texto-vermelho"  type="button" value="Editar">
-                    <input  class="btn-opcao texto-cinza" type="button" value="Remover">
-                </div>
-                <hr>
-            </div> 
+                <!-- <div class="dados-pedido">
+                    <p>{{this.itensPedido[0]['nomeProd']||''}}</p>
+                </div> -->
+            </div>
             <div class="valores-pedido">
-                <div  class="texto-cinza">
+                <!-- <div  class="texto-cinza">
                     <p>Subtotal</p>
                     <p>R$ 00,00</p>
-                </div>
+                </div> -->
 
-                <div  class="texto-cinza">
+                <div class="texto-cinza">
                     <p>Taxa de entrega</p>
                     <p id="gratis">Grátis</p>
                 </div>
 
                 <div>
                     <p>Total</p>
-                    <p>R$ 00,00</p>
+                    <p>R$ {{this.valorTotal}}</p>
                 </div>
-            </div>    
-        </div>    
+            </div>
+        </div>
     </div>
-    
+
 </template>
 <script>
-import {requisicao} from "../../utils/funcsGerais"
+import { requisicao } from "../../utils/funcsGerais"
+import CardCrudItemCarrinho from "@/components/forms/CardCrudItemCarrinho.vue"
 export default {
     name: "FinalizarPedido",
-    data(){
+    data() {
         return {
             estabelecimentoId: localStorage.getItem('estabSelecionado'),
-            estabelecimento: {},
-            produtos: [],
+            estabelecimento: { nomeEstab: 'Carregando...' },
+            categoria: { nomeCategoria: 'Carregando...' },
+            itensPedido: [{ nomeProd: 'Carregando...' }],
+            idFormaPagamentoSelecionado: null,
         }
     },
-    methods:{
-        requisicao
+    methods: {
+        requisicao,
+        removerItemPedido(produto) {
+            for (let index in this.itensPedido) {
+                let itemPedido = this.itensPedido[index]
+                if (itemPedido.produtoId == produto.produtoId) {
+                    this.itensPedido.splice(index, 1)
+                    break;
+                }
+            }
+            localStorage.setItem('itensPedido', JSON.stringify(this.itensPedido))
+        },
+        editarItemPedido(produto){
+            console.log(produto)
+            this.$router.push({ name: 'paginaEstabelecimentoRt', query:{
+                exibirItemPedidoProps: 'true',
+                produtoSelecionadoProps: JSON.stringify(produto)
+        } })
+        }
     },
-    async created(){
-        let url = `https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`
+    async created() {
         let token_jwt = localStorage.getItem('tokenJWT')
-        this.estabelecimento = await this.requisicao(url,"GET",token_jwt)
-        console.log(this.estabelecimento)
-        this.produtos = JSON.parse(localStorage.getItem('itensPedido'))
+        let urlEstab = `https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`
+        this.estabelecimento = await this.requisicao(urlEstab, "GET", token_jwt)
+
+        let urlCategoria = `https://backendhifood-production.up.railway.app/categorias/ler/${this.estabelecimento.categoriaId}`
+        this.categoria = await this.requisicao(urlCategoria, "GET", token_jwt)
+
+        console.log(this.categoria)
+        this.itensPedido = JSON.parse(localStorage.getItem('itensPedido'))
+    }, 
+    computed: {
+        valorTotal() {
+            let total = 0
+            for (let itemPedido of this.itensPedido) {
+                total += itemPedido.preco * itemPedido.qtdItens
+            }
+            return total
+        }
+    },
+    components: {
+        CardCrudItemCarrinho
     }
 }
 </script>
 <style scoped>
-
-.viewFinalizarPedido{
+.viewFinalizarPedido {
     display: flex;
     width: 90vw;
 
 }
 
-.container-esquerdo{
+.container-esquerdo {
     display: flex;
     text-align: left;
     flex-direction: column;
-    
+
 }
 
-.container-esquerdo h2{
+.container-esquerdo h2 {
     font-size: 2.5rem;
     color: #3e3e3e;
 }
 
-.subtitulo{
+.subtitulo {
     width: fit-content;
     margin-bottom: 10px;
 }
 
-.subtitulo p{
-    color:#EA1D2C;
+.subtitulo p {
+    color: #EA1D2C;
     font-weight: 550;
     margin-bottom: 0;
-   
+
 }
-.subtitulo hr{
+
+.subtitulo hr {
     width: 100%;
     border: 0.15rem solid #EA1D2C;
 
 }
 
-.endereco{
+.endereco {
     display: flex;
-    
+
 }
 
-.endereco img{
+.endereco img {
     width: 5vw;
     object-fit: contain;
     margin-right: 15px;
 }
 
-.endereco p{
+.endereco p {
     margin: 0;
     margin-right: 35vh;
     margin-top: 18px;
-    
+
 }
 
-.dados-endereco p:nth-child(1){
+.dados-endereco p:nth-child(1) {
     font-weight: 550;
-    
+
 }
 
-.btn-opcao{
+.btn-opcao {
     height: min-content;
-    background-color: transparent; 
+    background-color: transparent;
     border: none;
     margin-top: 3vw;
     font-size: 15px;
 
 }
 
-hr{
+hr {
     width: 100%;
     border: 1px solid #f5f5f9;
 }
 
-.pague-pelo-site{
+.pague-pelo-site {
 
     font-weight: 550;
     color: #EA1D2C;
@@ -183,28 +218,28 @@ hr{
 
 }
 
-.img-pix{
-    height: 50px; 
+.img-pix {
+    height: 50px;
     width: auto;
     margin-top: 3vh;
     margin-right: 2vw;
 }
 
-.btn-pix{
-    display: flex;   
-    border: 1px solid #f5f5f9;    
+.btn-pix {
+    display: flex;
+    border: 1px solid #f5f5f9;
     margin-top: 2vh;
 
 }
 
-.add-cartao{
+.add-cartao {
     font-weight: 550;
     color: #EA1D2C;
-    margin-top: 7vh;  
+    margin-top: 7vh;
 }
 
-.btn-cartao{
-    width: 100px; 
+.btn-cartao {
+    width: 100px;
     height: 30px;
     border: none;
     margin-right: 10px;
@@ -214,13 +249,13 @@ hr{
     cursor: pointer;
 }
 
-.frase-pix{
+.frase-pix {
     margin-top: 50px;
     font-style: italic
 }
 
-.btn-fazer-pedido{
-    width: 300px; 
+.btn-fazer-pedido {
+    width: 300px;
     height: 50px;
     border: none;
     background-color: #EA1D2C;
@@ -230,51 +265,48 @@ hr{
     cursor: pointer;
 }
 
-/* kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk */
 
-
-.container-direito{
+.container-direito {
     display: flex;
     flex-direction: column;
     width: 40vw;
     margin-top: 5%;
     border: 20px solid white;
     background-color: white;
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2); 
-    
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+
 }
 
-.nome-restaurante{
+.nome-restaurante {
     font-size: 20px;
 }
 
-.addcartao{
+.addcartao {
     display: flex;
 }
 
-.dados-pedido{
+.caixas_produto {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.valores-pedido div {
     display: flex;
     justify-content: space-between;
-
 }
 
-.valores-pedido div{
-    display: flex;
-    justify-content: space-between;
-}
-
-#gratis{
+#gratis {
     color: green;
 }
 
-.texto-cinza{
+.texto-cinza {
     color: #717171;
 
 }
 
-.texto-vermelho{
+.texto-vermelho {
     color: #EA1D2C;
 }
- 
-
 </style>
