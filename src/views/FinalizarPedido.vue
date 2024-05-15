@@ -1,5 +1,6 @@
 <template>
     <div class="viewFinalizarPedido">
+        <ModalCartao v-if="exibirModalCartao" @voltar="esconderModalCartao" />
         <div class="container-esquerdo">
             <h2>Finalize seu pedido</h2>
             <div class="subtitulo">
@@ -19,20 +20,26 @@
             <hr class="linha-divisão">
             <p class="pague-pelo-site">Pague pelo site</p>
 
-            <div class="btn-pix">
-                <img class="img-pix" src="../assets/logoPix.png" alt="imagem pix">
-                <div class="dados-pix">
-                    <p>Pague com Pix</p>
-                    <p> Use o QR Code ou copie e cole o código</p>
-
+            <div class="btn-pix btnsFormasPagamento">
+                <div>
+                    <img class="img-pix" :src="srcPix" alt="imagem pix">
+                    <div class="dados-pix">
+                        <p>Pague com Pix</p>
+                        <p> Use o QR Code ou copie e cole o código</p>
+                        <!-- <p class="codPix"> 00020126330014br.gov.bcb.pix0111+5511999999999520400005303986544060.005802BR5913Fulano de Tal6008BRASILIA62070503***6304ABCD
+                        </p> -->
+                    </div>
                 </div>
+                <input type="button" value="Pagar com pix" @click="pegarFormaPagamentoSelecionada('pix')" >
             </div>
 
             <p class="add-cartao">Adicione um cartão no Hifood</p>
             <div class="addcartao">
                 <div>
-                    <input type="button" value="Crédito" class="btn-cartao">
-                    <input type="button" value="Débito" class="btn-cartao">
+                    <input type="button" value="Crédito" class="btn-cartao btnsFormasPagamento"
+                        @click="($event) => { pegarFormaPagamentoSelecionada('credito', $event.target); abrirModalCartao() }">
+                    <input type="button" value="Débito" class="btn-cartao btnsFormasPagamento"
+                        @click="($event) => { pegarFormaPagamentoSelecionada('debito', $event.target); abrirModalCartao() }">
                     <p class="frase-pix">É prático, seguro e você não perde nenhum minuto a mais quando seu pedido
                         chegar.</p>
                 </div>
@@ -53,15 +60,8 @@
                         :key="`itemCarrinho_${itemPedido.produtoId}`" @editarItemPedido="editarItemPedido"
                         @removerItemPedido="removerItemPedido" />
                 </div>
-                <!-- <div class="dados-pedido">
-                    <p>{{this.itensPedido[0]['nomeProd']||''}}</p>
-                </div> -->
             </div>
             <div class="valores-pedido">
-                <!-- <div  class="texto-cinza">
-                    <p>Subtotal</p>
-                    <p>R$ 00,00</p>
-                </div> -->
 
                 <div class="texto-cinza">
                     <p>Taxa de entrega</p>
@@ -70,7 +70,7 @@
 
                 <div>
                     <p>Total</p>
-                    <p>R$ {{this.valorTotal}}</p>
+                    <p>R$ {{ this.valorTotal }}</p>
                 </div>
             </div>
         </div>
@@ -80,6 +80,7 @@
 <script>
 import { requisicao } from "../../utils/funcsGerais"
 import CardCrudItemCarrinho from "@/components/forms/CardCrudItemCarrinho.vue"
+import ModalCartao from "@/components/forms/ModalCartao.vue";
 export default {
     name: "FinalizarPedido",
     data() {
@@ -88,11 +89,22 @@ export default {
             estabelecimento: { nomeEstab: 'Carregando...' },
             categoria: { nomeCategoria: 'Carregando...' },
             itensPedido: [{ nomeProd: 'Carregando...' }],
-            idFormaPagamentoSelecionado: null,
+            formaPagamentoSelecionada: null,
+            exibirModalCartao: false,
+            srcPix: require('../assets/logoPix.png')
         }
     },
     methods: {
         requisicao,
+        esconderModalCartao() {
+            this.exibirModalCartao = false
+        },
+        abrirModalCartao() {
+            this.exibirModalCartao = true
+        },
+        pegarFormaPagamentoSelecionada(nome) {
+            this.formaPagamentoSelecionada = nome
+        },
         removerItemPedido(produto) {
             for (let index in this.itensPedido) {
                 let itemPedido = this.itensPedido[index]
@@ -103,12 +115,17 @@ export default {
             }
             localStorage.setItem('itensPedido', JSON.stringify(this.itensPedido))
         },
-        editarItemPedido(produto){
+        editarItemPedido(produto) {
             console.log(produto)
-            this.$router.push({ name: 'paginaEstabelecimentoRt', query:{
-                exibirItemPedidoProps: 'true',
-                produtoSelecionadoProps: JSON.stringify(produto)
-        } })
+            this.$router.push({
+                name: 'paginaEstabelecimentoRt', query: {
+                    exibirItemPedidoProps: 'true',
+                    produtoSelecionadoProps: JSON.stringify(produto)
+                }
+            })
+        },
+        fazerPedido() {
+
         }
     },
     async created() {
@@ -121,7 +138,14 @@ export default {
 
         console.log(this.categoria)
         this.itensPedido = JSON.parse(localStorage.getItem('itensPedido'))
-    }, 
+    },
+    watch: {
+        'formaPagamentoSelecionada'() {
+            this.srcPix = require(this.formaPagamentoSelecionada == 'pix' ?
+                '../assets/qr_code_pix.png' :
+                '../assets/logoPix.png')
+        }
+    },
     computed: {
         valorTotal() {
             let total = 0
@@ -132,11 +156,16 @@ export default {
         }
     },
     components: {
-        CardCrudItemCarrinho
+        CardCrudItemCarrinho,
+        ModalCartao
     }
 }
 </script>
 <style scoped>
+p {
+    margin: 0
+}
+
 .viewFinalizarPedido {
     display: flex;
     width: 90vw;
@@ -218,20 +247,45 @@ hr {
 
 }
 
+.btnsFormasPagamento {
+    box-shadow: 1px 1px 10px rgb(233, 233, 233);
+}
+
 .img-pix {
     height: 50px;
     width: auto;
-    margin-top: 3vh;
-    margin-right: 2vw;
+}
+.codPix{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+}
+.dados-pix {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .btn-pix {
     display: flex;
     border: 1px solid #f5f5f9;
     margin-top: 2vh;
-
+    padding: 1rem;
+    border-radius: 0.5rem;
+    align-items: center;
+    justify-content: space-between
 }
 
+.btn-pix>div {
+    display: flex;
+    gap: 1rem;
+}
+.btn-pix input[type="button"]{
+    border: 1px solid #f5f5f9;
+    margin-top: 2vh;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
 .add-cartao {
     font-weight: 550;
     color: #EA1D2C;
