@@ -9,59 +9,63 @@ import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
 import ModalPerfil from "@/components/forms/ModalPerfil";
 import ModalCartao from "@/components/forms/ModalCartao";
-import CardConfirmRecebimento from "@/components/forms/CardConfirmRecebimento"
+import CardConfirmRecebimento from "@/components/forms/CardConfirmRecebimento";
+
 const routes = [
   {
     path: "/",
+    name: "paginaDeslogadaRt",
     component: PaginaDeslogada,
   },
   {
     path: "/paginaEstabelecimento",
+    name: "paginaEstabelecimentoRt",
     component: PaginaEstabelecimento,
+    props: (route) => ({ query: route.query })
   },
   {
     path: "/acompanharPedido",
+    name: "acompanharPedidoRt",
     component: AcompanharPedido,
   },
   {
     path: "/finalizarPedido",
+    name: "finalizarPedidoRt",
     component: FinalizarPedido,
   },
   {
     path: "/inicio",
+    name: "paginaLogadaRt",
     component: PaginaLogada,
   },
   {
     path: "/modalPerfil",
+    name: "modalPerfilRt",
     component: ModalPerfil,
   },
   {
     path: "/cardConfirmRecebimento",
+    name: "cardConfirmRecebimentoRt",
     component: CardConfirmRecebimento,
   },
   {
     path: "/modalCartao",
+    name: "modalCartaoRt",
     component: ModalCartao,
   },
   {
-    path: "/about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
-
-  {
     path: "/paginaCadastro",
+    name: "paginaCadastroRt",
     component: PaginaCadastro,
   },
   {
     path: "/paginaLogin",
+    name: "paginaLoginRt",
     component: PaginaLogin,
   },
   {
     path: "/painelControle",
+    name: "painelControleRt",
     component: PainelControle,
   },
 ];
