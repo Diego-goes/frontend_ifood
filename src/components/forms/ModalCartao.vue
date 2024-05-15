@@ -2,7 +2,7 @@
     <div class="fundo_modal">
         <div class="modal">
             <div class="div_btn_voltar">
-                <img src="@/assets/SetaVermelha.png" alt="">
+                <img src="@/assets/SetaVermelha.png" alt="" @click="voltar" >
                 <p>Crédito</p>
             </div>
             <input type="number" placeholder="Número cartão">
@@ -24,6 +24,11 @@ export default {
         return {
 
         }
+    },
+    methods:{
+        voltar(){
+            this.$emit('voltar')
+        }
     }
 }
 </script>
@@ -43,6 +48,9 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 
@@ -53,7 +61,7 @@ input {
     background-color: white;
     width: 20vw;
     gap: 2vh;
-    padding: 2% 1%;
+    padding: 2rem 3rem;
     border-radius: 0.3rem;
 }
 
