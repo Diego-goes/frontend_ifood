@@ -3,7 +3,7 @@
         <div class="modal">
             <div class="div_btn_voltar">
                 <img src="@/assets/SetaVermelha.png" alt="" @click="voltar" >
-                <p>Crédito</p>
+                <p>Novo Cartão</p>
             </div>
             <input type="number" placeholder="Número cartão">
             <input type="text" placeholder="Nome impresso">
@@ -51,6 +51,7 @@ input {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1;
 }
 
 

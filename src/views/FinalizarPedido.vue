@@ -22,15 +22,16 @@
 
             <div class="btn-pix btnsFormasPagamento">
                 <div>
-                    <img class="img-pix" :src="srcPix" alt="imagem pix">
+                    <img class="img-pix" :src="imgPix.src" :style="`${imgPix.height}`" alt="imagem pix">
                     <div class="dados-pix">
                         <p>Pague com Pix</p>
                         <p> Use o QR Code ou copie e cole o código</p>
-                        <!-- <p class="codPix"> 00020126330014br.gov.bcb.pix0111+5511999999999520400005303986544060.005802BR5913Fulano de Tal6008BRASILIA62070503***6304ABCD
-                        </p> -->
+                        <input v-if="formaPagamentoSelecionada == 'pix'" type="text" value="00020126330014br.gov.bcb.pix0111+5511999999999520400005303986544060.005802BR5913Fulano de
+                        Tal6008BRASILIA62070503***6304ABCD" class="codinputix">
+                        <input v-if="formaPagamentoSelecionada == 'pix'" type="button" value="Copiar código">
                     </div>
                 </div>
-                <input type="button" value="Pagar com pix" @click="pegarFormaPagamentoSelecionada('pix')" >
+                <input type="button" value="Pagar com pix" @click="pegarFormaPagamentoSelecionada('pix')">
             </div>
 
             <p class="add-cartao">Adicione um cartão no Hifood</p>
@@ -46,7 +47,7 @@
                 <img src="../assets/formaPagamento.png" alt="Forma de pagamento">
             </div>
             <hr>
-            <input type="button" value="Fazer pedido" class="btn-fazer-pedido">
+            <input type="button" value="Fazer pedido" class="btn-fazer-pedido" @click="fazerPedido">
 
         </div>
         <div class="container-direito">
@@ -91,7 +92,10 @@ export default {
             itensPedido: [{ nomeProd: 'Carregando...' }],
             formaPagamentoSelecionada: null,
             exibirModalCartao: false,
-            srcPix: require('../assets/logoPix.png')
+            imgPix: {
+                src: require('../assets/logoPix.png'),
+                height: ''
+            }
         }
     },
     methods: {
@@ -125,7 +129,7 @@ export default {
             })
         },
         fazerPedido() {
-
+            this.$router.push({ name: 'acompanharPedidoRt' })
         }
     },
     async created() {
@@ -141,9 +145,12 @@ export default {
     },
     watch: {
         'formaPagamentoSelecionada'() {
-            this.srcPix = require(this.formaPagamentoSelecionada == 'pix' ?
+            this.imgPix.src = require(this.formaPagamentoSelecionada == 'pix' ?
                 '../assets/qr_code_pix.png' :
                 '../assets/logoPix.png')
+            this.imgPix.height = this.formaPagamentoSelecionada == 'pix' ?
+                'height:10rem;' :
+                ''
         }
     },
     computed: {
@@ -169,7 +176,7 @@ p {
 .viewFinalizarPedido {
     display: flex;
     width: 90vw;
-
+    padding-bottom: 2rem;
 }
 
 .container-esquerdo {
@@ -254,12 +261,16 @@ hr {
 .img-pix {
     height: 50px;
     width: auto;
+    transition: all 0.3s
 }
-.codPix{
-    text-overflow: ellipsis;
+
+.codPix {
     overflow: hidden;
-    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 3rem;
 }
+
 .dados-pix {
     display: flex;
     flex-direction: column;
@@ -280,12 +291,14 @@ hr {
     display: flex;
     gap: 1rem;
 }
-.btn-pix input[type="button"]{
+
+.btn-pix input[type="button"] {
     border: 1px solid #f5f5f9;
     margin-top: 2vh;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
 }
+
 .add-cartao {
     font-weight: 550;
     color: #EA1D2C;
@@ -323,12 +336,18 @@ hr {
 .container-direito {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    position: sticky;
+    margin-top: 5vw;
+    margin-left: 5vw;
+    top: 5vw;
     width: 40vw;
-    margin-top: 5%;
+    height: 80vh;
     border: 20px solid white;
     background-color: white;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
-
+    padding: 0rem 3rem;
+    border-radius: 0.5rem;
 }
 
 .nome-restaurante {
@@ -341,7 +360,7 @@ hr {
 
 .caixas_produto {
     width: 100%;
-    height: 100%;
+    height: 40vh;
     overflow-y: scroll;
     overflow-x: hidden;
 }
