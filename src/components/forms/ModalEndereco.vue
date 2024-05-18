@@ -18,6 +18,13 @@
         <button type="submit">Enviar</button>
       </form>
     </div>
+    <!-- <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+    <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
+    <p>{{this.formatarEndereco(endereco).titulo}}</p>
+    <p>{{this.formatarEndereco(endereco).descricao}}</p>
+    <img src="opcao" alt="imageOpcao">
+    </div> -->
+    
     <div v-if="!campo1Visivel" class="listar-enderecos">
       <!-- Aqui vão aparecer todos os endereços cadastrados pelo usuario -->
     </div>
@@ -30,6 +37,7 @@ export default {
   name: 'ModalEndereco',
   data() {
     return {
+      enderecos: [],
       endereco: {
         "logradouro": "",
         "numero": "",
@@ -41,10 +49,41 @@ export default {
         "pontoReferencia": "",
         "apelido": "",
       },
-      campo1Visivel: true
+      campo1Visivel: false
     };
   },
   methods: {
+    async puxarEnderecos () {
+        let token = localStorage.getItem('tokenJWT')
+        let idUsu = localStorage.getItem('usuarioId');
+        this.enderecos = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/usuario/${idUsu}`, 'GET', token)
+        console.log(this.enderecos)
+    },
+    formatarEndereco(endereco) {
+      let paragrafos = {
+        "src": '',
+        "alt": "",
+        "titulo": '',
+        "descricao": '',
+      }
+      if (endereco.apelido == null) {
+        paragrafos.src = './image'
+        paragrafos.alt = 'image'
+        paragrafos.titulo = `${endereco.logradouro}, ${endereco.numero}`
+        paragrafos.descricao = `${endereco.bairro} - ${endereco.cidade} - ${endereco.estado}`
+      } else {
+        if (endereco.apelido.toLowerCase() == 'casa') {
+          paragrafos.src = './imageCasa'
+          paragrafos.alt = 'imageCasa'
+        } else {
+          paragrafos.src = './imageTrabalho'
+          paragrafos.alt = 'imageTrabalho'
+        }
+        paragrafos.titulo = `${endereco.apelido}`
+        paragrafos.descricao = `${endereco.logradouro}, ${endereco.numero}`
+      }
+      return paragrafos
+    },
     requisicao,
     alterarVisibilidade() {
       this.campo1Visivel = !this.campo1Visivel
@@ -84,7 +123,6 @@ export default {
       }
     },
     async submitForm() {
-      //Não está funcionando o Método POST (Verificar ROTA)
       let idUsu = localStorage.getItem('usuarioId');
       let token = localStorage.getItem('tokenJWT');
       let enderecoEnvio = JSON.parse(JSON.stringify(this.endereco))
@@ -118,6 +156,9 @@ export default {
     },
 
   },
+  created(){
+    this.puxarEnderecos()
+  }
 };
 
 </script>
