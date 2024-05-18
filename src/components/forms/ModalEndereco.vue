@@ -1,10 +1,10 @@
 <!-- Outro testest asda componente onde você exibe a lista de endereços e deseja abrir o modal -->
 <template>
   <div class="address-card">
+    <input type="button" value="Voltar" @click="closeModal">
     <div v-if="campo1Visivel" class="criar-endereco">
       <form @submit.prevent="submitForm">
         <!-- Botão para abrir o modal -->
-        <input type="button" value="Voltar" @click="closeModal">
         <input v-model.lazy="endereco.cep" @input="bloquearCaracter" @change="autoPreencherPorCep" placeholder="CEP"
           required maxlength="8" />
         <input v-model="endereco.apelido" placeholder="Apelido" />
@@ -18,15 +18,15 @@
         <button type="submit">Enviar</button>
       </form>
     </div>
-    <!-- <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
-    <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
-    <p>{{this.formatarEndereco(endereco).titulo}}</p>
-    <p>{{this.formatarEndereco(endereco).descricao}}</p>
-    <img src="opcao" alt="imageOpcao">
-    </div> -->
     
     <div v-if="!campo1Visivel" class="listar-enderecos">
       <!-- Aqui vão aparecer todos os endereços cadastrados pelo usuario -->
+      <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+      <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
+      <p>{{this.formatarEndereco(endereco).titulo}}</p>
+      <p>{{this.formatarEndereco(endereco).descricao}}</p>
+      <img src="opcao" alt="imageOpcao">
+      </div>
     </div>
     <input type="button" @click='alterarVisibilidade' value="Alterar campos">
   </div>
