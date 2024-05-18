@@ -2,20 +2,22 @@ import { createRouter, createWebHistory } from "vue-router";
 import PaginaLogada from "../views/PaginaLogada.vue";
 import PaginaDeslogada from "../views/PaginaDeslogada.vue";
 import PaginaLogin from "../views/PaginaLogin.vue";
-import PainelControle from "@/views/PainelControle.vue";
 import PaginaCadastro from "@/views/PaginaCadastro.vue";
 import PaginaEstabelecimento from "@/views/PaginaEstabelecimento.vue";
 import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
-import ModalPerfil from "@/components/forms/ModalPerfil";
-import ModalCartao from "@/components/forms/ModalCartao";
-import CardConfirmRecebimento from "@/components/forms/CardConfirmRecebimento";
+import ModalEndereco from "@/components/forms/ModalEndereco.vue";
 
 const routes = [
   {
     path: "/",
     name: "paginaDeslogadaRt",
     component: PaginaDeslogada,
+  },
+  {
+    path: "/modalEndereco",
+    name: "modalEnderecoRt",
+    component: ModalEndereco,
   },
   {
     path: "/paginaEstabelecimento",
@@ -39,21 +41,6 @@ const routes = [
     component: PaginaLogada,
   },
   {
-    path: "/modalPerfil",
-    name: "modalPerfilRt",
-    component: ModalPerfil,
-  },
-  {
-    path: "/cardConfirmRecebimento",
-    name: "cardConfirmRecebimentoRt",
-    component: CardConfirmRecebimento,
-  },
-  {
-    path: "/modalCartao",
-    name: "modalCartaoRt",
-    component: ModalCartao,
-  },
-  {
     path: "/paginaCadastro",
     name: "paginaCadastroRt",
     component: PaginaCadastro,
@@ -62,11 +49,6 @@ const routes = [
     path: "/paginaLogin",
     name: "paginaLoginRt",
     component: PaginaLogin,
-  },
-  {
-    path: "/painelControle",
-    name: "painelControleRt",
-    component: PainelControle,
   },
 ];
 

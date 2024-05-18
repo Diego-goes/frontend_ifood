@@ -1,7 +1,7 @@
 <template>
     <div class="body-pagina-logada">
         <!-- // Aqui aui -->
-        <CardFormEndereco v-if="modalOpen" @closeModal="closeModal" />
+        <ModalEndereco v-if="modalOpen" @closeModal="closeModal" />
         <div class="filter-container">
             <label class="filter" for="inputFilter">
                 <img src="@/assets/lupa.png" alt="icon_filter">
@@ -46,7 +46,7 @@ import CardProduto from '@/components/base/CardProduto.vue'
 import CardCategoria from '@/components/base/CardCategoria.vue'
 import CardEstabelecimento from '@/components/base/CardEstabelecimento.vue'
 import SliderComp from '@/components/base/SliderComp.vue'
-import CardFormEndereco from '@/components/forms/CardFormEndereco.vue'
+import ModalEndereco from '@/components/forms/ModalEndereco.vue'
 import { requisicao } from '../../utils/funcsGerais'
 
 export default {
@@ -82,7 +82,7 @@ export default {
         }
     },
     components: {
-        CardFormEndereco,
+        ModalEndereco,
         CardProduto,
         CardCategoria,
         CardEstabelecimento,
