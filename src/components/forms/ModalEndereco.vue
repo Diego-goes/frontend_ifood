@@ -37,17 +37,14 @@
       <p>{{this.formatarEndereco(endereco).titulo}}</p>
       <p>{{this.formatarEndereco(endereco).descricao}}</p>
       <img src="opcao" alt="imageOpcao"> -->
-      <div class="imagem-local">
-        <img src="../../assets/icone-local.png" alt="imagemLocal">
-        <a>Onde você quer receber seu pedido?</a>
-      </div>
-      <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
-        <img src="../../assets/iconeCasa.png" alt="icone-endereco">
-        <div>
-          <p>{{ this.formatarEndereco(endereco).titulo }}</p>
-          <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+        <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+          <img src="../../assets/close.png" alt="icone-endereco">
+          <div>
+            <p>{{ this.formatarEndereco(endereco).titulo }}</p>
+            <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+          </div>
+          <img src="../../assets/close.png" alt="icone-opcao">
         </div>
-        <img src="../../assets/close.png" alt="icone-opcao">
       </div>
         <div class="botoes">
           <button type="button" @click="closeModal" class="botao">Voltar</button>
@@ -55,7 +52,6 @@
         </div>
     </div>
   </div>
-</div>
 
 </template>
 <script>
@@ -191,9 +187,7 @@ export default {
 </script>
 
 
-
-<style scoped>
-
+<style>
 .fundo-modal {
   display: flex;
   align-items: center;
@@ -290,18 +284,11 @@ export default {
   align-items: center;
   background-color: #fff;
   border-radius: 0.3rem;
-}
-
-.imagem-local {
-  display: flex;
-  flex-direction: column;
-}
-
-.botoes {
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  margin-top: 5%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  gap: 10px;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .botao {
@@ -318,15 +305,10 @@ export default {
   gap: 3px;
 }
 
-.endereco{
+.endereco {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  width: 25vw;
-  height: 13vh;
-  border: 2px solid rgb(209, 14, 14);
-  border-radius: 0.3rem;
-  margin-top: 7%;
+  width: 100%;
+  justify-content: space-between;
 }
-
 </style>

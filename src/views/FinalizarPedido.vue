@@ -342,6 +342,7 @@ hr {
     cursor: pointer;
 }
 
+/* kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk */
 
 .container-direito {
     display: flex;
