@@ -1,5 +1,6 @@
 <template>
     <div class="viewFinalizarPedido">
+        <ModalEndereco v-if="exibirModalEndereco" @closeModal="esconderModalEndereco" />
         <ModalCartao v-if="exibirModalCartao" @voltar="esconderModalCartao" />
         <div class="container-esquerdo">
             <h2>Finalize seu pedido</h2>
@@ -13,7 +14,7 @@
                     <p>Endereço</p>
                     <p class="texto-cinza">São Paulo, SP</p>
                 </div>
-                <input class="btn-opcao texto-vermelho" type="button" value="Trocar">
+                <input @click="mostrarModalEndereco" class="btn-opcao texto-vermelho" type="button" value="Trocar">
 
             </div>
 
@@ -82,6 +83,7 @@
 import { requisicao } from "../../utils/funcsGerais"
 import CardCrudItemCarrinho from "@/components/forms/CardCrudItemCarrinho.vue"
 import ModalCartao from "@/components/forms/ModalCartao.vue";
+import ModalEndereco from "@/components/forms/ModalEndereco.vue";
 export default {
     name: "FinalizarPedido",
     data() {
@@ -95,11 +97,18 @@ export default {
             imgPix: {
                 src: require('../assets/logoPix.png'),
                 height: ''
-            }
+            },
+            exibirModalEndereco: false,
         }
     },
     methods: {
         requisicao,
+        mostrarModalEndereco(){
+            this.exibirModalEndereco = true
+        },
+        esconderModalEndereco(){
+            this.exibirModalEndereco = false
+        },
         esconderModalCartao() {
             this.exibirModalCartao = false
         },
@@ -164,7 +173,8 @@ export default {
     },
     components: {
         CardCrudItemCarrinho,
-        ModalCartao
+        ModalCartao,
+        ModalEndereco
     }
 }
 </script>

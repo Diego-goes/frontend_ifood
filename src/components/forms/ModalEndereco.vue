@@ -2,6 +2,7 @@
 <template>
   <div class="fundo-modal">
   <div class="address-card">
+    <!--<input type="button" value="Voltar" @click="closeModal" class="botao">-->
     <div v-if="campo1Visivel" class="criar-endereco">
       <form @submit.prevent="submitForm">
         <!-- Botão para abrir o modal -->
@@ -179,6 +180,7 @@ export default {
 </script>
 
 
+
 <style scoped>
 
 .fundo-modal {
@@ -213,6 +215,7 @@ export default {
   border: 1px solid #ddd;
   border-radius: 0.5rem;
 }
+
 
 .criar-endereco {
   display: flex;
