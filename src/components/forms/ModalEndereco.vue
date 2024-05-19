@@ -38,10 +38,12 @@
       <p>{{this.formatarEndereco(endereco).descricao}}</p>
       <img src="opcao" alt="imageOpcao"> -->
         <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
-          <img src="../../assets/close.png" alt="icone-endereco">
           <div>
-            <p>{{ this.formatarEndereco(endereco).titulo }}</p>
-            <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+            <img src="../../assets/close.png" alt="icone-endereco">
+            <div>
+              <p>{{ this.formatarEndereco(endereco).titulo }}</p>
+              <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+            </div>
           </div>
           <img src="../../assets/close.png" alt="icone-opcao">
         </div>
@@ -196,13 +198,15 @@ export default {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.185);
   position: fixed;
+  left: 0;
+  top: 0;
   z-index: 2;
 }
 
 .address-card {
   display: flex;
   width: 40vw;
-  height: 90vh;
+  min-height: 40vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -308,7 +312,15 @@ export default {
 .endereco {
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 90%;
   justify-content: space-between;
+  padding: 0rem 1rem;
+}
+
+.endereco>div:nth-child(1) {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  text-align: left;
 }
 </style>
