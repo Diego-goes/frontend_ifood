@@ -1,6 +1,5 @@
 <template>
     <div class="viewAcompanharPedido">
-
         <div class="cardPrincipal">
             <h3>O pedido está sendo preparado...</h3>
             <p class="status">Previsão de entrega</p>
