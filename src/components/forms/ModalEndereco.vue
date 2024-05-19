@@ -6,17 +6,28 @@
     <div v-if="campo1Visivel" class="criar-endereco">
       <form @submit.prevent="submitForm">
         <!-- Botão para abrir o modal -->
-        <input v-model.lazy="endereco.cep" @input="bloquearCaracter" @change="autoPreencherPorCep" placeholder="CEP"
-          required maxlength="8" />
-        <input v-model="endereco.apelido" placeholder="Apelido" />
-        <input v-model="endereco.logradouro" placeholder="Logradouro" required />
-        <input v-model="endereco.numero" placeholder="Número" value="" required />
-        <input v-model="endereco.complemento" placeholder="Complemento*" />
-        <input v-model="endereco.pontoReferencia" placeholder="Ponto de referência (opcional)" />
-        <input v-model="endereco.bairro" placeholder="Bairro" value="" />
-        <input v-model="endereco.cidade" placeholder="Cidade" value="" />
-        <input v-model="endereco.estado" placeholder="Estado" value="" />
-        <button type="submit" class="botao-enviar">Enviar</button>
+        <div class="inserir-cep">
+          <input v-model.lazy="endereco.cep" @input="bloquearCaracter" @change="autoPreencherPorCep" placeholder="CEP" required maxlength="8" class="cep"/>
+          <input v-model="endereco.bairro" placeholder="Bairro" value="" />
+        </div>
+        <div class="enderecos">
+          <input v-model="endereco.numero" placeholder="Número" value="" required />
+          <input v-model="endereco.cidade" placeholder="Cidade" value="" />
+          <input v-model="endereco.estado" placeholder="Estado" value="" />
+        </div>
+        <div>
+          <input v-model="endereco.complemento" placeholder="Complemento" />
+          <input v-model="endereco.pontoReferencia" placeholder="Ponto de referência" />
+        </div>
+        <a>Favoritar como</a>
+        <div class="botoes-favoritar">
+          <button type="button" class="botao-favoritar">Casa</button>
+          <button type="button" class="botao-favoritar">Trabalho</button>
+        </div>
+        <div class="botoes-enviar">
+          <button type="button" @click="closeModal" class="botao-enviar">Voltar</button>
+          <button type="submit" class="botao-enviar">Salvar endereço</button>
+        </div>
       </form>
     </div>
     <div v-if="!campo1Visivel" class="listar-enderecos">
@@ -38,10 +49,10 @@
         </div>
         <img src="../../assets/close.png" alt="icone-opcao">
       </div>
-    </div>
-    <div class="botoes">
-      <button type="button" @click="closeModal" class="botao">Voltar</button>
-      <button type="button" @click='alterarVisibilidade' class="botao">Alterar campos</button>
+        <div class="botoes">
+          <button type="button" @click="closeModal" class="botao">Voltar</button>
+          <button type="button" @click='alterarVisibilidade' class="botao">Alterar campos</button>
+        </div>
     </div>
   </div>
 </div>
@@ -221,16 +232,55 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.inserir-cep {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.enderecos {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
 .botao-enviar {
   display: flex;
-  background-color: #ff6f61;
+  background-color: rgb(209, 14, 14);
   color: #fff;
   border: 1px solid #ddd;
   border-radius: 0.5rem;
   padding: 10px 20px;
   cursor: pointer;
+}
+
+.botoes-enviar {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 5%;
+}
+
+.botao-favoritar {
+  display: flex;
+  background-color: #e7e2e2;
+  color: black;
+  border: 1px solid #c5c5c5;
+  border-radius: 0.5rem;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.botoes-favoritar {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 7%;
 }
 
 .listar-endereco {
@@ -263,7 +313,7 @@ export default {
   border-radius: 0.3rem;
   justify-content: center;
   color: white;
-  background-color: rgb(238, 15, 15);
+  background-color: rgb(209, 14, 14);
   border: none;
   gap: 3px;
 }
