@@ -2,67 +2,53 @@ import { createRouter, createWebHistory } from "vue-router";
 import PaginaLogada from "../views/PaginaLogada.vue";
 import PaginaDeslogada from "../views/PaginaDeslogada.vue";
 import PaginaLogin from "../views/PaginaLogin.vue";
-import PainelControle from "@/views/PainelControle.vue";
 import PaginaCadastro from "@/views/PaginaCadastro.vue";
 import PaginaEstabelecimento from "@/views/PaginaEstabelecimento.vue";
 import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
-import ModalPerfil from "@/components/forms/ModalPerfil";
-import ModalCartao from "@/components/forms/ModalCartao";
-import CardConfirmRecebimento from "@/components/forms/CardConfirmRecebimento"
+import ModalEndereco from "@/components/forms/ModalEndereco.vue";
+
 const routes = [
   {
     path: "/",
+    name: "paginaDeslogadaRt",
     component: PaginaDeslogada,
   },
   {
+    path: "/modalEndereco",
+    name: "modalEnderecoRt",
+    component: ModalEndereco,
+  },
+  {
     path: "/paginaEstabelecimento",
+    name: "paginaEstabelecimentoRt",
     component: PaginaEstabelecimento,
+    props: (route) => ({ query: route.query })
   },
   {
     path: "/acompanharPedido",
+    name: "acompanharPedidoRt",
     component: AcompanharPedido,
   },
   {
     path: "/finalizarPedido",
+    name: "finalizarPedidoRt",
     component: FinalizarPedido,
   },
   {
     path: "/inicio",
+    name: "paginaLogadaRt",
     component: PaginaLogada,
   },
   {
-    path: "/modalPerfil",
-    component: ModalPerfil,
-  },
-  {
-    path: "/cardConfirmRecebimento",
-    component: CardConfirmRecebimento,
-  },
-  {
-    path: "/modalCartao",
-    component: ModalCartao,
-  },
-  {
-    path: "/about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
-
-  {
     path: "/paginaCadastro",
+    name: "paginaCadastroRt",
     component: PaginaCadastro,
   },
   {
     path: "/paginaLogin",
+    name: "paginaLoginRt",
     component: PaginaLogin,
-  },
-  {
-    path: "/painelControle",
-    component: PainelControle,
   },
 ];
 

@@ -210,7 +210,7 @@ input[type="button"] {
 .fundo {
   width: 100vw;
   display: flex;
-
+  align-items: center;
 }
 
 /* * {} */

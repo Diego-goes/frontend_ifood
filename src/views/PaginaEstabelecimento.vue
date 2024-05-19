@@ -59,6 +59,16 @@ export default {
 
         }
     },
+    props: {
+        query: {
+            type: Object,
+            required: false,
+            default: () => ({
+                exibirItemPedidoProps: false,
+                produtoSelecionadoProps: {}
+            })
+        }
+    },
     components: {
         SliderComp,
         CardProdutoEstab,
@@ -92,22 +102,29 @@ export default {
                 let itemPedido = this.itensPedido[index]
                 if (itemPedido.produtoId == produto.produtoId) {
                     this.itensPedido.splice(index, 1)
-                    // this.exibirModalPedido = false;
                     break;
                 }
             }
             localStorage.setItem('itensPedido', JSON.stringify(this.itensPedido))
-            // setTimeout(() => { this.exibirModalPedido = true; }, 300)
         }
     },
-    // watch:{
-    //     itensPedido(){
-    //         produtos = 
-    //     }
-    // },
+    computed: {
+        exibirItemPedidoProps() {
+            return this.query.exibirItemPedidoProps === 'true';
+        },
+        produtoSelecionadoProps() {
+            try {
+                return JSON.parse(this.query.produtoSelecionadoProps);
+            } catch (e) {
+                return {};
+            }
+        }
+    },
     async created() {
         this.estabelecimento = await this.requisicao(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`)
         this.produtos = await this.requisicao(`https://backendhifood-production.up.railway.app/produtosEstab/${this.estabelecimentoId}`)
+        this.exibirItemPedido = this.exibirItemPedidoProps
+        this.produtoSelecionado = this.produtoSelecionadoProps
     }
 }
 </script>
