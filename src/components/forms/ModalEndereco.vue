@@ -1,27 +1,38 @@
 <!-- Outro testest asda componente onde você exibe a lista de endereços e deseja abrir o modal -->
 <template>
   <div class="fundo-modal">
-    <div class="address-card">
-      <input type="button" value="Fechar Modal" @click="closeModal" class="botao">
-      <div v-if="campo1Visivel" class="criar-endereco">
-        <form @submit.prevent="submitForm">
-          <!-- Botão para abrir o modal -->
-          <input v-model.lazy="endereco.cep" @input="bloquearCaracter" @change="autoPreencherPorCep" placeholder="CEP"
-            required maxlength="8" />
-          <input v-model="endereco.apelido" placeholder="Apelido" />
-          <input v-model="endereco.logradouro" placeholder="Logradouro" required />
-          <input v-model="endereco.numero" placeholder="Número" value="" required />
-          <input v-model="endereco.complemento" placeholder="Complemento*" />
-          <input v-model="endereco.pontoReferencia" placeholder="Ponto de referência (opcional)" />
+  <div class="address-card">
+    <!--<input type="button" value="Voltar" @click="closeModal" class="botao">-->
+    <div v-if="campo1Visivel" class="criar-endereco">
+      <form @submit.prevent="submitForm">
+        <!-- Botão para abrir o modal -->
+        <div class="inserir-cep">
+          <input v-model.lazy="endereco.cep" @input="bloquearCaracter" @change="autoPreencherPorCep" placeholder="CEP" required maxlength="8" class="cep"/>
           <input v-model="endereco.bairro" placeholder="Bairro" value="" />
+        </div>
+        <div class="enderecos">
+          <input v-model="endereco.numero" placeholder="Número" value="" required />
           <input v-model="endereco.cidade" placeholder="Cidade" value="" />
           <input v-model="endereco.estado" placeholder="Estado" value="" />
-          <button type="submit">Enviar</button>
-        </form>
-      </div>
-      <div v-if="!campo1Visivel" class="listar-enderecos">
-        <!-- Aqui vão aparecer todos os endereços cadastrados pelo usuario -->
-        <!-- <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+        </div>
+        <div>
+          <input v-model="endereco.complemento" placeholder="Complemento" />
+          <input v-model="endereco.pontoReferencia" placeholder="Ponto de referência" />
+        </div>
+        <a>Favoritar como</a>
+        <div class="botoes-favoritar">
+          <button type="button" class="botao-favoritar">Casa</button>
+          <button type="button" class="botao-favoritar">Trabalho</button>
+        </div>
+        <div class="botoes-enviar">
+          <button type="button" @click="closeModal" class="botao-enviar">Voltar</button>
+          <button type="submit" class="botao-enviar">Salvar endereço</button>
+        </div>
+      </form>
+    </div>
+    <div v-if="!campo1Visivel" class="listar-enderecos">
+      <!-- Aqui vão aparecer todos os endereços cadastrados pelo usuario -->
+      <!-- <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
       <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
       <p>{{this.formatarEndereco(endereco).titulo}}</p>
       <p>{{this.formatarEndereco(endereco).descricao}}</p>
@@ -35,7 +46,10 @@
           <img src="../../assets/close.png" alt="icone-opcao">
         </div>
       </div>
-      <input type="button" @click='alterarVisibilidade' value="Alterar campos" class="botao">
+        <div class="botoes">
+          <button type="button" @click="closeModal" class="botao">Voltar</button>
+          <button type="button" @click='alterarVisibilidade' class="botao">Alterar campos</button>
+        </div>
     </div>
   </div>
 
@@ -239,7 +253,31 @@ export default {
   cursor: pointer;
 }
 
-.listar-enderecos {
+.botoes-enviar {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 5%;
+}
+
+.botao-favoritar {
+  display: flex;
+  background-color: #e7e2e2;
+  color: black;
+  border: 1px solid #c5c5c5;
+  border-radius: 0.5rem;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.botoes-favoritar {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 7%;
+}
+
+.listar-endereco {
   display: flex;
   width: 100%;
   flex-direction: column;
