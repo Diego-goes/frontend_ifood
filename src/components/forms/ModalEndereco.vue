@@ -36,7 +36,7 @@
           <p>{{ this.formatarEndereco(endereco).titulo }}</p>
           <p>{{ this.formatarEndereco(endereco).descricao }}</p>
         </div>
-        <img src="../../assets/close.png" alt="icone-opcao">
+        <img src="../../assets/close.png" alt="icone-opcao" @click="editarEndereco(endereco)">
       </div>
     </div>
     <div class="botoes">
@@ -53,6 +53,7 @@ export default {
   name: 'ModalEndereco',
   data() {
     return {
+      editando: false,
       enderecos: [],
       endereco: {
         "logradouro": "",
@@ -69,6 +70,11 @@ export default {
     };
   },
   methods: {
+    editarEndereco(endereco) {
+      console.log(endereco)
+      this.campo1Visivel = true;
+      this.editando = true;
+    },
     async puxarEnderecos() {
       let token = localStorage.getItem('tokenJWT')
       let idUsu = localStorage.getItem('usuarioId');
@@ -139,40 +145,50 @@ export default {
       }
     },
     async submitForm() {
-      let idUsu = localStorage.getItem('usuarioId');
-      let token = localStorage.getItem('tokenJWT');
-      let enderecoEnvio = JSON.parse(JSON.stringify(this.endereco))
-      for (let [chave, valor] of Object.entries(enderecoEnvio)) {
-        enderecoEnvio[chave] = valor == '' ? null : valor
-        console.table([chave, valor])
-      }
-      try {
-        const responseEndereco = await this.requisicao('https://backendhifood-production.up.railway.app/enderecos/criar', 'POST', token, enderecoEnvio);
+    let idUsu = localStorage.getItem('usuarioId');
+    let token = localStorage.getItem('tokenJWT');
+    let enderecoEnvio = JSON.parse(JSON.stringify(this.endereco))
+    for (let [chave, valor] of Object.entries(enderecoEnvio)) {
+      enderecoEnvio[chave] = valor == '' ? null : valor
+      console.table([chave, valor])
+    }
+    try {
+      let responseEndereco;
+      if (this.editando == true) {
+        // Atualize o endereço com uma requisição PUT
+        console.log("Endereco ID: ", this.endereco.enderecoId)
+        responseEndereco = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/editar/${this.endereco.enderecoId}`, 'PUT', token);
+        if (responseEndereco.status !== 200) {
+          alert('Falha ao atualizar o endereço.');
+          return;
+        }
+        alert('Endereço atualizado com sucesso!');
+      } else {
+        // Crie um novo endereço com uma requisição POST
+        responseEndereco = await this.requisicao('https://backendhifood-production.up.railway.app/enderecos/criar', 'POST', token, enderecoEnvio);
         const enderecoId = responseEndereco["enderecoId"]
         let data = {
           'enderecoId': enderecoId,
           'usuarioId': idUsu,
         }
-        // Testes:
-        // console.log("ID Usuário", idUsu)
-        // console.log("Token Usuário", token):
-        // console.log("data ende", enderecoId)
-        // console.log("data usu", idUsu)
         const responseEnderecoEntrega = await this.requisicao('https://backendhifood-production.up.railway.app/enderecosEntrega/criar', 'POST', token, data);
-
+        console.log("Status Code: ", responseEnderecoEntrega.status)
+        console.log("Status Code2: ", 201)
         if (responseEnderecoEntrega.status === 201) {
           alert('Falha ao criar o endereço.');
-        } else {
-          this.closeModal()
-          alert('Endereço criado com sucesso!');
+          return;
         }
-      } catch (error) {
-        alert(error);
+        alert('Endereço criado com sucesso!');
       }
+      this.editando = false;
+      this.closeModal()
+    } catch (error) {
+      alert(error);
+    }
     },
 
   },
-  created() {
+  created(){
     this.puxarEnderecos()
   }
 };
