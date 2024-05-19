@@ -2,7 +2,7 @@
 <template>
   <div class="fundo-modal">
   <div class="address-card">
-    <input type="button" value="Voltar" @click="closeModal" class="botao">
+    <!--<input type="button" value="Voltar" @click="closeModal" class="botao">-->
     <div v-if="campo1Visivel" class="criar-endereco">
       <form @submit.prevent="submitForm">
         <!-- Botão para abrir o modal -->
@@ -16,7 +16,7 @@
         <input v-model="endereco.bairro" placeholder="Bairro" value="" />
         <input v-model="endereco.cidade" placeholder="Cidade" value="" />
         <input v-model="endereco.estado" placeholder="Estado" value="" />
-        <button type="submit">Enviar</button>
+        <button type="submit" class="botao-enviar">Enviar</button>
       </form>
     </div>
     <div v-if="!campo1Visivel" class="listar-enderecos">
@@ -26,8 +26,12 @@
       <p>{{this.formatarEndereco(endereco).titulo}}</p>
       <p>{{this.formatarEndereco(endereco).descricao}}</p>
       <img src="opcao" alt="imageOpcao"> -->
+      <div class="imagem-local">
+        <img src="../../assets/icone-local.png" alt="imagemLocal">
+        <a>Onde você quer receber seu pedido?</a>
+      </div>
       <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
-        <img src="../../assets/close.png" alt="icone-endereco">
+        <img src="../../assets/iconeCasa.png" alt="icone-endereco">
         <div>
           <p>{{ this.formatarEndereco(endereco).titulo }}</p>
           <p>{{ this.formatarEndereco(endereco).descricao }}</p>
@@ -35,7 +39,10 @@
         <img src="../../assets/close.png" alt="icone-opcao">
       </div>
     </div>
-    <input type="button" @click='alterarVisibilidade' value="Alterar campos" class="botao">
+    <div class="botoes">
+      <button type="button" @click="closeModal" class="botao">Voltar</button>
+      <button type="button" @click='alterarVisibilidade' class="botao">Alterar campos</button>
+    </div>
   </div>
 </div>
 
@@ -173,7 +180,8 @@ export default {
 </script>
 
 
-<style>
+
+<style scoped>
 
 .fundo-modal {
   display: flex;
@@ -188,15 +196,15 @@ export default {
 
 .address-card {
   display: flex;
-  width: 50%;
+  width: 40vw;
+  height: 90vh;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px 20px;
-  margin-bottom: 16px;
-  gap: 10px;
+  gap: 5px;
 }
 
 .address-card input {
@@ -208,7 +216,14 @@ export default {
   border-radius: 0.5rem;
 }
 
-.address-card button {
+
+.criar-endereco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.botao-enviar {
   display: flex;
   background-color: #ff6f61;
   color: #fff;
@@ -225,27 +240,43 @@ export default {
   align-items: center;
   background-color: #fff;
   border-radius: 0.3rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px 40px;
-  margin-bottom: 16px;
-  gap: 10px;
+}
+
+.imagem-local {
+  display: flex;
+  flex-direction: column;
+}
+
+.botoes {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 5%;
 }
 
 .botao {
   display: flex;
+  align-items: center;
   font-size: 13px;
-  width: 30%;
-  height: 40px;
+  width: 10vw;
+  height: 7vh;
   border-radius: 0.3rem;
   justify-content: center;
-  color: black;
-  background-color: #ddd;
+  color: white;
+  background-color: rgb(238, 15, 15);
+  border: none;
+  gap: 3px;
 }
 
 .endereco{
   display: flex;
   align-items: center;
-  width: 100%;
+  justify-content: space-around;
+  width: 25vw;
+  height: 13vh;
+  border: 2px solid rgb(209, 14, 14);
+  border-radius: 0.3rem;
+  margin-top: 7%;
 }
 
 </style>
