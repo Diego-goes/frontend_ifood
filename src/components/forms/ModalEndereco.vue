@@ -187,15 +187,15 @@ export default {
 
 .address-card {
   display: flex;
-  width: 50%;
+  width: 40vw;
+  height: 90vh;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px 20px;
-  margin-bottom: 16px;
-  gap: 10px;
+  gap: 5px;
 }
 
 .address-card input {
@@ -207,9 +207,31 @@ export default {
   border-radius: 0.5rem;
 }
 
-.address-card button {
+
+.criar-endereco {
   display: flex;
-  background-color: #ff6f61;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.inserir-cep {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.enderecos {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.botao-enviar {
+  display: flex;
+  background-color: rgb(209, 14, 14);
   color: #fff;
   border: 1px solid #ddd;
   border-radius: 0.5rem;
@@ -233,13 +255,16 @@ export default {
 
 .botao {
   display: flex;
+  align-items: center;
   font-size: 13px;
-  width: 30%;
-  height: 40px;
+  width: 10vw;
+  height: 7vh;
   border-radius: 0.3rem;
   justify-content: center;
-  color: black;
-  background-color: #ddd;
+  color: white;
+  background-color: rgb(209, 14, 14);
+  border: none;
+  gap: 3px;
 }
 
 .endereco {
