@@ -1,43 +1,43 @@
 <!-- Outro testest asda componente onde você exibe a lista de endereços e deseja abrir o modal -->
 <template>
   <div class="fundo-modal">
-  <div class="address-card">
-    <input type="button" value="Voltar" @click="closeModal" class="botao">
-    <div v-if="campo1Visivel" class="criar-endereco">
-      <form @submit.prevent="submitForm">
-        <!-- Botão para abrir o modal -->
-        <input v-model.lazy="endereco.cep" @input="bloquearCaracter" @change="autoPreencherPorCep" placeholder="CEP"
-          required maxlength="8" />
-        <input v-model="endereco.apelido" placeholder="Apelido" />
-        <input v-model="endereco.logradouro" placeholder="Logradouro" required />
-        <input v-model="endereco.numero" placeholder="Número" value="" required />
-        <input v-model="endereco.complemento" placeholder="Complemento*" />
-        <input v-model="endereco.pontoReferencia" placeholder="Ponto de referência (opcional)" />
-        <input v-model="endereco.bairro" placeholder="Bairro" value="" />
-        <input v-model="endereco.cidade" placeholder="Cidade" value="" />
-        <input v-model="endereco.estado" placeholder="Estado" value="" />
-        <button type="submit">Enviar</button>
-      </form>
-    </div>
-    <div v-if="!campo1Visivel" class="listar-enderecos">
-      <!-- Aqui vão aparecer todos os endereços cadastrados pelo usuario -->
-      <!-- <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+    <div class="address-card">
+      <input type="button" value="Fechar Modal" @click="closeModal" class="botao">
+      <div v-if="campo1Visivel" class="criar-endereco">
+        <form @submit.prevent="submitForm">
+          <!-- Botão para abrir o modal -->
+          <input v-model.lazy="endereco.cep" @input="bloquearCaracter" @change="autoPreencherPorCep" placeholder="CEP"
+            required maxlength="8" />
+          <input v-model="endereco.apelido" placeholder="Apelido" />
+          <input v-model="endereco.logradouro" placeholder="Logradouro" required />
+          <input v-model="endereco.numero" placeholder="Número" value="" required />
+          <input v-model="endereco.complemento" placeholder="Complemento*" />
+          <input v-model="endereco.pontoReferencia" placeholder="Ponto de referência (opcional)" />
+          <input v-model="endereco.bairro" placeholder="Bairro" value="" />
+          <input v-model="endereco.cidade" placeholder="Cidade" value="" />
+          <input v-model="endereco.estado" placeholder="Estado" value="" />
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+      <div v-if="!campo1Visivel" class="listar-enderecos">
+        <!-- Aqui vão aparecer todos os endereços cadastrados pelo usuario -->
+        <!-- <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
       <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
       <p>{{this.formatarEndereco(endereco).titulo}}</p>
       <p>{{this.formatarEndereco(endereco).descricao}}</p>
       <img src="opcao" alt="imageOpcao"> -->
-      <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
-        <img src="../../assets/close.png" alt="icone-endereco">
-        <div>
-          <p>{{ this.formatarEndereco(endereco).titulo }}</p>
-          <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+        <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+          <img src="../../assets/close.png" alt="icone-endereco">
+          <div>
+            <p>{{ this.formatarEndereco(endereco).titulo }}</p>
+            <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+          </div>
+          <img src="../../assets/close.png" alt="icone-opcao">
         </div>
-        <img src="../../assets/close.png" alt="icone-opcao">
       </div>
+      <input type="button" @click='alterarVisibilidade' value="Alterar campos" class="botao">
     </div>
-    <input type="button" @click='alterarVisibilidade' value="Alterar campos" class="botao">
   </div>
-</div>
 
 </template>
 <script>
@@ -174,7 +174,6 @@ export default {
 
 
 <style>
-
 .fundo-modal {
   display: flex;
   align-items: center;
@@ -218,7 +217,7 @@ export default {
   cursor: pointer;
 }
 
-.listar-endereco {
+.listar-enderecos {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -226,9 +225,10 @@ export default {
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px 40px;
   margin-bottom: 16px;
   gap: 10px;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .botao {
@@ -242,10 +242,10 @@ export default {
   background-color: #ddd;
 }
 
-.endereco{
+.endereco {
   display: flex;
   align-items: center;
   width: 100%;
+  justify-content: space-between;
 }
-
 </style>
