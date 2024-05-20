@@ -7,6 +7,7 @@ import PaginaEstabelecimento from "@/views/PaginaEstabelecimento.vue";
 import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
 import ModalEndereco from "@/components/forms/ModalEndereco.vue";
+import PedidoEntregue from "@/views/PedidoEntregue.vue";
 
 const routes = [
   {
@@ -34,6 +35,11 @@ const routes = [
     path: "/finalizarPedido",
     name: "finalizarPedidoRt",
     component: FinalizarPedido,
+  },
+  {
+    path: "/pedidoEntregue",
+    name: "pedidoEntregueRt",
+    component: PedidoEntregue,
   },
   {
     path: "/inicio",
