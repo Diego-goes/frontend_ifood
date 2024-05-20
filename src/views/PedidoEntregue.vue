@@ -116,7 +116,7 @@ export default {
     padding: 10px;
     height: 40px;
     color: white;
-    background-color: #EA1D2C;;
+    background-color: #EA1D2C;
    
     
 }
