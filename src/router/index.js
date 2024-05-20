@@ -8,6 +8,7 @@ import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
 import ModalEndereco from "@/components/forms/ModalEndereco.vue";
 import PedidoEntregue from "@/views/PedidoEntregue.vue";
+import PaginaAvaliacao from "@/views/PaginaAvaliacao.vue";
 
 const routes = [
   {
@@ -55,6 +56,12 @@ const routes = [
     path: "/paginaLogin",
     name: "paginaLoginRt",
     component: PaginaLogin,
+  },
+  {
+    path: "/paginaAvaliacao",
+    name: "paginaAvaliacaoRt",
+    component: PaginaAvaliacao,
+
   },
 ];
 
