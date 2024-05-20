@@ -4,6 +4,9 @@
     <div class="address-card">
       <!--<input type="button" value="Voltar" @click="closeModal" class="botao">-->
       <div v-if="campo1Visivel" class="criar-endereco">
+        <div class="btn-fechar">
+          <img @click="alterarVisibilidade" src="../../assets/SetaVermelha.png" alt="">
+        </div>
         <form @submit.prevent="submitForm">
           <!-- Botão para abrir o modal -->
           <div class="inserir-cep">
@@ -26,12 +29,15 @@
             <button type="button" class="botao-favoritar">Trabalho</button>
           </div>
           <div class="botoes-enviar">
-            <button type="button" @click="closeModal" class="botao-enviar">Voltar</button>
+            <!-- <button type="button" @click="alterarVisibilidade" class="botao-enviar">Voltar</button> -->
             <button type="submit" class="botao-enviar">Salvar endereço</button>
           </div>
         </form>
       </div>
-      <div v-if="!campo1Visivel" class="listar-enderecos">
+      <div v-if="!campo1Visivel">
+        <div class="btn-fechar">
+          <img @click="closeModal" src="../../assets/SetaVermelha.png" alt="">
+        </div>
         <!-- Aqui vão aparecer todos os endereços cadastrados pelo usuario -->
         <!-- <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
       <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
@@ -42,17 +48,20 @@
           <img src="../../assets/icone-local.png" alt="imagemLocal">
           <a>Onde você quer receber seu pedido?</a>
         </div>
-        <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
-          <img src="../../assets/iconeCasa.png" alt="icone-endereco">
-
-          <div>
-            <p>{{ this.formatarEndereco(endereco).titulo }}</p>
-            <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+        <div class="listar-enderecos">
+          <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+            <div>
+              <img src="../../assets/iconeCasa.png" alt="icone-endereco">
+              <div>
+                <p>{{ this.formatarEndereco(endereco).titulo }}</p>
+                <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+              </div>
+            </div>
+            <img src="../../assets/close.png" alt="icone-opcao" @click="editarEndereco(endereco)">
           </div>
-          <img src="../../assets/close.png" alt="icone-opcao" @click="editarEndereco(endereco)">
         </div>
         <div class="botoes">
-          <button type="button" @click="closeModal" class="botao">Voltar</button>
+          <button type="button" @click="closeModal" class="botao">Fechar modal</button>
           <button type="button" @click='alterarVisibilidade' class="botao">Alterar campos</button>
         </div>
       </div>
@@ -233,7 +242,21 @@ export default {
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  gap: 5px;
+  gap: 1rem;
+  padding: 2rem 0px;
+}
+.address-card>div:nth-child(1){
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.btn-fechar {
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
 }
 
 .address-card input {
@@ -300,13 +323,17 @@ export default {
   margin-top: 7%;
 }
 
-.listar-endereco {
+.listar-enderecos {
   display: flex;
   width: 100%;
+  height: 10rem;
   flex-direction: column;
   align-items: center;
   background-color: #fff;
   border-radius: 0.3rem;
+  gap: 1rem;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .imagem-local {
@@ -338,12 +365,15 @@ export default {
 .endereco {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  width: 25vw;
-  height: 13vh;
-  border: 2px solid rgb(209, 14, 14);
+  justify-content: space-between;
+  width: 90%;
+  border: 1px solid rgba(211, 211, 211, 0.348);
   border-radius: 0.3rem;
-  margin-top: 7%;
+  padding: 1rem 1rem;
+}
+
+.endereco p {
+  margin: 0
 }
 
 .endereco>div:nth-child(1) {
