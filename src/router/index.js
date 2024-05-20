@@ -8,7 +8,7 @@ import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
 import ModalEndereco from "@/components/forms/ModalEndereco.vue";
 import CardValidarCelular from "@/components/forms/CardValidarCelular.vue";
-
+import PedidoEntregue from "@/views/PedidoEntregue.vue";
 const routes = [
   {
     path: "/",
