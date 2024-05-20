@@ -7,8 +7,8 @@ import PaginaEstabelecimento from "@/views/PaginaEstabelecimento.vue";
 import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
 import ModalEndereco from "@/components/forms/ModalEndereco.vue";
+import CardValidarCelular from "@/components/forms/CardValidarCelular.vue";
 import PedidoEntregue from "@/views/PedidoEntregue.vue";
-
 const routes = [
   {
     path: "/",
@@ -19,6 +19,11 @@ const routes = [
     path: "/modalEndereco",
     name: "modalEnderecoRt",
     component: ModalEndereco,
+  },
+  {
+    path: "/codVerif",
+    name: "codVerifRt",
+    component: CardValidarCelular,
   },
   {
     path: "/paginaEstabelecimento",
