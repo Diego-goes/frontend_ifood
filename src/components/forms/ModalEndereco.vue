@@ -37,15 +37,16 @@
       <p>{{this.formatarEndereco(endereco).titulo}}</p>
       <p>{{this.formatarEndereco(endereco).descricao}}</p>
       <img src="opcao" alt="imageOpcao"> -->
-        <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
-          <div>
-            <img src="../../assets/close.png" alt="icone-endereco">
-            <div>
-              <p>{{ this.formatarEndereco(endereco).titulo }}</p>
-              <p>{{ this.formatarEndereco(endereco).descricao }}</p>
-            </div>
-          </div>
-          <img src="../../assets/close.png" alt="icone-opcao">
+      <div class="imagem-local">
+        <img src="../../assets/icone-local.png" alt="imagemLocal">
+        <a>Onde você quer receber seu pedido?</a>
+      </div>
+      <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+        <img src="../../assets/iconeCasa.png" alt="icone-endereco">
+
+        <div>
+          <p>{{ this.formatarEndereco(endereco).titulo }}</p>
+          <p>{{ this.formatarEndereco(endereco).descricao }}</p>
         </div>
         <img src="../../assets/close.png" alt="icone-opcao" @click="editarEndereco(endereco)">
       </div>
@@ -206,7 +207,8 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+
 .fundo-modal {
   display: flex;
   align-items: center;
@@ -241,7 +243,6 @@ export default {
   border: 1px solid #ddd;
   border-radius: 0.5rem;
 }
-
 
 .criar-endereco {
   display: flex;
@@ -305,11 +306,18 @@ export default {
   align-items: center;
   background-color: #fff;
   border-radius: 0.3rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 16px;
-  gap: 10px;
-  overflow: scroll;
-  overflow-x: hidden;
+}
+
+.imagem-local {
+  display: flex;
+  flex-direction: column;
+}
+
+.botoes {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 5%;
 }
 
 .botao {
@@ -329,9 +337,12 @@ export default {
 .endereco {
   display: flex;
   align-items: center;
-  width: 90%;
-  justify-content: space-between;
-  padding: 0rem 1rem;
+  justify-content: space-around;
+  width: 25vw;
+  height: 13vh;
+  border: 2px solid rgb(209, 14, 14);
+  border-radius: 0.3rem;
+  margin-top: 7%;
 }
 
 .endereco>div:nth-child(1) {
