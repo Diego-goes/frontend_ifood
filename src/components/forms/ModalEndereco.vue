@@ -43,11 +43,6 @@
         <div class="btn-fechar">
           <img @click="closeModal" src="../../assets/SetaVermelha.png" alt="">
         </div>
-        <!-- Aqui vão aparecer todos os endereços cadastrados pelo usuario -->
-        <!-- <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
-      <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
-      <p>{{this.formatarEndereco(endereco).titulo}}</p>
-      <p>{{this.formatarEndereco(endereco).descricao}}</p>
       <img src="opcao" alt="imageOpcao"> -->
         <div class="imagem-local">
           <img src="../../assets/icone-local.png" alt="imagemLocal">
@@ -56,14 +51,15 @@
         <div class="listar-enderecos">
           <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
             <div>
-              <img src="../../assets/iconeCasa.png" alt="icone-endereco">
+              <!-- <img src="../../assets/iconeCasa.png" alt="icone-endereco"> -->
+              <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
               <div>
                 <p>{{ this.formatarEndereco(endereco).titulo }}</p>
                 <p>{{ this.formatarEndereco(endereco).descricao }}</p>
               </div>
             </div>
-              <img src="../../assets/SetaVermelha.png" alt="icone-opcao-editar" @click="editarEndereco(endereco)">
-              <img src="../../assets/close.png" alt="icone-opcao-excluir" @click="excluirEndereco(endereco)">
+              <img src="../../assets/pencil.png" alt="icone-opcao-editar" @click="editarEndereco(endereco)">
+              <img src="../../assets/lixoVermelho.png" alt="icone-opcao-excluir" @click="excluirEndereco(endereco)">
             </div>
         </div>
         <div class="botoes">
@@ -85,6 +81,7 @@ export default {
       botaoFavoritar: null,
       botaoSelecionado: "",    
       editando: false,
+      excluindo: false,
       enderecos: [],
       endereco: {
         "logradouro": "",
@@ -105,10 +102,23 @@ export default {
       this.exibirOpcoes = true;
     },
     selecionarBotao(botao) {
-      this.botaoSelecionado = botao;
-      this.endereco.apelido = botao;
-      console.log("botaoSelecionado: ", botao)
+      if (this.botaoSelecionado === botao) {
+        this.botaoSelecionado = null;
+        this.endereco.apelido = null;
+      } else {
+        this.botaoSelecionado = botao;
+        this.endereco.apelido = botao;
+      }
     },
+    // excluirEndereco(endereco)  {
+    //   this.endereco = { ...endereco };
+    //   this.campo1Visivel = true;
+    //   this.excluindo = true;
+    //   let idEndereco = this.endereco.enderecoId;
+    //   console.log("Endereco ID: ", idEndereco)
+    //   console.log(this.excluindo)
+    //   responseEndereco = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/editar/${idEndereco}`, 'DELETE', token);
+    // },
     editarEndereco(endereco) {
       this.endereco = { ...endereco };
       this.campo1Visivel = true;
@@ -128,17 +138,17 @@ export default {
         "descricao": '',
       }
       if (endereco.apelido == null) {
-        paragrafos.src = './image'
-        paragrafos.alt = 'image'
+        paragrafos.src = require('../../assets/sem-favorito.png')
+        paragrafos.alt = 'sem-favorito'
         paragrafos.titulo = `${endereco.logradouro}, ${endereco.numero}`
         paragrafos.descricao = `${endereco.bairro} - ${endereco.cidade} - ${endereco.estado}`
       } else {
         if (endereco.apelido.toLowerCase() == 'casa') {
-          paragrafos.src = './imageCasa'
-          paragrafos.alt = 'imageCasa'
+          paragrafos.src = require('../../assets/iconCasa.png')
+          paragrafos.alt = 'iconeCasa'
         } else {
-          paragrafos.src = './imageTrabalho'
-          paragrafos.alt = 'imageTrabalho'
+          paragrafos.src = require('../../assets/iconeTrabalho.png')
+          paragrafos.alt = 'iconeTrabalho'
         }
         paragrafos.titulo = `${endereco.apelido}`
         paragrafos.descricao = `${endereco.logradouro}, ${endereco.numero}`
@@ -196,12 +206,10 @@ export default {
         if (this.editando == true) {
           // Atualize o endereço com uma requisição PUT
           let idEndereco = this.endereco.enderecoId;
-          console.log("Endereco ID: ", idEndereco)
           responseEndereco = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/editar/${idEndereco}`, 'PUT', token, this.endereco);
           console.log(responseEndereco.mensagem)
           if (responseEndereco.mensagem.includes("sucesso")) {
             alert('Endereço atualizado com sucesso!');
-            this.alterarVisibilidade()
           } else {
             alert('Falha ao atualizar o endereço.');
           }
@@ -214,11 +222,11 @@ export default {
             'usuarioId': idUsu,
           }
           const responseEnderecoEntrega = await this.requisicao('https://backendhifood-production.up.railway.app/enderecosEntrega/criar', 'POST', token, data);
-          if (responseEnderecoEntrega.status === 201) {
-            alert('Falha ao criar o endereço.');
+          if (responseEnderecoEntrega.mensagem.includes("sucesso")) {
+            alert('Endereço criado com sucesso!');
             return;
           }
-          alert('Endereço criado com sucesso!');
+          alert('Falha ao criar o endereço.');
         }
         this.editando = false;
         this.closeModal()
