@@ -14,6 +14,7 @@
               required maxlength="8" class="cep" />
             <input v-model="endereco.bairro" placeholder="Bairro" value="" />
           </div>
+            <input v-model="endereco.logradouro" placeholder="logradouro" value="" required />
           <div class="enderecos">
             <input v-model="endereco.numero" placeholder="Número" value="" required />
             <input v-model="endereco.cidade" placeholder="Cidade" value="" />
@@ -25,9 +26,13 @@
           </div>
           <a>Favoritar como</a>
           <div class="botoes-favoritar">
+            <button type="button" @click="selecionarBotao('Casa')" :style="botaoSelecionado === 'Casa' ? {'background-color': '#ff0000'} : {}" class="botao-favoritar">Casa</button>
+            <button type="button" @click="selecionarBotao('Trabalho')" :style="botaoSelecionado === 'Trabalho' ? {'background-color': '#ff0000'} : {}" class="botao-favoritar">Trabalho</button>
+          </div>
+          <!-- <div class="botoes-favoritar">
             <button type="button" class="botao-favoritar">Casa</button>
             <button type="button" class="botao-favoritar">Trabalho</button>
-          </div>
+          </div> -->
           <div class="botoes-enviar">
             <!-- <button type="button" @click="alterarVisibilidade" class="botao-enviar">Voltar</button> -->
             <button type="submit" class="botao-enviar">Salvar endereço</button>
@@ -57,8 +62,9 @@
                 <p>{{ this.formatarEndereco(endereco).descricao }}</p>
               </div>
             </div>
-            <img src="../../assets/close.png" alt="icone-opcao" @click="editarEndereco(endereco)">
-          </div>
+              <img src="../../assets/SetaVermelha.png" alt="icone-opcao-editar" @click="editarEndereco(endereco)">
+              <img src="../../assets/close.png" alt="icone-opcao-excluir" @click="excluirEndereco(endereco)">
+            </div>
         </div>
         <div class="botoes">
           <button type="button" @click="closeModal" class="botao">Fechar modal</button>
@@ -75,6 +81,9 @@ export default {
   name: 'ModalEndereco',
   data() {
     return {
+      exibirOpcoes : false,
+      botaoFavoritar: null,
+      botaoSelecionado: "",    
       editando: false,
       enderecos: [],
       endereco: {
@@ -92,8 +101,16 @@ export default {
     };
   },
   methods: {
+    exibirOpcoesEndereco() {
+      this.exibirOpcoes = true;
+    },
+    selecionarBotao(botao) {
+      this.botaoSelecionado = botao;
+      this.endereco.apelido = botao;
+      console.log("botaoSelecionado: ", botao)
+    },
     editarEndereco(endereco) {
-      console.log(endereco)
+      this.endereco = { ...endereco };
       this.campo1Visivel = true;
       this.editando = true;
     },
@@ -178,13 +195,16 @@ export default {
         let responseEndereco;
         if (this.editando == true) {
           // Atualize o endereço com uma requisição PUT
-          console.log("Endereco ID: ", this.endereco.enderecoId)
-          responseEndereco = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/editar/${this.endereco.enderecoId}`, 'PUT', token);
-          if (responseEndereco.status !== 200) {
+          let idEndereco = this.endereco.enderecoId;
+          console.log("Endereco ID: ", idEndereco)
+          responseEndereco = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/editar/${idEndereco}`, 'PUT', token, this.endereco);
+          console.log(responseEndereco.mensagem)
+          if (responseEndereco.mensagem.includes("sucesso")) {
+            alert('Endereço atualizado com sucesso!');
+            this.alterarVisibilidade()
+          } else {
             alert('Falha ao atualizar o endereço.');
-            return;
           }
-          alert('Endereço atualizado com sucesso!');
         } else {
           // Crie um novo endereço com uma requisição POST
           responseEndereco = await this.requisicao('https://backendhifood-production.up.railway.app/enderecos/criar', 'POST', token, enderecoEnvio);
@@ -194,8 +214,6 @@ export default {
             'usuarioId': idUsu,
           }
           const responseEnderecoEntrega = await this.requisicao('https://backendhifood-production.up.railway.app/enderecosEntrega/criar', 'POST', token, data);
-          console.log("Status Code: ", responseEnderecoEntrega.status)
-          console.log("Status Code2: ", 201)
           if (responseEnderecoEntrega.status === 201) {
             alert('Falha ao criar o endereço.');
             return;
@@ -382,4 +400,5 @@ export default {
   gap: 2rem;
   text-align: left;
 }
+
 </style>
