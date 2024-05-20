@@ -1,8 +1,7 @@
 <template>
   <div class="CardValidarCelular">
     <main class="informe-numero">
-      <p>Informe o número do seu celular para continuar</p>
-      <p class="como-receber-codigo">Como deseja receber seu código?</p>
+      <p class="confirmar-pedido">Informe o código enviado:</p>
     </main>
 
     <div class="inputsCod">
@@ -10,9 +9,10 @@
         <input v-for="i in codVerifArr.length" :key="i - 1" v-model="codVerifArr[i - 1]"
           @input="() => { formatarCod(i - 1); autoTab(i - 1); }" placeholder="0" type="number" min="0" max="9">
       </label>
-
-      <input type="button" @click="()=>{juntarCodVerif();enviarCodVerif();}" value=" Continuar">
-      <input type="button" @click="irParaEnvioCelular" value=" Não recebi meu código">
+    </div>  
+    <div>
+      <input type="button" @click="()=>{juntarCodVerif();enviarCodVerif();}" value=" Continuar" class="btns">
+      <input type="button" @click="irParaEnvioCelular" value=" Não recebi meu código" class="btns">
     </div>
   </div>
 </template>
@@ -98,8 +98,24 @@ export default {
 }
 </script>
 <style scoped>
+.CardValidarCelular{
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  flex-direction: column;
+  width: 30vw;
+  height: 30vh;
+}
+
+.confirmar-pedido{
+  font-size: 18px;
+  color: #EA1D2C;
+}
+
 .inputsCod label input {
-  width: 3%;
+  width: 10%;
+  height: 5vh;
+  margin-right: 10px;
   text-align: center;
   max-width: fit-content;
 }
@@ -114,4 +130,17 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+.btns{
+  background-color: #EA1D2C;
+  color: white;
+  border: none;
+  margin-top: 20px;
+  margin-right: 10px;
+  border-radius: 3px;
+  height: 5vh;
+
+}
+
+
 </style>
