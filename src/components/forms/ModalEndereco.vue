@@ -31,6 +31,7 @@
       </div>
       <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
         <img src="../../assets/iconeCasa.png" alt="icone-endereco">
+
         <div>
           <p>{{ this.formatarEndereco(endereco).titulo }}</p>
           <p>{{ this.formatarEndereco(endereco).descricao }}</p>
