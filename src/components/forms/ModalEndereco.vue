@@ -43,7 +43,6 @@
         <div class="btn-fechar">
           <img @click="closeModal" src="../../assets/SetaVermelha.png" alt="">
         </div>
-      <img src="opcao" alt="imageOpcao"> -->
         <div class="imagem-local">
           <img src="../../assets/icone-local.png" alt="imagemLocal">
           <a>Onde você quer receber seu pedido?</a>
@@ -63,8 +62,7 @@
             </div>
         </div>
         <div class="botoes">
-          <button type="button" @click="closeModal" class="botao">Fechar modal</button>
-          <button type="button" @click='alterarVisibilidade' class="botao">Alterar campos</button>
+          <button type="button" @click='alterarVisibilidade' class="botao">Adicionar Endereço</button>
         </div>
       </div>
     </div>
@@ -280,11 +278,9 @@ export default {
   gap: 1rem;
 }
 .btn-fechar {
-  width: 90%;
   display: flex;
+  width: 100%;
   justify-content: flex-start;
-  align-items: center;
-
 }
 
 .address-card input {
@@ -336,9 +332,9 @@ export default {
 
 .botao-favoritar {
   display: flex;
-  background-color: #e7e2e2;
-  color: black;
-  border: 1px solid #c5c5c5;
+  background-color: rgb(209, 14, 14);
+  color: white;
+  border: 1px solid rgb(209, 14, 14);
   border-radius: 0.5rem;
   padding: 10px 20px;
   cursor: pointer;
@@ -346,9 +342,10 @@ export default {
 
 .botoes-favoritar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   width: 100%;
   margin-top: 7%;
+
 }
 
 .listar-enderecos {
@@ -380,7 +377,7 @@ export default {
   display: flex;
   align-items: center;
   font-size: 13px;
-  width: 10vw;
+  width: 15vw;
   height: 7vh;
   border-radius: 0.3rem;
   justify-content: center;
@@ -388,6 +385,7 @@ export default {
   background-color: rgb(209, 14, 14);
   border: none;
   gap: 3px;
+  cursor: pointer;
 }
 
 .endereco {
