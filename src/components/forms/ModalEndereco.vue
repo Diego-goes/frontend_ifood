@@ -110,15 +110,17 @@ export default {
         this.endereco.apelido = botao;
       }
     },
-    // excluirEndereco(endereco)  {
-    //   this.endereco = { ...endereco };
-    //   this.campo1Visivel = true;
-    //   this.excluindo = true;
-    //   let idEndereco = this.endereco.enderecoId;
-    //   console.log("Endereco ID: ", idEndereco)
-    //   console.log(this.excluindo)
-    //   responseEndereco = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/editar/${idEndereco}`, 'DELETE', token);
-    // },
+    excluirEndereco(endereco)  {
+      let token = localStorage.getItem('tokenJWT');
+      let enderecoEnvio = JSON.parse(JSON.stringify(this.endereco))
+      for (let [chave, valor] of Object.entries(enderecoEnvio)) {
+        enderecoEnvio[chave] = valor == '' ? null : valor
+        console.table([chave, valor])
+      }
+      this.endereco = { ...endereco };
+      let idEndereco = this.endereco.enderecoId;
+      this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/deletar/${idEndereco}`, 'DELETE', token);
+    },
     editarEndereco(endereco) {
       this.endereco = { ...endereco };
       this.campo1Visivel = true;
