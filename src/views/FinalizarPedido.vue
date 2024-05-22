@@ -94,6 +94,7 @@ export default {
             itensPedido: [{ nomeProd: 'Carregando...' }],
             formaPagamentoSelecionada: null,
             exibirModalCartao: false,
+            token_jwt: null,
             imgPix: {
                 src: require('../assets/logoPix.png'),
                 height: ''
@@ -103,10 +104,10 @@ export default {
     },
     methods: {
         requisicao,
-        mostrarModalEndereco(){
+        mostrarModalEndereco() {
             this.exibirModalEndereco = true
         },
-        esconderModalEndereco(){
+        esconderModalEndereco() {
             this.exibirModalEndereco = false
         },
         esconderModalCartao() {
@@ -137,17 +138,42 @@ export default {
                 }
             })
         },
-        fazerPedido() {
+        async fazerPedido() {
+            // Criar ItensPedido pela API
+            let bodyFormaPagamento = { "nome": "Pix" }
+            let formaPagamentoId = await this.requisicao('https://backendhifood-production.up.railway.app/formaPagamentoPorNome', 'POST', this.token_jwt, bodyFormaPagamento)
+
+            const chavesDesejadas = ['produtoId', 'observacao', 'qtdItens'];
+
+            const itensFiltrados = this.itensPedido.map(item =>
+                Object.keys(item)
+                    .filter(key => chavesDesejadas.includes(key))
+                    .reduce((obj, key) => {
+                        if (item[key] !== '') { 
+                            obj[key] = item[key];
+                        }
+                        return obj;
+                    }, {})
+            );
+
+            console.table(itensFiltrados);
+
+            let body = {
+                "itensPedido": itensFiltrados,
+                "formaPagld": formaPagamentoId
+            };
+
+            await this.requisicao('https://backendhifood-production.up.railway.app/itensPedidos/criar', 'POST', this.token_jwt, body)
             this.$router.push({ name: 'acompanharPedidoRt' })
         }
     },
     async created() {
-        let token_jwt = localStorage.getItem('tokenJWT')
+        this.token_jwt = localStorage.getItem('tokenJWT')
         let urlEstab = `https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`
-        this.estabelecimento = await this.requisicao(urlEstab, "GET", token_jwt)
+        this.estabelecimento = await this.requisicao(urlEstab, "GET", this.token_jwt)
 
         let urlCategoria = `https://backendhifood-production.up.railway.app/categorias/ler/${this.estabelecimento.categoriaId}`
-        this.categoria = await this.requisicao(urlCategoria, "GET", token_jwt)
+        this.categoria = await this.requisicao(urlCategoria, "GET", this.token_jwt)
 
         console.log(this.categoria)
         this.itensPedido = JSON.parse(localStorage.getItem('itensPedido'))
