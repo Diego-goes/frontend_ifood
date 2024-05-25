@@ -155,7 +155,7 @@ export default {
         paragrafos.src = require('../../assets/sem-favorito.png')
         paragrafos.alt = 'sem-favorito'
         paragrafos.titulo = `${endereco.logradouro}, ${endereco.numero}`
-        paragrafos.descricao = `${endereco.bairro} - ${endereco.cidade} - ${endereco.estado}`
+        paragrafos.descricao = `${endereco.bairro} ${endereco.cidade?'-':''} ${endereco.cidade} ${endereco.cidade?'-':''} ${endereco.estado}`
       } else {
         if (endereco.apelido.toLowerCase() == 'casa') {
           paragrafos.src = require('../../assets/iconCasa.png')
@@ -167,7 +167,7 @@ export default {
         paragrafos.titulo = `${endereco.apelido}`
         paragrafos.descricao = `${endereco.logradouro}, ${endereco.numero}`
       }
-      return paragrafos
+      return JSON.parse(JSON.stringify(paragrafos).replaceAll('null',''))
     },
     requisicao,
     alterarVisibilidade() {
