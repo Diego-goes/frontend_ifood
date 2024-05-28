@@ -3,6 +3,7 @@
         <div class="container">
             <img src="../assets/greenCheck.png" alt="Check">
             <h2>Pedido Entregue <br>com sucesso! </h2>
+            
 
         <div class="endereco">
             <p>Entrega em:</p>
@@ -20,16 +21,14 @@
                 <p>Total:</p>
                 <p>R$ 45,00</p>
             </div>
+        <div class="btns">
+            <input type="button" value="Visualizar NF" class="btn-nf">
+            <input type="button" value="Deixe sua avaliação" class="btn-avaliacao">
+        </div>        
 
         </div>
-
-    <div>
-        <input type="button" value="Deixe sua avaliação" class="btn-avaliacao">
 
     </div>
-
-
-        </div>
 
     </div>
 
@@ -56,10 +55,10 @@ export default {
     justify-content: center;
     flex-direction: column;  
     background-color: hsla(0, 0%, 100%, 0.7);
-    padding: 10px;
+    padding: 8px;
     border-radius: 4px;
     width: 35vw;
-    height: 75vh;
+    height: 80vh;
 }
 
 .container img{
@@ -110,11 +109,28 @@ export default {
     justify-content: space-between;
 }
 
+.btns{
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-nf{
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    height: 40px;
+    width: 15vw;
+    color: white;
+    background-color: #EA1D2C;
+    
+}
+
 .btn-avaliacao{
     border: none;
     border-radius: 3px;
     padding: 10px;
     height: 40px;
+    width: 15vw;
     color: white;
     background-color: #EA1D2C;
    
