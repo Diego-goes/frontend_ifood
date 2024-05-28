@@ -14,6 +14,7 @@
               required maxlength="8" class="cep" />
             <input v-model="endereco.bairro" placeholder="Bairro" value="" />
           </div>
+          <input v-model="endereco.logradouro" placeholder="logradouro" value="" required />
           <div class="enderecos">
             <input v-model="endereco.numero" placeholder="Número" value="" required />
             <input v-model="endereco.cidade" placeholder="Cidade" value="" />
@@ -25,9 +26,17 @@
           </div>
           <a>Favoritar como</a>
           <div class="botoes-favoritar">
+            <button type="button" @click="selecionarBotao('Casa')"
+              :style="botaoSelecionado === 'Casa' ? { 'background-color': '#ff0000' } : {}"
+              class="botao-favoritar">Casa</button>
+            <button type="button" @click="selecionarBotao('Trabalho')"
+              :style="botaoSelecionado === 'Trabalho' ? { 'background-color': '#ff0000' } : {}"
+              class="botao-favoritar">Trabalho</button>
+          </div>
+          <!-- <div class="botoes-favoritar">
             <button type="button" class="botao-favoritar">Casa</button>
             <button type="button" class="botao-favoritar">Trabalho</button>
-          </div>
+          </div> -->
           <div class="botoes-enviar">
             <!-- <button type="button" @click="alterarVisibilidade" class="botao-enviar">Voltar</button> -->
             <button type="submit" class="botao-enviar">Salvar endereço</button>
@@ -38,31 +47,27 @@
         <div class="btn-fechar">
           <img @click="closeModal" src="../../assets/SetaVermelha.png" alt="">
         </div>
-        <!-- Aqui vão aparecer todos os endereços cadastrados pelo usuario -->
-        <!-- <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
-      <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
-      <p>{{this.formatarEndereco(endereco).titulo}}</p>
-      <p>{{this.formatarEndereco(endereco).descricao}}</p>
-      <img src="opcao" alt="imageOpcao"> -->
         <div class="imagem-local">
           <img src="../../assets/icone-local.png" alt="imagemLocal">
           <a>Onde você quer receber seu pedido?</a>
         </div>
         <div class="listar-enderecos">
-          <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+          <p v-if="enderecos.length == 0">Nenhum endereço registrado...</p>
+          <div v-for="endereco_atual in enderecos" :key="endereco_atual.enderecoId" class="endereco">
             <div>
-              <img src="../../assets/iconeCasa.png" alt="icone-endereco">
+              <!-- <img src="../../assets/iconeCasa.png" alt="icone-endereco"> -->
+              <img :src="formatarEndereco(endereco_atual).src" :alt="formatarEndereco(endereco_atual).alt">
               <div>
-                <p>{{ this.formatarEndereco(endereco).titulo }}</p>
-                <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+                <p>{{ this.formatarEndereco(endereco_atual).titulo }}</p>
+                <p>{{ this.formatarEndereco(endereco_atual).descricao }}</p>
               </div>
             </div>
-            <img src="../../assets/close.png" alt="icone-opcao" @click="editarEndereco(endereco)">
+            <img src="../../assets/pencil.png" alt="icone-opcao-editar" @click="editarEndereco(endereco_atual)">
+            <img src="../../assets/lixoVermelho.png" alt="icone-opcao-excluir" @click="excluirEndereco(endereco_atual)">
           </div>
         </div>
         <div class="botoes">
-          <button type="button" @click="closeModal" class="botao">Fechar modal</button>
-          <button type="button" @click='alterarVisibilidade' class="botao">Alterar campos</button>
+          <button type="button" @click='alterarVisibilidade' class="botao">Adicionar Endereço</button>
         </div>
       </div>
     </div>
@@ -75,7 +80,11 @@ export default {
   name: 'ModalEndereco',
   data() {
     return {
+      exibirOpcoes: false,
+      botaoFavoritar: null,
+      botaoSelecionado: "",
       editando: false,
+      excluindo: false,
       enderecos: [],
       endereco: {
         "logradouro": "",
@@ -87,13 +96,45 @@ export default {
         "estado": "",
         "pontoReferencia": "",
         "apelido": "",
+        "enderecoEntregaId": null
       },
       campo1Visivel: false
     };
   },
   methods: {
+    limparEndereco() {
+      this.endereco = {
+        "logradouro": "",
+        "numero": "",
+        "complemento": "",
+        "cep": "",
+        "bairro": "",
+        "cidade": "",
+        "estado": "",
+        "pontoReferencia": "",
+        "apelido": "",
+        "enderecoEntregaId": null
+      }
+    },
+    exibirOpcoesEndereco() {
+      this.exibirOpcoes = true;
+    },
+    selecionarBotao(botao) {
+      if (this.botaoSelecionado === botao) {
+        this.botaoSelecionado = null;
+        this.endereco.apelido = null;
+      } else {
+        this.botaoSelecionado = botao;
+        this.endereco.apelido = botao;
+      }
+    },
+    async excluirEndereco(endereco) {
+      let token = localStorage.getItem('tokenJWT');
+      await this.requisicao(`https://backendhifood-production.up.railway.app/enderecosEntrega/deletar/${endereco.enderecoEntregaId}`, 'DELETE', token);
+      await this.puxarEnderecos()
+    },
     editarEndereco(endereco) {
-      console.log(endereco)
+      this.endereco = { ...endereco };
       this.campo1Visivel = true;
       this.editando = true;
     },
@@ -111,22 +152,22 @@ export default {
         "descricao": '',
       }
       if (endereco.apelido == null) {
-        paragrafos.src = './image'
-        paragrafos.alt = 'image'
+        paragrafos.src = require('../../assets/sem-favorito.png')
+        paragrafos.alt = 'sem-favorito'
         paragrafos.titulo = `${endereco.logradouro}, ${endereco.numero}`
-        paragrafos.descricao = `${endereco.bairro} - ${endereco.cidade} - ${endereco.estado}`
+        paragrafos.descricao = `${endereco.bairro} ${endereco.cidade?'-':''} ${endereco.cidade} ${endereco.cidade?'-':''} ${endereco.estado}`
       } else {
         if (endereco.apelido.toLowerCase() == 'casa') {
-          paragrafos.src = './imageCasa'
-          paragrafos.alt = 'imageCasa'
+          paragrafos.src = require('../../assets/iconCasa.png')
+          paragrafos.alt = 'iconeCasa'
         } else {
-          paragrafos.src = './imageTrabalho'
-          paragrafos.alt = 'imageTrabalho'
+          paragrafos.src = require('../../assets/iconeTrabalho.png')
+          paragrafos.alt = 'iconeTrabalho'
         }
         paragrafos.titulo = `${endereco.apelido}`
         paragrafos.descricao = `${endereco.logradouro}, ${endereco.numero}`
       }
-      return paragrafos
+      return JSON.parse(JSON.stringify(paragrafos).replaceAll('null',''))
     },
     requisicao,
     alterarVisibilidade() {
@@ -172,38 +213,29 @@ export default {
       let enderecoEnvio = JSON.parse(JSON.stringify(this.endereco))
       for (let [chave, valor] of Object.entries(enderecoEnvio)) {
         enderecoEnvio[chave] = valor == '' ? null : valor
-        console.table([chave, valor])
       }
       try {
         let responseEndereco;
         if (this.editando == true) {
           // Atualize o endereço com uma requisição PUT
-          console.log("Endereco ID: ", this.endereco.enderecoId)
-          responseEndereco = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/editar/${this.endereco.enderecoId}`, 'PUT', token);
-          if (responseEndereco.status !== 200) {
+          let idEndereco = this.endereco.enderecoId;
+          responseEndereco = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/editar/${idEndereco}`, 'PUT', token, this.endereco);
+          console.log(responseEndereco.mensagem)
+          if (!responseEndereco.mensagem.includes("sucesso")) {
             alert('Falha ao atualizar o endereço.');
-            return;
           }
-          alert('Endereço atualizado com sucesso!');
         } else {
           // Crie um novo endereço com uma requisição POST
-          responseEndereco = await this.requisicao('https://backendhifood-production.up.railway.app/enderecos/criar', 'POST', token, enderecoEnvio);
-          const enderecoId = responseEndereco["enderecoId"]
-          let data = {
-            'enderecoId': enderecoId,
-            'usuarioId': idUsu,
-          }
-          const responseEnderecoEntrega = await this.requisicao('https://backendhifood-production.up.railway.app/enderecosEntrega/criar', 'POST', token, data);
-          console.log("Status Code: ", responseEnderecoEntrega.status)
-          console.log("Status Code2: ", 201)
-          if (responseEnderecoEntrega.status === 201) {
+          const responseEnderecoEntrega = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/usuario/criar/${idUsu}`, 'POST', token, enderecoEnvio);
+          if (!responseEnderecoEntrega.mensagem.includes("sucesso")) {
             alert('Falha ao criar o endereço.');
-            return;
+            return
           }
-          alert('Endereço criado com sucesso!');
+          this.limparEndereco()
         }
         this.editando = false;
-        this.closeModal()
+        this.alterarVisibilidade()
+        this.puxarEnderecos()
       } catch (error) {
         alert(error);
       }
@@ -245,18 +277,18 @@ export default {
   gap: 1rem;
   padding: 2rem 0px;
 }
-.address-card>div:nth-child(1){
+
+.address-card>div:nth-child(1) {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 }
-.btn-fechar {
-  width: 90%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 
+.btn-fechar {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
 }
 
 .address-card input {
@@ -308,9 +340,9 @@ export default {
 
 .botao-favoritar {
   display: flex;
-  background-color: #e7e2e2;
-  color: black;
-  border: 1px solid #c5c5c5;
+  background-color: rgb(209, 14, 14);
+  color: white;
+  border: 1px solid rgb(209, 14, 14);
   border-radius: 0.5rem;
   padding: 10px 20px;
   cursor: pointer;
@@ -318,9 +350,10 @@ export default {
 
 .botoes-favoritar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   width: 100%;
   margin-top: 7%;
+
 }
 
 .listar-enderecos {
@@ -352,7 +385,7 @@ export default {
   display: flex;
   align-items: center;
   font-size: 13px;
-  width: 10vw;
+  width: 15vw;
   height: 7vh;
   border-radius: 0.3rem;
   justify-content: center;
@@ -360,6 +393,7 @@ export default {
   background-color: rgb(209, 14, 14);
   border: none;
   gap: 3px;
+  cursor: pointer;
 }
 
 .endereco {
