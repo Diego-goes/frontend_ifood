@@ -54,10 +54,10 @@
         <div class="listar-enderecos">
           <p v-if="enderecos.length == 0">Nenhum endereço registrado...</p>
           <div v-for="endereco_atual in enderecos" :key="endereco_atual.enderecoId" class="endereco">
-            <div>
+            <div @click="definirEnderecoPrinc($event ,endereco_atual)" >
               <!-- <img src="../../assets/iconeCasa.png" alt="icone-endereco"> -->
-              <img :src="formatarEndereco(endereco_atual).src" :alt="formatarEndereco(endereco_atual).alt">
-              <div>
+              <img :src="formatarEndereco(endereco_atual).src" :alt="formatarEndereco(endereco_atual).alt" @click.stop>
+              <div @click.stop>
                 <p>{{ this.formatarEndereco(endereco_atual).titulo }}</p>
                 <p>{{ this.formatarEndereco(endereco_atual).descricao }}</p>
               </div>
@@ -102,6 +102,12 @@ export default {
     };
   },
   methods: {
+    definirEnderecoPrinc(event, endereco) {
+      localStorage.setItem('endereço_principal', endereco)
+      console.log(event.target)
+      // event.target.style.border="1px solid red"
+      // console.log(event)
+    },
     limparEndereco() {
       this.endereco = {
         "logradouro": "",
