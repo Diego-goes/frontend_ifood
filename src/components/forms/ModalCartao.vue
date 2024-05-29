@@ -25,17 +25,19 @@
                     <div class="campo-cartao">
                         <img src="../../assets/cartao.png" alt="icone-cartão">
                         <a>Cartão 1</a>
-                        <img src="../../assets/icone-opcao.png">
+                        <img src="../../assets/pencil.png">
+                        <img src="../../assets/lixoVermelho.png">
                     </div>
                     <div class="campo-cartao">
                         <img src="../../assets/cartao.png" alt="icone-cartão">
                         <a>Cartão 2</a>
-                        <img src="../../assets/icone-opcao.png">
+                        <img src="../../assets/pencil.png">
+                        <img src="../../assets/lixoVermelho.png">
                     </div>
                 </div>
 
             </div>
-            <input type="button" value="Editar Cartão" @click="alterarCampo">
+            <input type="button" value="Adicionar Cartão" @click="alterarCampo">
         </div>
     </div>
 </template>
