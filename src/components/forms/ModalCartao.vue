@@ -17,8 +17,25 @@
                 <input type="button" value="Adicionar">
             </div>
             <div class="listarCartoes" v-if="listarCartoes">
+                <div class="fechar-modal">
+                    <img src="../../assets/close.png" alt="fechar-aba">
+                    <a>Selecionar Cartão</a>
+                </div>
+                <div class="caixas-cartao">
+                    <div class="campo-cartao">
+                        <img src="../../assets/cartao.png" alt="icone-cartão">
+                        <a>Cartão 1</a>
+                        <img src="../../assets/icone-opcao.png">
+                    </div>
+                    <div class="campo-cartao">
+                        <img src="../../assets/cartao.png" alt="icone-cartão">
+                        <a>Cartão 2</a>
+                        <img src="../../assets/icone-opcao.png">
+                    </div>
+                </div>
+
             </div>
-            <input type="button" value="Mudar campo" @click="alterarCampo">
+            <input type="button" value="Editar Cartão" @click="alterarCampo">
         </div>
     </div>
 </template>
@@ -110,4 +127,44 @@ input[type="Button"] {
     color: white;
     border: none;
 }
+
+.fechar-modal {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 60px;
+}
+
+.listarCartoes {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.listarCartoes img {
+    width: 20px;
+}
+
+.caixas-cartao {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.campo-cartao {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    border: 1px solid rgba(211, 211, 211, 0.348);
+    border-radius: 0.3rem;
+    padding: 1.5rem 1.5rem;
+}
+
 </style>
