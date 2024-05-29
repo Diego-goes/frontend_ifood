@@ -3,9 +3,10 @@
         <div class="modal">
             <div class="criarCartoes" v-if="!listarCartoes">
                 <div class="div_btn_voltar">
-                    <img src="@/assets/SetaVermelha.png" alt="" @click="voltar">
+                    <img src="@/assets/SetaVermelha.png" alt="" @click="alterarCampo">
                     <p>Novo Cartão</p>
                 </div>
+                <input type="number" placeholder="Nome do Titular">
                 <input type="number" placeholder="Número cartão">
                 <input type="text" placeholder="Nome impresso">
                 <div class="inputsValidadeCvv">
@@ -18,7 +19,7 @@
             </div>
             <div class="listarCartoes" v-if="listarCartoes">
                 <div class="fechar-modal">
-                    <img src="../../assets/close.png" alt="fechar-aba">
+                    <img src="../../assets/close.png" alt="fechar-aba" @click="voltar">
                     <a>Selecionar Cartão</a>
                 </div>
                 <div class="caixas-cartao">
@@ -35,9 +36,8 @@
                         <img src="../../assets/lixoVermelho.png">
                     </div>
                 </div>
-
             </div>
-            <input type="button" value="Adicionar Cartão" @click="alterarCampo">
+            <input type="button" value="Adicionar Cartão" @click="alterarCampo" v-if="listarCartoes">
         </div>
     </div>
 </template>
@@ -91,6 +91,14 @@ input {
     gap: 2vh;
     padding: 2rem 3rem;
     border-radius: 0.3rem;
+}
+
+.criarCartoes {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 .div_btn_voltar {
