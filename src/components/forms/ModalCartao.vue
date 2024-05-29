@@ -1,19 +1,24 @@
 <template>
     <div class="fundo_modal">
         <div class="modal">
-            <div class="div_btn_voltar">
-                <img src="@/assets/SetaVermelha.png" alt="" @click="voltar" >
-                <p>Novo Cartão</p>
+            <div class="listarCartoes" v-if="listarCartoes">
+                <div class="div_btn_voltar">
+                    <img src="@/assets/SetaVermelha.png" alt="" @click="voltar">
+                    <p>Novo Cartão</p>
+                </div>
+                <input type="number" placeholder="Número cartão">
+                <input type="text" placeholder="Nome impresso">
+                <div class="inputsValidadeCvv">
+                    <input type="text" placeholder="Validade">
+                    <input type="number" placeholder="CVV">
+                </div>
+                <input type="text" placeholder="Apelido do cartão">
+                <input type="number" placeholder="CPF/CNPJ">
+                <input type="button" value="Adicionar">
             </div>
-            <input type="number" placeholder="Número cartão">
-            <input type="text" placeholder="Nome impresso">
-            <div class="inputsValidadeCvv">
-                <input type="text" placeholder="Validade">
-                <input type="number" placeholder="CVV">
+            <div class="listarCartoes" v-if="!listarCartoes">
             </div>
-            <input type="text" placeholder="Apelido do cartão">
-            <input type="number" placeholder="CPF/CNPJ">
-            <input type="button" value="Adicionar">
+            <input type="button" value="Mudar campo" @click="alterarCampo">
         </div>
     </div>
 </template>
@@ -22,12 +27,15 @@ export default {
     name: 'ModalCartao',
     data() {
         return {
-
+            listarCartoes: true
         }
     },
-    methods:{
-        voltar(){
+    methods: {
+        voltar() {
             this.$emit('voltar')
+        },
+        alterarCampo() {
+            this.listarCartoes = !this.listarCartoes
         }
     }
 }

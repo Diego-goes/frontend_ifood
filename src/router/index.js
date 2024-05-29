@@ -6,10 +6,10 @@ import PaginaCadastro from "@/views/PaginaCadastro.vue";
 import PaginaEstabelecimento from "@/views/PaginaEstabelecimento.vue";
 import AcompanharPedido from "@/views/AcompanharPedido.vue";
 import FinalizarPedido from "@/views/FinalizarPedido.vue";
-import ModalEndereco from "@/components/forms/ModalEndereco.vue";
 import CardValidarCelular from "@/components/forms/CardValidarCelular.vue";
 import PedidoEntregue from "@/views/PedidoEntregue.vue";
 import PaginaAvaliacao from "@/views/PaginaAvaliacao.vue";
+import ModalCartao from "@/components/forms/ModalCartao.vue";
 const routes = [
   {
     path: "/",
@@ -17,9 +17,9 @@ const routes = [
     component: PaginaDeslogada,
   },
   {
-    path: "/modalEndereco",
-    name: "modalEnderecoRt",
-    component: ModalEndereco,
+    path: "/modalCartao",
+    name: "modalCartaoRt",
+    component: ModalCartao,
   },
   {
     path: "/codVerif",
