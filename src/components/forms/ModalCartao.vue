@@ -33,6 +33,7 @@
                         <img src="../../assets/icone-opcao.png">
                     </div>
                 </div>
+
             </div>
             <input type="button" value="Editar Cartão" @click="alterarCampo">
         </div>
