@@ -14,7 +14,7 @@
               required maxlength="8" class="cep" />
             <input v-model="endereco.bairro" placeholder="Bairro" value="" />
           </div>
-            <input v-model="endereco.logradouro" placeholder="logradouro" value="" required />
+          <input v-model="endereco.logradouro" placeholder="logradouro" value="" required />
           <div class="enderecos">
             <input v-model="endereco.numero" placeholder="Número" value="" required />
             <input v-model="endereco.cidade" placeholder="Cidade" value="" />
@@ -26,8 +26,12 @@
           </div>
           <a>Favoritar como</a>
           <div class="botoes-favoritar">
-            <button type="button" @click="selecionarBotao('Casa')" :style="botaoSelecionado === 'Casa' ? {'background-color': '#ff0000'} : {}" class="botao-favoritar">Casa</button>
-            <button type="button" @click="selecionarBotao('Trabalho')" :style="botaoSelecionado === 'Trabalho' ? {'background-color': '#ff0000'} : {}" class="botao-favoritar">Trabalho</button>
+            <button type="button" @click="selecionarBotao('Casa')"
+              :style="botaoSelecionado === 'Casa' ? { 'background-color': '#ff0000' } : {}"
+              class="botao-favoritar">Casa</button>
+            <button type="button" @click="selecionarBotao('Trabalho')"
+              :style="botaoSelecionado === 'Trabalho' ? { 'background-color': '#ff0000' } : {}"
+              class="botao-favoritar">Trabalho</button>
           </div>
           <!-- <div class="botoes-favoritar">
             <button type="button" class="botao-favoritar">Casa</button>
@@ -48,18 +52,19 @@
           <a>Onde você quer receber seu pedido?</a>
         </div>
         <div class="listar-enderecos">
-          <div v-for="endereco in enderecos" :key="endereco.enderecoId" class="endereco">
+          <p v-if="enderecos.length == 0">Nenhum endereço registrado...</p>
+          <div v-for="endereco_atual in enderecos" :key="endereco_atual.enderecoId" class="endereco">
             <div>
               <!-- <img src="../../assets/iconeCasa.png" alt="icone-endereco"> -->
-              <img :src="formatarEndereco(endereco).src" :alt="formatarEndereco(endereco).alt">
+              <img :src="formatarEndereco(endereco_atual).src" :alt="formatarEndereco(endereco_atual).alt">
               <div>
-                <p>{{ this.formatarEndereco(endereco).titulo }}</p>
-                <p>{{ this.formatarEndereco(endereco).descricao }}</p>
+                <p>{{ this.formatarEndereco(endereco_atual).titulo }}</p>
+                <p>{{ this.formatarEndereco(endereco_atual).descricao }}</p>
               </div>
             </div>
-              <img src="../../assets/pencil.png" alt="icone-opcao-editar" @click="editarEndereco(endereco)">
-              <img src="../../assets/lixoVermelho.png" alt="icone-opcao-excluir" @click="excluirEndereco(endereco)">
-            </div>
+            <img src="../../assets/pencil.png" alt="icone-opcao-editar" @click="editarEndereco(endereco_atual)">
+            <img src="../../assets/lixoVermelho.png" alt="icone-opcao-excluir" @click="excluirEndereco(endereco_atual)">
+          </div>
         </div>
         <div class="botoes">
           <button type="button" @click='alterarVisibilidade' class="botao">Adicionar Endereço</button>
@@ -75,9 +80,9 @@ export default {
   name: 'ModalEndereco',
   data() {
     return {
-      exibirOpcoes : false,
+      exibirOpcoes: false,
       botaoFavoritar: null,
-      botaoSelecionado: "",    
+      botaoSelecionado: "",
       editando: false,
       excluindo: false,
       enderecos: [],
@@ -91,11 +96,26 @@ export default {
         "estado": "",
         "pontoReferencia": "",
         "apelido": "",
+        "enderecoEntregaId": null
       },
       campo1Visivel: false
     };
   },
   methods: {
+    limparEndereco() {
+      this.endereco = {
+        "logradouro": "",
+        "numero": "",
+        "complemento": "",
+        "cep": "",
+        "bairro": "",
+        "cidade": "",
+        "estado": "",
+        "pontoReferencia": "",
+        "apelido": "",
+        "enderecoEntregaId": null
+      }
+    },
     exibirOpcoesEndereco() {
       this.exibirOpcoes = true;
     },
@@ -108,16 +128,10 @@ export default {
         this.endereco.apelido = botao;
       }
     },
-    excluirEndereco(endereco)  {
+    async excluirEndereco(endereco) {
       let token = localStorage.getItem('tokenJWT');
-      let enderecoEnvio = JSON.parse(JSON.stringify(this.endereco))
-      for (let [chave, valor] of Object.entries(enderecoEnvio)) {
-        enderecoEnvio[chave] = valor == '' ? null : valor
-        console.table([chave, valor])
-      }
-      this.endereco = { ...endereco };
-      let idEndereco = this.endereco.enderecoId;
-      this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/deletar/${idEndereco}`, 'DELETE', token);
+      await this.requisicao(`https://backendhifood-production.up.railway.app/enderecosEntrega/deletar/${endereco.enderecoEntregaId}`, 'DELETE', token);
+      await this.puxarEnderecos()
     },
     editarEndereco(endereco) {
       this.endereco = { ...endereco };
@@ -141,7 +155,7 @@ export default {
         paragrafos.src = require('../../assets/sem-favorito.png')
         paragrafos.alt = 'sem-favorito'
         paragrafos.titulo = `${endereco.logradouro}, ${endereco.numero}`
-        paragrafos.descricao = `${endereco.bairro} - ${endereco.cidade} - ${endereco.estado}`
+        paragrafos.descricao = `${endereco.bairro} ${endereco.cidade?'-':''} ${endereco.cidade} ${endereco.cidade?'-':''} ${endereco.estado}`
       } else {
         if (endereco.apelido.toLowerCase() == 'casa') {
           paragrafos.src = require('../../assets/iconCasa.png')
@@ -153,7 +167,7 @@ export default {
         paragrafos.titulo = `${endereco.apelido}`
         paragrafos.descricao = `${endereco.logradouro}, ${endereco.numero}`
       }
-      return paragrafos
+      return JSON.parse(JSON.stringify(paragrafos).replaceAll('null',''))
     },
     requisicao,
     alterarVisibilidade() {
@@ -199,7 +213,6 @@ export default {
       let enderecoEnvio = JSON.parse(JSON.stringify(this.endereco))
       for (let [chave, valor] of Object.entries(enderecoEnvio)) {
         enderecoEnvio[chave] = valor == '' ? null : valor
-        console.table([chave, valor])
       }
       try {
         let responseEndereco;
@@ -208,28 +221,21 @@ export default {
           let idEndereco = this.endereco.enderecoId;
           responseEndereco = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/editar/${idEndereco}`, 'PUT', token, this.endereco);
           console.log(responseEndereco.mensagem)
-          if (responseEndereco.mensagem.includes("sucesso")) {
-            alert('Endereço atualizado com sucesso!');
-          } else {
+          if (!responseEndereco.mensagem.includes("sucesso")) {
             alert('Falha ao atualizar o endereço.');
           }
         } else {
           // Crie um novo endereço com uma requisição POST
-          responseEndereco = await this.requisicao('https://backendhifood-production.up.railway.app/enderecos/criar', 'POST', token, enderecoEnvio);
-          const enderecoId = responseEndereco["enderecoId"]
-          let data = {
-            'enderecoId': enderecoId,
-            'usuarioId': idUsu,
+          const responseEnderecoEntrega = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/usuario/criar/${idUsu}`, 'POST', token, enderecoEnvio);
+          if (!responseEnderecoEntrega.mensagem.includes("sucesso")) {
+            alert('Falha ao criar o endereço.');
+            return
           }
-          const responseEnderecoEntrega = await this.requisicao('https://backendhifood-production.up.railway.app/enderecosEntrega/criar', 'POST', token, data);
-          if (responseEnderecoEntrega.mensagem.includes("sucesso")) {
-            alert('Endereço criado com sucesso!');
-            return;
-          }
-          alert('Falha ao criar o endereço.');
+          this.limparEndereco()
         }
         this.editando = false;
-        this.closeModal()
+        this.alterarVisibilidade()
+        this.puxarEnderecos()
       } catch (error) {
         alert(error);
       }
@@ -271,12 +277,14 @@ export default {
   gap: 1rem;
   padding: 2rem 0px;
 }
-.address-card>div:nth-child(1){
+
+.address-card>div:nth-child(1) {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 }
+
 .btn-fechar {
   display: flex;
   width: 100%;
@@ -408,5 +416,4 @@ export default {
   gap: 2rem;
   text-align: left;
 }
-
 </style>

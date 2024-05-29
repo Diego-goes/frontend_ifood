@@ -49,15 +49,14 @@ export function trocarNullPorVazioLista(listaObjetos) {
 }
 
 export async function requisicao(url, method = "GET", tokenJWT, body = {}) {
-  let headers = tokenJWT  ? {
-      "Content-Type": "application/json",
-      'Authorization': `"Bearer ${tokenJWT}"`
-    }
+  let headers = tokenJWT
+    ? {
+        "Content-Type": "application/json",
+        Authorization: `"Bearer ${tokenJWT}"`,
+      }
     : { "Content-Type": "application/json" };
-  console.log(headers)
   try {
     const response = await axios({ method, url, data: body, headers: headers });
-    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
