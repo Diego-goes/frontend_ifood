@@ -1,7 +1,7 @@
 <template>
     <div class="fundo_modal">
         <div class="modal">
-            <div class="listarCartoes" v-if="listarCartoes">
+            <div class="criarCartoes" v-if="!listarCartoes">
                 <div class="div_btn_voltar">
                     <img src="@/assets/SetaVermelha.png" alt="" @click="voltar">
                     <p>Novo Cartão</p>
@@ -16,7 +16,7 @@
                 <input type="number" placeholder="CPF/CNPJ">
                 <input type="button" value="Adicionar">
             </div>
-            <div class="listarCartoes" v-if="!listarCartoes">
+            <div class="listarCartoes" v-if="listarCartoes">
             </div>
             <input type="button" value="Mudar campo" @click="alterarCampo">
         </div>
