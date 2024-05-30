@@ -11,7 +11,7 @@
                         <option value="taco bell">Taco Bell</option>
                         <option value="pecorino">Pecorino</option>
                         <option value="nanica">Nanica</option>
-                        <option value="audi">Mc Donalds</option>
+                        <option value="mc donalds">Mc Donalds</option>
                     </select></label>
                 <label for="lang">Local <select name="local" id="local">
                         <option value="select">Select</option>
@@ -134,8 +134,42 @@
                     </tr>
                 </table>
             </div>
-            <div>
-
+            <div class="summary-relatorio">
+                <div class="cards">
+                    <img src="../../assets/cifrao.png" alt="cifrao">
+                    <div>
+                        <h3>2.3M</h3>
+                        <p>Faturamento Total</p>
+                    </div>
+                </div>
+                <div class="cards">
+                    <img src="../../assets/pedidos.png" alt="pedidos">
+                    <div>
+                        <h3>502K</h3>
+                        <p>Total de Pedidos</p>
+                    </div>
+                </div>
+                <div class="cards">
+                    <img src="../../assets/local.png" alt="local">
+                    <div>
+                        <h3>Casa</h3>
+                        <p>Local mais pedido</p>
+                    </div>
+                </div>
+                <div class="cards">
+                    <img src="../../assets/restaurante.png" alt="restaurante">
+                    <div>
+                        <h3>Mc Donalds</h3>
+                        <p>Restaurante mais pedido</p>
+                    </div>
+                </div>
+                <div class="cards">
+                    <img src="../../assets/categoria.png" alt="categoria">
+                    <div>
+                        <h3>Lanches</h3>
+                        <p>Categoria mais pedida</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -148,12 +182,19 @@ export default {
 </script>
 
 <style scoped>
+
+.pagina-relatorio {
+    display: flex;
+    flex-direction: column;
+}
+
 .header {
     display: flex;
     width: 95vw;
     height: 15vh;
     justify-content: space-between;
     align-items: center;
+    margin-left: 30px;
 }
 
 .header img {
@@ -212,6 +253,15 @@ label {
     color: white;
 }
 
+.info-relatorio {
+    background-color: aqua;
+    display: flex;
+    justify-content: space-around;
+    width: 100vw;
+    align-items: center;
+    gap: 50px;
+}
+
 .tabela-relatorio {
     width: 80%;
     max-width: 750px;
@@ -219,7 +269,7 @@ label {
     background: #fcfcfc;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 0.3rem;
 }
 
 table {
@@ -227,7 +277,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 12px;
     text-align: center;
     border-bottom: 1px solid #ddd;
@@ -236,7 +287,7 @@ th, td {
 th {
     cursor: pointer;
     font-size: 14px;
-    background-color:  rgb(218, 10, 10);
+    background-color: rgb(218, 10, 10);
     color: white;
 }
 
@@ -250,6 +301,33 @@ caption {
     font-size: 1rem;
     margin-bottom: 10px;
     font-weight: bold;
+}
+
+.summary-relatorio {
+    display: flex;
+    flex-direction: column;
+    background-color:  rgba(255, 255, 255, 1);;
+    width: 300px;
+    padding: 15px 0px;
+    border-radius: 0.5rem;
+    gap: 20px;
+}
+
+.cards {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(218, 10, 10);
+    background-color:  rgb(218, 10, 10);
+    color: white;
+    border-radius: 0.3rem;
+    width: 15vw;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.cards img {
+    width: 35px;
 }
 
 </style>
