@@ -6,16 +6,18 @@
                     <img src="@/assets/SetaVermelha.png" alt="" @click="alterarCampo">
                     <p>Novo Cartão</p>
                 </div>
-                <input type="text" v-model="dadosCartao.nomeTitular" placeholder="Nome do Titular" required >
-                <input type="number" v-model="dadosCartao.numCartao" placeholder="Número cartão" maxlength="16" required >
-                <input type="text" v-model="dadosCartao.nomeBandeira" placeholder="Bandeira do Cartão" required >
+                <input type="text" v-model="dadosCartao.nomeTitular" placeholder="Nome do Titular">
+                <input type="number" v-model="dadosCartao.numCartao" placeholder="Número cartão" maxlength="16">
+                <input type="text" v-model="dadosCartao.nomeBandeira" placeholder="Bandeira do Cartão">
                 <div class="inputsValidadeCvv">
-                    <input type="text" v-model="dadosCartao.validade" placeholder="Validade" required >
-                    <input type="number" v-model="dadosCartao.cvv" placeholder="CVV" required >
+                    <input type="text" v-model="dadosCartao.validade" placeholder="Validade">
+                    <input type="number" v-model="dadosCartao.cvv" placeholder="CVV">
                 </div>
-                <input type="text" v-model="dadosCartao.apelidoCartao" placeholder="Apelido do cartão" required >
-                <input type="number" v-model="dadosCartao.cpfCnpj" placeholder="CPF/CNPJ" required >
-                <input type="button" value="Adicionar" @click="submitForm" >
+                <input type="text" v-model="dadosCartao.apelidoCartao" placeholder="Apelido do cartão">
+                <input type="number" v-model="dadosCartao.cpfCnpj" placeholder="CPF/CNPJ">
+                <input type="button" v-if="!editando" value="Adicionar" @click="submitForm" >
+                <input type="button" v-else value="Alterar Cartão" @click="submitForm" >
+
             </div>
             <div class="listarCartoes" v-if="listarCartoes">
                 <div class="fechar-modal">
@@ -26,16 +28,11 @@
                     <div class="caixas-cartao">
                         <div class="campo-cartao">
                             <img src="../../assets/cartao.png" alt="icone-cartão">
-                            <a>this.cartao_atual.apelidoCartao</a>
-                            <img src="../../assets/pencil.png">
-                            <img src="../../assets/lixoVermelho.png">
+                            <p> {{cartao_atual.nomeBandeira}} </p>
+                            <img src="../../assets/pencil.png" alt="icone-opcao-editar" @click="editarCartao(cartao_atual)">
+                            <img src="../../assets/lixoVermelho.png" alt="icone-opcao-excluir" @click="exluirCartao(cartao_atual)">
                         </div>
-                        <div class="campo-cartao">
-                            <img src="../../assets/cartao.png" alt="icone-cartão">
-                            <a>Cartão 2</a>
-                            <img src="../../assets/pencil.png">
-                            <img src="../../assets/lixoVermelho.png">
-                        </div>
+
                 </div>
                 </div>
             </div>
@@ -50,6 +47,7 @@ export default {
     data() {
         return {
             listarCartoes: true,
+            editando: false,
             cartoes: [],
             dadosCartao: {
                 "formaPagId": "3",
@@ -71,18 +69,39 @@ export default {
         alterarCampo() {
             this.listarCartoes = !this.listarCartoes
         },
-        async submitForm () { // Esta função deve estar dentro do objeto 'methods'
+        editarCartao(cartao) {
+            this.dadosCartao = { ...cartao };
+            this.editando = true;
+            this.listarCartoes = false;
+        },
+        async submitForm () {
+            for (let campo in this.dadosCartao) {
+                if (!this.dadosCartao[campo]) {
+                    alert('Por favor, preencha todos os campos.');
+                    return;
+                }
+            }
             let token = localStorage.getItem('tokenJWT');
-            await this.requisicao(`https://backendhifood-production.up.railway.app/cartoes/criar`, 'POST', token, this.dadosCartao);
-            console.log("passou aqui")
+            if (this.editando == false) { //Criar Cartão
+                await this.requisicao(`https://backendhifood-production.up.railway.app/cartoes/criar`, 'POST', token, this.dadosCartao);
+            } else { //Editar Cartão
+                let idCartao = this.dadosCartao.cartaoId
+                await this.requisicao(`https://backendhifood-production.up.railway.app/cartoes/editar/${idCartao}`, 'PUT', token, this.dadosCartao);
+            }
             this.listarCartoes = true
+            this.puxarCartoes()
         },
         async puxarCartoes() {
             let token = localStorage.getItem('tokenJWT');
             let idUsu = localStorage.getItem('usuarioId');
             this.cartoes = await this.requisicao(`https://backendhifood-production.up.railway.app/cartoes/usuario/${idUsu}`, 'GET', token)
-            console.log()
-        }
+            console.log(this.cartoes)
+        },
+        async exluirCartao(cartao) {
+            let token = localStorage.getItem('tokenJWT');
+            await this.requisicao(`https://backendhifood-production.up.railway.app/cartoes/deletar/${cartao.cartaoId}`, 'DELETE', token);
+            await this.puxarCartoes()
+        },
     },
     created() {
         this.puxarCartoes()
