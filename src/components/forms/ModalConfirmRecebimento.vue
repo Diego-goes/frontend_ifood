@@ -1,11 +1,8 @@
 <template>
-    <div class="CardConfirmRecebimento">
+    <div class="ModalConfirmRecebimento">
         <div class="fundo_modal">
             <div class="modal_confirmar">
                 <div class="caixa_confirmar">
-                    <div class="fechar_aba">
-                        <img src="@/assets/close.png" alt="imagem-close">
-                    </div>
                     <div>
                         <img src="@/assets/sacola.png" alt="imagem-sacola">
                     </div>
@@ -27,21 +24,8 @@
 </template>
 <script>
 export default {
-    name: 'CardConfirmRecebimento',
-    data() {
-        return {
-            resposta: null
-        }
-    },
-    props: {
-        pergunta: String
-    },
-    methods: {
-        retornarResposta(event) {
-            // this.$emit('retornarResposta', value)
-            alert(event.target.value)
-        }
-    }
+    name: 'ModalConfirmRecebimento',
+    
 }
 </script>
 <style scoped>

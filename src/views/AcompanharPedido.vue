@@ -1,4 +1,6 @@
 <template>
+    <CardConfirm v-if="false" @fecharModal="fecharCardConfirm" :modalConfirmacaoProps="modalConfirmacao" />
+    <ModalConfirmRecebimento v-if="exibirModal" />
     <div class="viewAcompanharPedido">
         <div class="cardPrincipal">
             <h3>O pedido está sendo preparado...</h3>
@@ -18,7 +20,7 @@
                 <p class="seu-pedido-chegou">Seu pedido chegou?</p>
                 <p class="frase-confirmacao">Confirme assim que receber o pedido e nos ajude a saber se deu tudo certo!
                 </p>
-                <input type="button" value="Confirmar entrega" class="btn-confirmar">
+                <input type="button" value="Confirmar entrega" @click="exibirModal" class="btn-confirmar">
 
             </div>
 
@@ -33,30 +35,56 @@
                 <p><b>Detalhes do pedido</b></p>
                 <div class="restaurante">
                     <img src="../assets/imagem_default.png" alt="imagem restaurante">
-                    <p>Nome restaurante</p>
+                    <p>{{ this.estabelecimento.nome }}</p>
                 </div>
-
 
                 <div class="total-entrega">
                     <p><b>Total com entrega</b></p>
                     <p>R$ 45,00</p>
-
                 </div>
-
             </div>
-
-
-
-
-
         </div>
-
-
     </div>
 </template>
 <script>
+import CardConfirm from '@/components/forms/CardConfirm.vue';
+import ModalConfirmRecebimento from '@/components/forms/ModalConfirmRecebimento.vue'
 export default {
     name: "AcompanharPedido",
+    data() {
+        return {
+            estabelecimento: {
+                nome: "Outback"
+            },
+            modalVisivel: false,
+            modalConfirmacao: {
+                pergunta: "Recebeste o pedido?",
+                btn1: {
+                    value: "Não",
+                    func(thisContext) { thisContext.$emit('fecharModal') }
+                },
+                btn2: {
+                    value: "Sim",
+                    func(thisContext) {thisContext.$router.push('/pedidoEntregue') }
+                }
+            }
+        }
+    },
+    methods: {
+        abrirModalConfirmarEntrega() {
+
+        },
+        exibirModal() {
+            this.modalVisivel = true
+        },
+        fecharCardConfirm() {
+            this.modalVisivel = false
+        }
+    },
+    components: {
+        CardConfirm,
+        ModalConfirmRecebimento
+    }
 }
 </script>
 <style scoped>
@@ -95,7 +123,9 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
+    /*
     animation: passear 300s infinite linear alternate;
+    */
 }
 
 

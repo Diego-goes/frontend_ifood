@@ -4,31 +4,46 @@
             ?
         </div>
         <div>
-            <p> {{ pergunta }} </p>
+            <p> {{ this.modalConfirmacao.pergunta }} </p>
         </div>
         <div>
-            <input type="button" @click="retornarResposta" value="Cancelar">
-            <input type="button" @click="retornarResposta" value="Confirmar">
+            <input type="button" @click="modalConfirmacao.btn1.func(this)" value="Cancelar">
+            <input type="button" @click="modalConfirmacao.btn2.func(this)" value="Confirmar">
         </div>
     </div>
 </template>
 <script>
 export default {
     name: 'CardConfirm',
-    data(){
+    data() {
         return {
-            resposta: null
+            modalConfirmacao: this.modalConfirmacaoProps,
+            thisContext: this
         }
     },
+    methods: {},
     props: {
-        pergunta: String
+        perguntaProps: {
+            type: String,
+            default: "",
+            required: false
+        },
+        modalConfirmacaoProps: {
+            type: Object,
+            default: () => ({
+                pergunta: "",
+                btn1: {
+                    value: "",
+                    func() { }
+                },
+                btn2: {
+                    value: "",
+                    func() { }
+                }
+            }),
+            required: false
+        },
     },
-    methods: {
-        retornarResposta(event){
-            // this.$emit('retornarResposta', value)
-            alert(event.target.value)
-        }
-    }
 }
 </script>
 <style scoped>
