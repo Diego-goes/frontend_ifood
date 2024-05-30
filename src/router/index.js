@@ -11,6 +11,7 @@ import PedidoEntregue from "@/views/PedidoEntregue.vue";
 import PaginaAvaliacao from "@/views/PaginaAvaliacao.vue";
 import ModalCartao from "@/components/forms/ModalCartao.vue";
 import ModalNotaFiscal from "@/components/forms/ModalNotaFiscal.vue";
+import ModalRelatorio from "@/components/forms/ModalRelatorio.vue";
 const routes = [
   {
     path: "/",
@@ -26,7 +27,11 @@ const routes = [
     path: "/modalNotaFiscal",
     name: "modalNotaFiscalRt",
     component: ModalNotaFiscal,
-
+  },
+  {
+    path: "/modalRelatorio",
+    name: "modalRelatorioRt",
+    component: ModalRelatorio,
   },
   {
     path: "/codVerif",
