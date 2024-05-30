@@ -277,8 +277,7 @@ table {
     border-collapse: collapse;
 }
 
-th,
-td {
+th, td {
     padding: 12px;
     text-align: center;
     border-bottom: 1px solid #ddd;
@@ -329,5 +328,4 @@ caption {
 .cards img {
     width: 35px;
 }
-
 </style>
