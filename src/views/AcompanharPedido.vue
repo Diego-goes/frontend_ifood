@@ -1,6 +1,6 @@
 <template>
     <CardConfirm v-if="false" @fecharModal="fecharCardConfirm" :modalConfirmacaoProps="modalConfirmacao" />
-    <ModalConfirmRecebimento v-if="exibirModal" />
+    <ModalConfirmRecebimento v-if="modalVisivel" />
     <div class="viewAcompanharPedido">
         <div class="cardPrincipal">
             <h3>O pedido está sendo preparado...</h3>
