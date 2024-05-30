@@ -10,6 +10,7 @@ import CardValidarCelular from "@/components/forms/CardValidarCelular.vue";
 import PedidoEntregue from "@/views/PedidoEntregue.vue";
 import PaginaAvaliacao from "@/views/PaginaAvaliacao.vue";
 import ModalCartao from "@/components/forms/ModalCartao.vue";
+import ModalNotaFiscal from "@/components/forms/ModalNotaFiscal.vue";
 const routes = [
   {
     path: "/",
@@ -20,6 +21,12 @@ const routes = [
     path: "/modalCartao",
     name: "modalCartaoRt",
     component: ModalCartao,
+  },
+  {
+    path: "/modalNotaFiscal",
+    name: "modalNotaFiscalRt",
+    component: ModalNotaFiscal,
+
   },
   {
     path: "/codVerif",
