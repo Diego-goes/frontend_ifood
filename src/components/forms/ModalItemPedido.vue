@@ -34,7 +34,7 @@
                             <input class="adicao" type="button" value="+" @click="alterarQtd">
                         </div>
                         <input class="botao_adcvalor" type="button"
-                            :value="`Adicionar R$${produto.preco * itemPedido.qtdItens}`" @click="addAoPedido">
+                            :value="`Adicionar R$ ${(produto.preco * itemPedido.qtdItens).toFixed(2)}`" @click="addAoPedido">
                     </div>
                 </div>
             </div>

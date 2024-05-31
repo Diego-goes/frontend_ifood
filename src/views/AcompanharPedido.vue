@@ -3,17 +3,16 @@
     <ModalConfirmRecebimento v-if="modalVisivel" />
     <div class="viewAcompanharPedido">
         <div class="cardPrincipal">
-            <h3>O pedido está sendo preparado...</h3>
+            <h3>{{ this.nomeEtapaPedido || 'Carregando...' }}</h3>
             <p class="status">Previsão de entrega</p>
-            <p class="previsao">Hoje, 19:45 - 20:10 </p>
+            <p class="previsao">Hoje, {{ this.horarios.inicio }} -
+                {{ this.horarios.previsao }} </p>
             <div class="hr-container">
-                <hr class="status-concluido">
-                <hr class="status-aguardando">
-                <hr class="">
+                <hr v-for="(hr, index) in classes_hr_array[pedido.etapaPedidoId - 1]" :key="`hr_${index}`" :class="hr">
             </div>
             <div class="codigo-pedido">
                 <p class="ponto-verde">.</p>
-                <p>Use o código <u>0000</u> para receber seu pedido.</p>
+                <p>Use o código <u>{{ this.codRetirada }}</u> para receber seu pedido.</p>
             </div>
 
             <div class="confirmar-pedido">
@@ -29,18 +28,19 @@
                 <div class="img-endereco">
                     <img src="../assets/google-maps.png" alt="imagem maps">
                     <div class="dados-endereco">
-                        <p>Endereço <br>Bairro - São Paulo, SP</p>
+                        <p>Endereço <br>{{ this.endereco_principal.logradouro }} - {{ this.endereco_principal.numero }}
+                        </p>
                     </div>
                 </div>
                 <p><b>Detalhes do pedido</b></p>
                 <div class="restaurante">
-                    <img src="../assets/imagem_default.png" alt="imagem restaurante">
-                    <p>{{ this.estabelecimento.nome }}</p>
+                    <img :src="`data:image/png;base64,${this.estabelecimento.imagemEstab}`" alt="imagem restaurante">
+                    <p>{{ this.estabelecimento.nomeEstab }}</p>
                 </div>
 
                 <div class="total-entrega">
                     <p><b>Total com entrega</b></p>
-                    <p>R$ 45,00</p>
+                    <p>R$ {{this.valorTotal}}</p>
                 </div>
             </div>
         </div>
@@ -49,12 +49,46 @@
 <script>
 import CardConfirm from '@/components/forms/CardConfirm.vue';
 import ModalConfirmRecebimento from '@/components/forms/ModalConfirmRecebimento.vue'
+import { requisicao } from '../../utils/funcsGerais';
 export default {
     name: "AcompanharPedido",
     data() {
         return {
+            itensPedido: JSON.parse(localStorage.getItem('itensPedido')),
+            endereco_principal: { logradouro: "Carregando...", numero: "Carregando..." },
+            codRetirada: "Carregando...",
+            classes_hr_array: [
+                {
+                    class_hr_1: "status-aguardando",
+                    class_hr_2: "",
+                    class_hr_3: ""
+                },
+                {
+                    class_hr_1: "status-concluido",
+                    class_hr_2: "status-aguardando",
+                    class_hr_3: ""
+                },
+                {
+                    class_hr_1: "status-concluido",
+                    class_hr_2: "status-concluido",
+                    class_hr_3: "status-aguardando"
+                },
+                {
+                    class_hr_1: "status-concluido",
+                    class_hr_2: "status-concluido",
+                    class_hr_3: "status-concluido"
+                },
+            ],
+            etapasPedido: [],
+            horarios: {
+                inicio: '',
+                previsao: ''
+            },
+            pedido: { etapaPedidoId: 1 },
+            token_jwt: '',
             estabelecimento: {
-                nome: "Outback"
+                nome: "Outback",
+                imagemEstab: ""
             },
             modalVisivel: false,
             modalConfirmacao: {
@@ -65,12 +99,25 @@ export default {
                 },
                 btn2: {
                     value: "Sim",
-                    func(thisContext) {thisContext.$router.push('/pedidoEntregue') }
+                    func(thisContext) { thisContext.$router.push('/pedidoEntregue') }
                 }
             }
         }
     },
     methods: {
+        requisicao,
+        pegarHoraInicio() {
+            let horarioAtual = new Date()
+            let horas = horarioAtual.getHours().toString().padStart(2, "0")
+            let minutos = horarioAtual.getMinutes().toString().padStart(2, "0")
+            this.horarios.inicio = `${horas}:${minutos}`
+        },
+        calcularPrevisao() {
+            let horarioAtual = new Date()
+            horarioAtual.setMinutes(horarioAtual.getMinutes() + 40);
+            const minutosFormatados = horarioAtual.getMinutes().toString().padStart(2, "0");
+            this.horarios.previsao = `${horarioAtual.getHours()}:${minutosFormatados} `;
+        },
         abrirModalConfirmarEntrega() {
 
         },
@@ -79,11 +126,55 @@ export default {
         },
         fecharCardConfirm() {
             this.modalVisivel = false
+        },
+        async simularAlteracaoEtapaPedido(etapaPedidoId) {
+            await this.requisicao('https://backendhifood-production.up.railway.app/ultimoPedido/usuario/editar', "PUT", this.token_jwt, { etapaPedidoId, formaPagId: this.pedido.formaPagId })
+        },
+        async puxarDadosPedido() {
+            this.pedido = await this.requisicao('https://backendhifood-production.up.railway.app/ultimoPedido/usuario/ler', "GET", this.token_jwt)
+            localStorage.setItem('pedido', JSON.stringify(this.pedido))
+        },
+        async atualizarEstadoPedido() {
+            let etapaPedidoIdSimulado = this.pedido.etapaPedidoId
+            let interval = setInterval(async () => {
+                if (etapaPedidoIdSimulado < this.etapasPedido.length) {
+                    etapaPedidoIdSimulado += 1
+                    await this.simularAlteracaoEtapaPedido(etapaPedidoIdSimulado)
+                } else {
+                    clearInterval(interval)
+                }
+                await this.puxarDadosPedido()
+                this.hrsEl = this.classes_hr_array[etapaPedidoIdSimulado - 1]
+            }, 5000)
         }
     },
     components: {
         CardConfirm,
         ModalConfirmRecebimento
+    },
+    async created() {
+        this.token_jwt = localStorage.getItem('tokenJWT')
+        this.codRetirada = localStorage.getItem('telefoneUsu').slice(-4)
+        this.pegarHoraInicio()
+        this.calcularPrevisao()
+        this.endereco_principal = JSON.parse(localStorage.getItem('endereco_principal'))
+        this.estabelecimento = await this.requisicao(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${localStorage.getItem('estabSelecionado')}`, "GET", this.token_jwt)
+        await this.puxarDadosPedido()
+        this.etapasPedido = await this.requisicao(`https://backendhifood-production.up.railway.app/etapasPedido`, "GET", this.token_jwt)
+        this.atualizarEstadoPedido()
+    },
+    computed: {
+        valorTotal() {
+            let total = 0
+            for (let itemPedido of this.itensPedido) {
+                total += itemPedido.preco * itemPedido.qtdItens
+            }
+            return total.toFixed(2)
+        },
+        nomeEtapaPedido() {
+            return this.etapasPedido[this.pedido.etapaPedidoId - 1] ?
+                this.etapasPedido[this.pedido.etapaPedidoId - 1]['etapaPedido'] : ''
+        }
     }
 }
 </script>

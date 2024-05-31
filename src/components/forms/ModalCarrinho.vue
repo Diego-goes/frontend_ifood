@@ -25,7 +25,7 @@
                 <hr> -->
                 <div class="caixas">
                     <a>Total</a>
-                    <a>R$ {{ this.valorTotal }}</a>
+                    <a>R$ {{ this.valorTotal.toFixed(2) }}</a>
                 </div>
                 <div class="botao-total">
                     <input @click="irParaFinalizarPedido" type="button" value="Escolher forma de pagamento">
