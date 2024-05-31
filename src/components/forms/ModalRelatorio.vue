@@ -132,41 +132,61 @@
                         <td>1.920</td>
                         <td>R$140.000</td>
                     </tr>
+                    <tr>
+                        <td>Mc Donalds</td>
+                        <td>890</td>
+                        <td>1.000</td>
+                        <td>30</td>
+                        <td>10/03/2024</td>
+                        <td>30/05/2024</td>
+                        <td>1.920</td>
+                        <td>R$140.000</td>
+                    </tr>
                 </table>
             </div>
             <div class="summary-relatorio">
                 <div class="cards">
-                    <img src="../../assets/cifrao.png" alt="cifrao">
                     <div>
-                        <h3>2.3M</h3>
+                        <img src="../../assets/cifrao.png" alt="cifrao">
+                    </div>
+                    <div>
+                        <h2>2.3M</h2>
                         <p>Faturamento Total</p>
                     </div>
                 </div>
                 <div class="cards">
-                    <img src="../../assets/pedidos.png" alt="pedidos">
                     <div>
-                        <h3>502K</h3>
+                        <img src="../../assets/pedidos.png" alt="pedidos">
+                    </div>
+                    <div>
+                        <h2>502K</h2>
                         <p>Total de Pedidos</p>
                     </div>
                 </div>
                 <div class="cards">
-                    <img src="../../assets/local.png" alt="local">
                     <div>
-                        <h3>Casa</h3>
+                        <img src="../../assets/local.png" alt="local">
+                    </div>
+                    <div>
+                        <h2>Casa</h2>
                         <p>Local mais pedido</p>
                     </div>
                 </div>
                 <div class="cards">
-                    <img src="../../assets/restaurante.png" alt="restaurante">
                     <div>
-                        <h3>Mc Donalds</h3>
+                        <img src="../../assets/restaurante.png" alt="restaurante">
+                    </div>
+                    <div>
+                        <h2>Mc Donalds</h2>
                         <p>Restaurante mais pedido</p>
                     </div>
                 </div>
                 <div class="cards">
-                    <img src="../../assets/categoria.png" alt="categoria">
                     <div>
-                        <h3>Lanches</h3>
+                        <img src="../../assets/categoria.png" alt="categoria">
+                    </div>
+                    <div>
+                        <h2>Lanches</h2>
                         <p>Categoria mais pedida</p>
                     </div>
                 </div>
@@ -182,7 +202,6 @@ export default {
 </script>
 
 <style scoped>
-
 .pagina-relatorio {
     display: flex;
     flex-direction: column;
@@ -254,7 +273,6 @@ label {
 }
 
 .info-relatorio {
-    background-color: aqua;
     display: flex;
     justify-content: space-around;
     width: 100vw;
@@ -266,7 +284,7 @@ label {
     width: 80%;
     max-width: 750px;
     margin: 20px;
-    background: #fcfcfc;
+    background: #fdfbfb;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 0.3rem;
@@ -277,7 +295,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 12px;
     text-align: center;
     border-bottom: 1px solid #ddd;
@@ -305,24 +324,27 @@ caption {
 .summary-relatorio {
     display: flex;
     flex-direction: column;
-    background-color:  rgba(255, 255, 255, 1);;
+    background-color: #fdfbfb;
     width: 300px;
     padding: 15px 0px;
-    border-radius: 0.5rem;
+    border-radius: 0.3rem;
     gap: 20px;
+    align-items: center;
+    align-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .cards {
     display: flex;
     align-items: center;
     border: 1px solid rgb(218, 10, 10);
-    background-color:  rgb(218, 10, 10);
+    background-color: rgb(218, 10, 10);
     color: white;
     border-radius: 0.3rem;
     width: 15vw;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
+    height: 12vh;
+    justify-content: space-evenly;
+    font-size: 13px;
 }
 
 .cards img {
