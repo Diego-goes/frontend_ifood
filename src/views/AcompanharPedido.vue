@@ -214,9 +214,7 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
-    /*
     animation: passear 300s infinite linear alternate;
-    */
 }
 
 
@@ -259,7 +257,8 @@ hr {
     border: none;
     transform-origin: left;
     border-radius: 2px;
-    background-color: rgb(235, 235, 235)
+    background-color: rgb(235, 235, 235);
+    transition: all 1s;
 }
 
 .status-aguardando {
