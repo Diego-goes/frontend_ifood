@@ -165,7 +165,7 @@ export default {
             try{
                 await this.requisicao('https://backendhifood-production.up.railway.app/itensPedidos/criar', 'POST', this.token_jwt, ItensPedidoBody)
                 // Efetuar pagamento
-                await this.requisicao('https://backendhifood-production.up.railway.app/pagamento', 'POST', this.token_jwt)
+                // await this.requisicao('https://backendhifood-production.up.railway.app/pagamento', 'POST', this.token_jwt)
                 this.$router.push({ name: 'acompanharPedidoRt' })
             }
             catch(e){
@@ -179,10 +179,10 @@ export default {
         let urlEstab = `https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`
         this.estabelecimento = await this.requisicao(urlEstab, "GET", this.token_jwt)
 
-        let urlCategoria = `https://backendhifood-production.up.railway.app/categorias/ler/${this.estabelecimento.categoriaId}`
-        this.categoria = await this.requisicao(urlCategoria, "GET", this.token_jwt)
+        // let urlCategoria = `https://backendhifood-production.up.railway.app/categorias/ler/${this.estabelecimento.categoriaId}`
+        // this.categoria = await this.requisicao(urlCategoria, "GET", this.token_jwt)
 
-        console.log(this.categoria)
+        // console.log(this.categoria)
         this.itensPedido = JSON.parse(localStorage.getItem('itensPedido'))
     },
     watch: {
@@ -201,7 +201,7 @@ export default {
             for (let itemPedido of this.itensPedido) {
                 total += itemPedido.preco * itemPedido.qtdItens
             }
-            return total
+            return total.toFixed(2)
         }
     },
     components: {

@@ -5,7 +5,7 @@
                 <small>{{ this.itemPedido.qtdItens }}x</small>
                 {{ this.itemPedido.nomeProd }}
             </a>
-            <a>R$ {{ this.itemPedido.preco * this.itemPedido.qtdItens }}</a>
+            <a>R$ {{ (this.itemPedido.preco * this.itemPedido.qtdItens).toFixed(2) }}</a>
         </div>
         <div class="botoes">
             <input @click="editarItemPedido" type="button" class="texto_vermelho" value="Editar">
