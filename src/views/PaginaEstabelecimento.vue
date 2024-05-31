@@ -7,7 +7,7 @@
             @editarItemPedido="editarItemPedido" @removerItemPedido="removerItemPedido"
             v-model:itensPedidoProps="itensPedido" :estabelecimentoProps="estabelecimento" />
         <div class="imagem-inicial">
-            <img src="../assets/imagem_alteravel.avif" alt="imagem inicial">
+            <img :src="`data:image/png;base64,${this.estabelecimento.imagemBanner}` || '../../src/assets/imagem_default.png' " alt="imagem inicial">
         </div>
 
         <div class="estabelecimento">
@@ -125,6 +125,7 @@ export default {
         this.produtos = await this.requisicao(`https://backendhifood-production.up.railway.app/produtosEstab/${this.estabelecimentoId}`)
         this.exibirItemPedido = this.exibirItemPedidoProps
         this.produtoSelecionado = this.produtoSelecionadoProps
+        console.log(this.estabelecimento['imagemBanner'])
     }
 }
 </script>
