@@ -30,8 +30,6 @@
                 </div>
             </div>
 
-
-
             <div class="entrega">
                 <p><b>Entrega</b></p>
             </div>
@@ -61,11 +59,6 @@
             </div>
 
         </div>
-
-
-
-
-
     </div>
 
 </template>
@@ -76,7 +69,7 @@ export default {
 </script>
 <style scoped>
 .viewPaginaAvaliacao {
-    background-image: url(../assets/fundoTelaAvaliacao.jpg);
+    background-image: url(../assets/fundo1.avif);
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -88,7 +81,7 @@ export default {
 .container {
     display: flex;
     flex-direction: column;
-    width: 38vw;
+    width: 37vw;
     height: 70vh;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
@@ -99,7 +92,7 @@ export default {
 .fraseprincipal {
     font-size: 25px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-    color: #EA1D2C;
+    color: #fa212f;
 
 }
 
@@ -119,6 +112,11 @@ export default {
     
 }
 
+.avaliacao p{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+}
+
 .img {
    width: 60px;
    height: auto;
@@ -132,7 +130,7 @@ export default {
     align-items: center;
     height: 20vh;
     padding: 2px;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #eeecec;
     cursor: pointer;
     font-size: 12px;
@@ -140,7 +138,7 @@ export default {
 }
 
 .card:hover{
-    background-color: #dfd9e2;
+    background-color: #f5dcd8;
     
 }
 
