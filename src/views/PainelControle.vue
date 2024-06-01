@@ -6,21 +6,21 @@
       <CardConfirm style="display:none" />
       <div id="cabecalhoPainel">
         <div>
-          <img class="logo_painel" src="./../../public/img/icons/android-chrome-maskable-192x192.png" alt="">
+          <img src="../assets/HifoodPrincipal.png" class="logo_painel" alt="logo-hifood">
         </div>
         <div>
-          <p>Painel Controle</p>
+          <!-- <p>Painel Controle</p> -->
         </div>
       </div>
       <div id="centralPainel">
-        <div id="crudUsuario">
+        <div id="mainPainel">
           <div id="abasCrud">
             <div id="abaUsuario">
               <img class="iconeAvatar" src="../assets/avatar_icon.png" alt="icone_avatar">
               <p>Usuários</p>
             </div>
           </div>
-          <div id="cabecalhoCrud">
+          <div id="cabecalhoCrud" v-if="!exibirRelatorio">
             <div>
               <input type="text" name="" placeholder="Pesquisar..." id="" style="visibility: hidden;">
             </div>
@@ -33,7 +33,8 @@
                 :preenchido="true" />
             </div>
           </div>
-          <div id="tabelaCrud">
+          <CardRelatorio v-if="exibirRelatorio" />
+          <div id="tabelaCrud" v-if="!exibirRelatorio">
             <div id="tituloTabela">
               <input type="checkbox" name="" id="" style="visibility: hidden;">
               <p>ID</p>
@@ -47,6 +48,7 @@
                 :linhaData="linha" />
             </div>
           </div>
+
         </div>
         <div id="barraEdicao" style="display: none;">
           <div>
@@ -70,18 +72,23 @@ import LinhaCrudUsuario from '@/components/base/LinhaCrudUsuario.vue'
 import CardFormCadastro from '@/components/forms/CardFormCadastro.vue'
 import CardConfirm from '@/components/forms/CardConfirm.vue'
 import BtnDefault from "@/components/base/BtnDefault.vue";
+import CardRelatorio from "@/components/forms/CardRelatorio.vue";
+import { requisicao } from '../../utils/funcsGerais';
 export default {
   name: "PainelControle",
   data() {
     return {
       linhas: [],
+      token_jwt: '',
       exibirCardFormCadastro: false,
       acaoCrud: '',
       usuarioId: null,
+      exibirRelatorio: true,
       linhaSelecionada: ''
     };
   },
   methods: {
+    requisicao,
     criarUsuario() {
       this.acaoCrud = 'criar'
       this.exibirCardFormCadastro = true
@@ -127,20 +134,17 @@ export default {
       this.usuarioId = id
     }
   },
-  created() {
-    axios
-      .get("http://localhost:8000/usuarios")
-      .then((response) => {
-        console.log(response.data)
-        this.linhas = response.data
-      })
-      .catch((error) => (this.msg = error.response));
+  async created() {
+    this.token_jwt = localStorage.getItem('tokenJWT')
+    this.linhas = await this.requisicao(`https://backendhifood-production.up.railway.app/usuarios`, "GET", this.token_jwt)
+
   },
   components: {
     LinhaCrudUsuario,
     CardFormCadastro,
     CardConfirm,
-    BtnDefault
+    BtnDefault,
+    CardRelatorio
   }
 };
 </script>
@@ -172,7 +176,6 @@ input[type='button'] {
 
 #painelControle {
   width: 80vw;
-  min-height: 70vh;
   border-radius: 10px;
   margin-top: 10vh;
   padding: 1vw;
@@ -182,14 +185,11 @@ input[type='button'] {
 }
 
 .logo_painel {
-  aspect-ratio: 1/1;
-  width: 2rem;
   height: 2rem;
-  border-radius: 100%;
 }
 
 #centralPainel {
-  min-height: 50vh;
+  min-height: 70vh;
   background-color: rgb(242, 242, 242);
   display: flex;
   flex-direction: column;
@@ -204,11 +204,12 @@ input[type='button'] {
   align-items: center;
   margin-inline: 1%;
   gap: 1%;
+  font-weight: bold;
 }
 
-#crudUsuario {
-  width: 98%;
-  height: 98%;
+#mainPainel {
+  width: 90%;
+  height: 70vh;
   border-radius: 20px;
 }
 
