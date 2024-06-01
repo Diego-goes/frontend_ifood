@@ -1,7 +1,6 @@
 <template>
     <div class="pagina-relatorio">
         <div class="header">
-            <img src="../../assets/HifoodPrincipal.png" alt="logo-hifood">
             <div class="seletores">
                 <label for="lang">Restaurante <select name="" id="oi">
                         <option value="select">Select</option>
@@ -197,7 +196,7 @@
 
 <script>
 export default {
-    name: 'ModalRelatorio',
+    name: 'CardRelatorio',
 }
 </script>
 
@@ -205,19 +204,18 @@ export default {
 .pagina-relatorio {
     display: flex;
     flex-direction: column;
+    background-color: white;
+    border-radius: 1rem;
+    border-top-left-radius: 0;
+    padding: 1rem 1rem;
 }
 
 .header {
     display: flex;
-    width: 95vw;
     height: 15vh;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
-    margin-left: 30px;
-}
-
-.header img {
-    width: 120px;
 }
 
 .seletores {
@@ -275,42 +273,37 @@ label {
 .info-relatorio {
     display: flex;
     justify-content: space-around;
-    width: 100vw;
     align-items: center;
     gap: 50px;
 }
 
 .tabela-relatorio {
-    width: 80%;
-    max-width: 750px;
-    margin: 20px;
+    width: 50%;
     background: #fdfbfb;
-    padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 0.3rem;
 }
 
 table {
-    width: 100%;
     border-collapse: collapse;
 }
 
 th,
 td {
-    padding: 12px;
+    padding: 0.3rem;
     text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
 th {
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.5rem;
     background-color: rgb(218, 10, 10);
     color: white;
 }
 
 td {
-    font-size: 13px;
+    font-size: 0.5rem;
     background-color: white;
 }
 
@@ -325,8 +318,6 @@ caption {
     display: flex;
     flex-direction: column;
     background-color: #fdfbfb;
-    width: 300px;
-    padding: 15px 0px;
     border-radius: 0.3rem;
     gap: 20px;
     align-items: center;
@@ -341,13 +332,16 @@ caption {
     background-color: rgb(218, 10, 10);
     color: white;
     border-radius: 0.3rem;
-    width: 15vw;
-    height: 12vh;
     justify-content: space-evenly;
-    font-size: 13px;
+    font-size: 0.5rem;
+}
+
+.cards h2,
+.cards p {
+    margin: 0
 }
 
 .cards img {
-    width: 35px;
+    width: 1rem;
 }
 </style>
