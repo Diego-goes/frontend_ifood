@@ -61,8 +61,26 @@
 </template>
 
 <script>
+import { requisicao } from '../../utils/funcsGerais';
 export default{
-    name: "PaginaDeslogada"
+    name: "PaginaDeslogada",
+    data(){
+        return {
+
+        }
+    },
+    methods:{
+        requisicao,
+    },
+    async beforeMount() {
+        let token_jwt = localStorage.getItem('tokenJWT') || ''
+        if(token_jwt){
+            let response = await this.requisicao('https://backendhifood-production.up.railway.app/validarToken',"GET",token_jwt)
+            if (response['mensagem'].includes('válido')){
+                this.$router.push('/inicio')
+            }
+        }
+    }
 }
 </script>
 
