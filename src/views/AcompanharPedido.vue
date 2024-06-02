@@ -1,6 +1,6 @@
 <template>
     <CardConfirm v-if="false" @fecharModal="fecharCardConfirm" :modalConfirmacaoProps="modalConfirmacao" />
-    <ModalConfirmRecebimento v-if="modalVisivel" />
+    <ModalConfirmRecebimento v-if="modalVisivel" @fecharModal="fecharCardConfirm"  />
     <div class="viewAcompanharPedido">
         <div class="cardPrincipal">
             <h3>{{ this.nomeEtapaPedido || 'Carregando...' }}</h3>
