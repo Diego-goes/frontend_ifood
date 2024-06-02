@@ -222,7 +222,8 @@ export default {
 
 .header input,
 .header select {
-    box-shadow: 0px 6px 0px #bf0808;
+    box-shadow: inset 3px 5px 3px #ff6565,
+        0px 6px 0px #bf0808;
     height: 2rem;
 }
 
@@ -290,7 +291,7 @@ label {
         inset -5px -5px 0px #f9f9f9;
     padding: 1rem 2rem;
     border-radius: 0.5rem;
-    
+
 }
 
 table {
@@ -299,6 +300,7 @@ table {
     border-radius: 0.4rem;
     overflow: hidden;
     box-shadow: 5px 5px 3px #dcdcdc;
+    border-color: rgb(230, 230, 230);
 }
 
 th,
@@ -313,6 +315,7 @@ th {
     font-size: 0.7rem;
     background-color: rgb(218, 10, 10);
     color: white;
+    box-shadow: inset 1px 5px 5px #ff9494;
 }
 
 td {
@@ -347,14 +350,14 @@ caption {
     gap: 5%;
     display: flex;
     align-items: center;
-    border: 1px solid rgb(218, 10, 10);
     background-color: #da0a0a;
     color: white;
     border-radius: 0.3rem;
     justify-content: flex-start;
     font-size: 0.6rem;
     padding: 2% 0.5rem;
-    box-shadow: 0px 6px 0px #bf0808;
+    box-shadow: inset 3px 5px 3px #ff6565,
+        0px 6px 0px #bf0808;
 }
 
 .cards h2,
