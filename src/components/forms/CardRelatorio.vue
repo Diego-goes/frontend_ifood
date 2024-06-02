@@ -208,14 +208,22 @@ export default {
     border-radius: 1rem;
     border-top-left-radius: 0;
     padding: 1rem 1rem;
+    box-shadow: 5px 5px 3px #c7c7c7,
+        0px -5px 3px #f9f9f9;
+    gap: 1.5rem;
 }
 
 .header {
     display: flex;
-    height: 15vh;
     width: 100%;
     justify-content: space-between;
     align-items: center;
+}
+
+.header input,
+.header select {
+    box-shadow: 0px 6px 0px #bf0808;
+    height: 2rem;
 }
 
 .seletores {
@@ -256,12 +264,10 @@ label {
     display: flex;
     flex-direction: column;
     max-width: 200px;
-    margin: 20px;
-    width: 9vw;
 }
 
 .date-input {
-    padding: 10px;
+    padding-inline: 0.5rem;
     font-size: 0.8rem;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -272,20 +278,27 @@ label {
 
 .info-relatorio {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 50px;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 4%;
 }
 
 .tabela-relatorio {
-    width: 50%;
-    background: #fdfbfb;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 0.3rem;
+    width: 100%;
+    background-color: rgb(242, 242, 242);
+    box-shadow: inset 5px 5px 3px #e1e1e1,
+        inset -5px -5px 0px #f9f9f9;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    
 }
 
 table {
+    width: 100%;
     border-collapse: collapse;
+    border-radius: 0.4rem;
+    overflow: hidden;
+    box-shadow: 5px 5px 3px #dcdcdc;
 }
 
 th,
@@ -297,13 +310,13 @@ td {
 
 th {
     cursor: pointer;
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     background-color: rgb(218, 10, 10);
     color: white;
 }
 
 td {
-    font-size: 0.5rem;
+    font-size: 0.8rem;
     background-color: white;
 }
 
@@ -317,27 +330,36 @@ caption {
 .summary-relatorio {
     display: flex;
     flex-direction: column;
-    background-color: #fdfbfb;
-    border-radius: 0.3rem;
+    border-radius: 0.5rem;
     gap: 20px;
+    width: 15%;
+    justify-content: space-around;
     align-items: center;
     align-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: rgb(242, 242, 242);
+    box-shadow: inset 5px 5px 3px #e1e1e1,
+        inset -5px -5px 3px #f9f9f9;
+    padding: 1rem 2rem;
 }
 
 .cards {
+    width: 100%;
+    gap: 5%;
     display: flex;
     align-items: center;
     border: 1px solid rgb(218, 10, 10);
-    background-color: rgb(218, 10, 10);
+    background-color: #da0a0a;
     color: white;
     border-radius: 0.3rem;
-    justify-content: space-evenly;
-    font-size: 0.5rem;
+    justify-content: flex-start;
+    font-size: 0.6rem;
+    padding: 2% 0.5rem;
+    box-shadow: 0px 6px 0px #bf0808;
 }
 
 .cards h2,
 .cards p {
+    min-width: max-content;
     margin: 0
 }
 

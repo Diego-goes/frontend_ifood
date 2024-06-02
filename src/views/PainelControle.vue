@@ -14,15 +14,19 @@
       </div>
       <div id="centralPainel">
         <div id="mainPainel">
-          <div id="abasCrud">
-            <div id="abaUsuario">
-              <img class="iconeAvatar" src="../assets/avatar_icon.png" alt="icone_avatar">
+          <div class="containerAbasPainel">
+            <div id="abaUsuario" class="abasInativas" @click="mudarVisualizacao('usuarios')">
+              <img class="iconeAba" src="../assets/avatar_icon.png" alt="icone_aba">
               <p>Usuários</p>
+            </div>
+            <div id="abaRelatorio" @click="mudarVisualizacao('relatorio')">
+              <img class="iconeAba" src="../assets/imagempedidos.png" alt="icone_aba">
+              <p>Relatório</p>
             </div>
           </div>
           <div id="cabecalhoCrud" v-if="!exibirRelatorio">
             <div>
-              <input type="text" name="" placeholder="Pesquisar..." id="" style="visibility: hidden;">
+              <input type="text" name="" placeholder="Pesquisar..." id="">
             </div>
             <div class="areaBtns">
               <BtnDefault :type="'button'" :value="'Edit'" v-show="!(usuarioId == null)" v-on:click="editarSelecionado"
@@ -89,6 +93,9 @@ export default {
   },
   methods: {
     requisicao,
+    mudarVisualizacao(nomeAba) {
+      this.exibirRelatorio = nomeAba === 'relatorio' ? true : false;
+    },
     criarUsuario() {
       this.acaoCrud = 'criar'
       this.exibirCardFormCadastro = true
@@ -175,11 +182,13 @@ input[type='button'] {
 }
 
 #painelControle {
-  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
   border-radius: 10px;
-  margin-top: 10vh;
   padding: 1vw;
-  background-color: rgb(243, 243, 247);
+  background-color: white;
   box-shadow: 5px 5px 3px #c7c7c7,
     -5px -5px 3px #f9f9f9;
 }
@@ -189,7 +198,6 @@ input[type='button'] {
 }
 
 #centralPainel {
-  min-height: 70vh;
   background-color: rgb(242, 242, 242);
   display: flex;
   flex-direction: column;
@@ -197,6 +205,7 @@ input[type='button'] {
   border-radius: 20px;
   box-shadow: inset 5px 5px 3px #c7c7c7,
     inset -5px -5px 3px #f9f9f9;
+  height: 90%;
 }
 
 #cabecalhoPainel {
@@ -209,34 +218,38 @@ input[type='button'] {
 
 #mainPainel {
   width: 90%;
-  height: 70vh;
+  min-height: min-content;
   border-radius: 20px;
+  padding: 2% 0;
 }
 
-#abasCrud {
+.abasInativas {
+  opacity: 50% !important;
+}
+
+.containerAbasPainel {
   display: flex;
-  background-color: white;
   width: fit-content;
-  padding-inline: 2vw;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 25px;
-  border-bottom-right-radius: -30px;
-  margin-top: 3vh;
+  gap: 1%;
+  cursor: pointer;
 }
 
-#abasCrud div {
+.containerAbasPainel>div {
+  padding: 0.8vw;
+  padding-bottom: 0.3vw;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 5%;
-  padding: 10% 0%;
+  min-width: min-content;
 }
 
-#abasCrud div p {
+.containerAbasPainel div p {
   margin: 0;
 }
 
-.iconeAvatar {
+.iconeAba {
   aspect-ratio: 1/1;
   width: 1rem;
   height: 1rem;
