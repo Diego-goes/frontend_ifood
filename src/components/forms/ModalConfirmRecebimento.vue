@@ -10,10 +10,10 @@
                         <a>Confirme se recebeu o seu pedido</a>
                     </div>
                     <div class="botao-confirmar">
-                        <input type="button" value="Recebi meu pedido">
+                        <input type="button" value="Recebi meu pedido" @click="confirmarEntrega" >
                     </div>
                     <div class="botao-cancelar">
-                        <input type="button" value="Cancelar">
+                        <input type="button" value="Cancelar" @click="fecharModal">
                     </div>
                 </div>
                 <div>
@@ -25,7 +25,14 @@
 <script>
 export default {
     name: 'ModalConfirmRecebimento',
-    
+    methods: {
+        confirmarEntrega(){
+            this.$router.push("/pedidoEntregue")
+        },
+        fecharModal(){
+            this.$emit("fecharModal")
+        }
+    }
 }
 </script>
 <style scoped>
@@ -39,7 +46,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index:1;
+    z-index: 1;
 }
 
 .fechar_aba {
