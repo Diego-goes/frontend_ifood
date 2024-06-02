@@ -160,7 +160,7 @@ export default {
 
             let ItensPedidoBody = {
                 "itensPedido": itensFiltrados,
-                "formaPagld": formaPagamentoId
+                "formaPagId": formaPagamentoId
             };
             try{
                 await this.requisicao('https://backendhifood-production.up.railway.app/itensPedidos/criar', 'POST', this.token_jwt, ItensPedidoBody)
