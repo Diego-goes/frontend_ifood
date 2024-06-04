@@ -59,7 +59,11 @@ export async function requisicao(url, method = "GET", tokenJWT, body = {}) {
     const response = await axios({ method, url, data: body, headers: headers });
     return response.data;
   } catch (error) {
-    console.error(error);
+    if (error['errors']){
+      console.error(error['errors']);
+    } else {
+      console.error(error)
+    }
     throw error;
   }
 }

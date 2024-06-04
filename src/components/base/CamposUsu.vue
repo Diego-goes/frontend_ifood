@@ -9,9 +9,6 @@
         <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
             @retornarDadoInput="armazenarDadoInput" :typeProp="'text'" :nomeAtributoProp="'cpf'" :spanTextProp="'CPF'"
             :valueProp="usuario.cpf" :placeholderProp="'Digite seu CPF'" />
-        <InputForm :requeridoProp="camposSaoRequeridos" :podeEditarProp="podeEditar"
-            @retornarDadoInput="armazenarDadoInput" :typeProp="'email'" :nomeAtributoProp="'emailUsu'"
-            :spanTextProp="'Email'" :valueProp="usuario.emailUsu" :placeholderProp="'Digite seu email'" />
         <div class="divsSelectsForm">
             <span for="statusAtivo">Status Ativo</span>
             <select :disabled="!podeEditar" v-model="usuario.statusAtivo" class="selectCamposForm" name="statusAtivo"
@@ -49,14 +46,13 @@ export default {
         dadosUsu: {
             type: Object,
             default: () => {
-                return {
-                    'nomeUsu': '',
+                return ({
+                    'nomeUsu': 'defa',
                     'telefoneUsu': '',
                     'cpf': '',
-                    'emailUsu': '',
                     'statusAtivo': '',
                     'tipoUsuarioId': '',
-                }
+                })
             }
         },
         podeEditarProp: {
@@ -83,6 +79,9 @@ export default {
             this.$emit('retornarDadosUsu', this.usuario)
         },
     },
+    mounted(){
+        console.log(this.dadosUsu)
+    }
 }
 </script>
 

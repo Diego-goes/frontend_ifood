@@ -1,7 +1,7 @@
 <template>
   <section class="sectionPainelControle">
     <div id="painelControle">
-      <CardFormCadastro v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId"
+      <CardFormCadastroCrud v-if="exibirCardFormCadastro" :acao="acaoCrud" :usuarioId="usuarioId"
         @enviarForm="atualizarLista" @ocultarForm="ocultarForm" />
       <CardConfirm style="display:none" />
       <div id="cabecalhoPainel">
@@ -73,7 +73,7 @@
 <script>
 import axios from "axios";
 import LinhaCrudUsuario from '@/components/base/LinhaCrudUsuario.vue'
-import CardFormCadastro from '@/components/forms/CardFormCadastro.vue'
+import CardFormCadastroCrud from '@/components/forms/CardFormCadastroCrud.vue'
 import CardConfirm from '@/components/forms/CardConfirm.vue'
 import BtnDefault from "@/components/base/BtnDefault.vue";
 import CardRelatorio from "@/components/forms/CardRelatorio.vue";
@@ -87,7 +87,7 @@ export default {
       exibirCardFormCadastro: false,
       acaoCrud: '',
       usuarioId: null,
-      exibirRelatorio: true,
+      exibirRelatorio: false,
       linhaSelecionada: ''
     };
   },
@@ -110,7 +110,7 @@ export default {
     },
     inativarSelecionado() {
       axios
-        .put(`http://localhost:8000/usuarios/inativar/${this.usuarioId}`)
+        .put(`https://backendhifood-production.up.railway.app/usuarios/inativar/${this.usuarioId}`)
         .then((response) => {
           console.log(response);
         })
@@ -118,21 +118,14 @@ export default {
     },
     ativarSelecionado() {
       axios
-        .put(`http://localhost:8000/usuarios/ativar/${this.usuarioId}`)
+        .put(`https://backendhifood-production.up.railway.app/usuarios/ativar/${this.usuarioId}`)
         .then((response) => {
           console.log(response);
         })
         .catch((error) => (this.msg = error.response));
     },
-    atualizarLista() {
-      axios
-        .get("http://localhost:8000/usuarios")
-        .then((response) => {
-          console.log(response.data)
-          this.linhas = response.data
-          // this.ocultarCard()
-        })
-        .catch((error) => (this.msg = error.response));
+    async atualizarLista() {
+      this.linhas = await this.requisicao("https://backendhifood-production.up.railway.app/usuarios","GET",this.token_jwt)
     },
     ocultarForm(data) {
       this.exibirCardFormCadastro = data
@@ -148,7 +141,7 @@ export default {
   },
   components: {
     LinhaCrudUsuario,
-    CardFormCadastro,
+    CardFormCadastroCrud,
     CardConfirm,
     BtnDefault,
     CardRelatorio
@@ -185,7 +178,7 @@ input[type='button'] {
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: 100vh;
+  height: 100vh; 
   border-radius: 10px;
   padding: 1vw;
   background-color: white;
