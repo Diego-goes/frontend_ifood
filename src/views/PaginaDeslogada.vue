@@ -1,83 +1,102 @@
 <template>
-  <div class="body-pagina-deslogada">
-    <header>
+    <div class="body-pagina-deslogada">
+        <header>
 
-    <router-link to="/">
-        <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
-    </router-link>
-    <div class="palavra">Entregador</div>
-    <div class="palavra">Restaurante e Mercado</div>
-    <div class="palavra">Carreiras</div>
-    <div class="palavra">Hifood Card</div>
-    
+            <router-link to="/">
+                <img src="../assets/HifoodPrincipal.png" id="imagem-principal">
+            </router-link>
+            <div class="palavra">Entregador</div>
+            <div class="palavra">Restaurante e Mercado</div>
+            <div class="palavra">Carreiras</div>
+            <div class="palavra">Hifood Card</div>
 
-<div class= "botao" >
-    
-    <router-link to ="paginaCadastro" class="btn-menu" id="btn-criar">Criar Conta </router-link> 
-    <router-link to ="paginaLogin" class="btn-menu" id="btn-entrar"> Entrar </router-link>     
 
-</div>
+            <div class="botao">
 
-</header>
+                <router-link to="paginaCadastro" class="btn-menu" id="btn-criar">Criar Conta </router-link>
+                <router-link to="paginaLogin" class="btn-menu" id="btn-entrar"> Entrar </router-link>
 
-<div class="conteudo-principal">
-    <h1>Faça mercado no Hifood</h1>  
-    <p>Entregamos tudo o que precisa na porta da sua casa, de hortifruti a itens de limpeza.</p>
-    
-</div>        
+            </div>
 
-<div class="campo-botao">
-    <label for="lupa">
-        <input class="em-qual-endereco-esta" type="text" placeholder="Digite seu endereço:">
-        <img src="..//assets/lupa.png" alt="imagem" class="lupa-endereco">
+        </header>
 
-    </label>
+        <div class="conteudo-principal">
+            <h1>Faça mercado no Hifood</h1>
+            <p>Entregamos tudo o que precisa na porta da sua casa, de hortifruti a itens de limpeza.</p>
 
-</div>
+        </div>
 
-<div class="ja-tem-endereco">
-    <p>Já tem endereço salvo?</p>
-    <p id="frase2">Entre na sua conta para selecionar seu endereço.</p>
-</div>
+        <div class="campo-botao">
+            <label for="lupa">
+                <input class="em-qual-endereco-esta" type="text" placeholder="Digite seu endereço:">
+                <img src="..//assets/lupa.png" alt="imagem" class="lupa-endereco">
 
-<div class="container2">
-    <p>Frios</p>
-    <p>Latinícios</p>
-    <p>Feira</p>
-    <p>Bebidas</p>
-    <p>Doces</p>
-    <p>Massas Frescas</p>
-    <p>Limpeza</p>
-    <p>Padaria</p>
-    <p>Higiene</p>
-    <p>Congelados</p>
-    <p>Carnes</p>
-    <p>Cervejas</p>
-    
-                    
-</div>
+            </label>
 
-  </div>
+        </div>
+
+        <div class="ja-tem-endereco">
+            <p>Já tem endereço salvo?</p>
+            <p id="frase2">Entre na sua conta para selecionar seu endereço.</p>
+        </div>
+
+        <div class="container2">
+            <p>Frios</p>
+            <p>Latinícios</p>
+            <p>Feira</p>
+            <p>Bebidas</p>
+            <p>Doces</p>
+            <p>Massas Frescas</p>
+            <p>Limpeza</p>
+            <p>Padaria</p>
+            <p>Higiene</p>
+            <p>Congelados</p>
+            <p>Carnes</p>
+            <p>Cervejas</p>
+
+
+        </div>
+
+    </div>
 </template>
 
 <script>
-import { requisicao } from '../../utils/funcsGerais';
-export default{
+// import { requisicao } from '../../utils/funcsGerais';
+import axios from 'axios'
+export default {
     name: "PaginaDeslogada",
-    data(){
+    data() {
         return {
 
         }
     },
-    methods:{
-        requisicao,
+    methods: {
     },
-    async beforeMount() {
+    async created() {
         let token_jwt = localStorage.getItem('tokenJWT') || ''
-        if(token_jwt){
-            let response = await this.requisicao('https://backendhifood-production.up.railway.app/validarToken',"GET",token_jwt)
-            if (response['mensagem'].includes('válido')){
-                this.$router.push('/inicio')
+        if (token_jwt) {
+            let headers = {
+                "Content-Type": "application/json",
+                Authorization: `"Bearer ${token_jwt}"`,
+            }
+            let method = 'GET'
+            let url = 'https://backendhifood-production.up.railway.app/validarToken'
+            let body = ''
+            // let response = await axios.get('https://backendhifood-production.up.railway.app/validarToken', "GET", token_jwt)
+            try {
+                let response = await axios({ method, url, data: body, headers: headers });
+                console.log('response')
+                console.log(response)
+                console.log('response')
+                if (response['mensagem'].includes('válido')) {
+                    this.$router.push('/inicio')
+                }
+            } catch (error) {
+                if (error['errors']) {
+                    console.error(error['errors']);
+                } else {
+                    console.error(error)
+                }
             }
         }
     }
@@ -85,10 +104,10 @@ export default{
 </script>
 
 <style scoped>
-.body-pagina-deslogada{
-    background-image: url('../assets/fundoteladeslogada1.png'); 
-    width: 100vw; 
-    height: 100vh; 
+.body-pagina-deslogada {
+    background-image: url('../assets/fundoteladeslogada1.png');
+    width: 100vw;
+    height: 100vh;
     top: 0;
     left: 0;
     background-size: cover;
@@ -101,7 +120,7 @@ export default{
 
 }
 
-header{
+header {
     display: flex;
     width: 100vw;
     height: 20vh;
@@ -109,7 +128,7 @@ header{
     align-items: center;
 }
 
-#imagem-principal{  
+#imagem-principal {
     width: 120px;
     height: auto;
     margin-left: 30px;
@@ -121,7 +140,7 @@ header{
     display: flex;
     align-items: center;
     gap: 20px;
-    
+
 }
 
 .palavra {
@@ -131,23 +150,23 @@ header{
     line-height: 1.25em;
     font-family: "iFood RC Titulos", iFood RC Textos, helvetica, sans-serif;
     font-weight: bold;
-    
+
 }
 
 
 
-.botao{ 
+.botao {
     font-family: inherit;
     margin-right: 80px;
 
 }
 
-.campo-botao{
+.campo-botao {
     display: flex;
     justify-content: center;
-}  
+}
 
-.btn-menu{
+.btn-menu {
     height: 45px;
     width: 100px;
     font-size: 17px;
@@ -161,29 +180,28 @@ header{
 }
 
 
-#btn-criar{
+#btn-criar {
     background-color: white;
     color: #EA1D2C;
-    
+
 }
 
-#btn-entrar{
+#btn-entrar {
     background-color: #EA1D2C;
     color: white;
 
 }
 
-#btn-entrar:hover{
+#btn-entrar:hover {
     background-color: rgb(230, 73, 73);
     color: white
-    
 }
 
-.conteudo-principal{
+.conteudo-principal {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;
     margin-top: 5vw;
     color: #3e3e3e;
     line-height: 0.2em;
@@ -202,23 +220,23 @@ header{
     font-family: "iFood RC Titulos", iFood RC Textos, helvetica, sans-serif;
     text-align: left;
     font-size: 18px;
-    
+
 }
 
-.lupa-endereco{
+.lupa-endereco {
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     margin-top: -3.5vw;
     width: 40px;
-    height: auto; 
+    height: auto;
     margin-left: 10px;
 }
 
-.container2{
+.container2 {
     display: flex;
     justify-content: center;
-    top:70%;
+    top: 70%;
     width: 45vw;
     margin-top: 5vh;
     flex-wrap: wrap;
@@ -226,16 +244,16 @@ header{
 
 }
 
-.container2 p{
+.container2 p {
     border: 2px solid #f2f2f2;
     border-radius: 15px;
     padding: 5px 10px;
     background-color: white;
     color: #717171;
-    
+
 }
 
-.ja-tem-endereco{
+.ja-tem-endereco {
     display: flex;
     justify-content: center;
     width: 30vw;
@@ -247,10 +265,8 @@ header{
     margin-top: 5vh;
 }
 
-#frase2{
+#frase2 {
     color: #a6a5a5;
     font-size: 14px;
 }
-
-
 </style>
