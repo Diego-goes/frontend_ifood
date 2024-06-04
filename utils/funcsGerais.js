@@ -64,6 +64,5 @@ export async function requisicao(url, method = "GET", tokenJWT, body = {}) {
     } else {
       console.error(error)
     }
-    throw error;
   }
 }
