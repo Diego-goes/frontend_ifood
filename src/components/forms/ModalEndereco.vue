@@ -81,6 +81,7 @@ export default {
   name: 'ModalEndereco',
   data() {
     return {
+      enderecoEntregaSelecionado: false,
       exibirOpcoes: false,
       botaoFavoritar: null,
       botaoSelecionado: "",
@@ -109,6 +110,8 @@ export default {
       // event.target.style.border="1px solid red"
       document.querySelectorAll(`.cardEnderecoSelecionado`).forEach((el) => { el.classList.remove('cardEnderecoSelecionado') })
       document.querySelector(`#idCard_${index}`).classList.add('cardEnderecoSelecionado')
+      this.enderecoEntregaSelecionado = true
+      localStorage.setItem('indexEnderecoSelecionado', index)
     },
     limparEndereco() {
       this.endereco = {
@@ -192,7 +195,11 @@ export default {
       // console.log(this.endereco.cep);
     },
     closeModal() {
-      this.$emit('closeModal')
+      if (this.enderecoEntregaSelecionado) {
+        this.$emit('closeModal')
+      } else {
+        alert('Selecione um endereço para a entrega.')
+      }
     },
     async autoPreencherPorCep() {
       if (this.endereco.cep.length < 8) {
@@ -248,10 +255,16 @@ export default {
         alert(error);
       }
     },
-
   },
   created() {
     this.puxarEnderecos()
+    let index = localStorage.getItem('indexEnderecoSelecionado') || null
+    if (index) {
+      this.enderecoEntregaSelecionado = index
+      setTimeout(() => {
+        document.querySelector(`#idCard_${index}`).classList.add('cardEnderecoSelecionado')
+      }, 300)
+    }
   }
 };
 
