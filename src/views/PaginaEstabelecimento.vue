@@ -121,11 +121,17 @@ export default {
         }
     },
     async created() {
-        this.estabelecimento = await this.requisicao(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`)
-        this.produtos = await this.requisicao(`https://backendhifood-production.up.railway.app/produtosEstab/${this.estabelecimentoId}`)
+        try{
+            this.estabelecimento = await this.requisicao(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`)
+            this.produtos = await this.requisicao(`https://backendhifood-production.up.railway.app/produtosEstab/${this.estabelecimentoId}`)
+            if(!this.estabelecimento || !this.produtos){
+                window.location.reload()
+            }
+        }catch(error){
+            console.log(error)
+        }
         this.exibirItemPedido = this.exibirItemPedidoProps
         this.produtoSelecionado = this.produtoSelecionadoProps
-        console.log(this.estabelecimento['imagemBanner'])
     }
 }
 </script>
