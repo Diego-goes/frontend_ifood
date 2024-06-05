@@ -168,6 +168,8 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 4vw;
+    gap: 5%;
 }
 
 .body-pagina-logada button {
@@ -196,7 +198,6 @@ export default {
     padding: 0.5rem 1rem;
     width: 20vw;
     min-width: fit-content;
-    margin-bottom: 4vw;
 }
 
 input:focus {
