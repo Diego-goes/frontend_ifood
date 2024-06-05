@@ -126,6 +126,10 @@ export default {
     async created() {
         let token = localStorage.getItem('tokenJWT')
         let idUsu = localStorage.getItem('usuarioId');
+        if(!token || !idUsu){
+            this.$router.push('/')
+            return
+        }
         let retornaDados = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/usuario/${idUsu}`, 'GET', token)
         if (retornaDados.length === 0) {
             this.modalOpen = true
