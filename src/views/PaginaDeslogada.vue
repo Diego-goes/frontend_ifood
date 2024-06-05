@@ -85,10 +85,7 @@ export default {
             // let response = await axios.get('https://backendhifood-production.up.railway.app/validarToken', "GET", token_jwt)
             try {
                 let response = await axios({ method, url, data: body, headers: headers });
-                console.log('response')
-                console.log(response)
-                console.log('response')
-                if (response['mensagem'].includes('válido')) {
+                if (response.data['mensagem'].includes('válido')) {
                     this.$router.push('/inicio')
                 }
             } catch (error) {
