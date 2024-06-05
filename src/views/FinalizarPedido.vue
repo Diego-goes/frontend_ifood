@@ -158,12 +158,12 @@ export default {
 
             console.table(itensFiltrados);
 
-            let ItensPedidoBody = {
+            let itensPedidoBody = {
                 "itensPedido": itensFiltrados,
                 "formaPagId": formaPagamentoId
             };
             try{
-                await this.requisicao('https://backendhifood-production.up.railway.app/itensPedidos/criar', 'POST', this.token_jwt, ItensPedidoBody)
+                await this.requisicao('https://backendhifood-production.up.railway.app/itensPedidos/criar', 'POST', this.token_jwt, JSON.stringify(itensPedidoBody))
                 // Efetuar pagamento
                 // await this.requisicao('https://backendhifood-production.up.railway.app/pagamento', 'POST', this.token_jwt)
                 this.$router.push({ name: 'acompanharPedidoRt' })

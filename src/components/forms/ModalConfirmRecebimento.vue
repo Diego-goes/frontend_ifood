@@ -10,7 +10,7 @@
                         <a>Confirme se recebeu o seu pedido</a>
                     </div>
                     <div class="botao-confirmar">
-                        <input type="button" value="Recebi meu pedido" @click="confirmarEntrega" >
+                        <input type="button" value="Recebi meu pedido" @click="confirmarEntrega">
                     </div>
                     <div class="botao-cancelar">
                         <input type="button" value="Cancelar" @click="fecharModal">
@@ -23,13 +23,22 @@
     </div>
 </template>
 <script>
+import { requisicao } from '../../../utils/funcsGerais';
 export default {
     name: 'ModalConfirmRecebimento',
     methods: {
-        confirmarEntrega(){
+        requisicao,
+        async confirmarEntrega() {
+            const token_jwt = localStorage.getItem('tokenJWT')
             this.$router.push("/pedidoEntregue")
+            let ultimoPedido = await this.requisicao("https://backendhifood-production.up.railway.app/ultimoPedido/usuario/ler", "GET", token_jwt)
+            let body = {
+                "statusAtivo": false,
+                "formaPagId": ultimoPedido["formaPagId"]
+            }
+            await this.requisicao("https://backendhifood-production.up.railway.app/ultimoPedido/usuario/editar", "PUT", token_jwt, body)
         },
-        fecharModal(){
+        fecharModal() {
             this.$emit("fecharModal")
         }
     }
