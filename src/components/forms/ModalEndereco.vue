@@ -108,8 +108,15 @@ export default {
       let enderecoParaTexto = JSON.stringify(endereco)
       localStorage.setItem('endereco_principal', enderecoParaTexto)
       // event.target.style.border="1px solid red"
-      document.querySelectorAll(`.cardEnderecoSelecionado`).forEach((el) => { el.classList.remove('cardEnderecoSelecionado') })
-      document.querySelector(`#idCard_${index}`).classList.add('cardEnderecoSelecionado')
+      try {
+        document.querySelectorAll(`.cardEnderecoSelecionado`).forEach((el) => { el.classList.remove('cardEnderecoSelecionado') })
+        let elCard = document.querySelector(`#idCard_${index}`)
+        if (elCard) {
+          elCard.classList.add('cardEnderecoSelecionado')
+        }
+      } catch (error) {
+        console.log(error)
+      }
       this.enderecoEntregaSelecionado = true
       localStorage.setItem('indexEnderecoSelecionado', index)
     },
@@ -143,6 +150,8 @@ export default {
       let token = localStorage.getItem('tokenJWT');
       await this.requisicao(`https://backendhifood-production.up.railway.app/enderecosEntrega/deletar/${endereco.enderecoEntregaId}`, 'DELETE', token);
       await this.puxarEnderecos()
+      localStorage.removeItem('indexEnderecoSelecionado')
+      localStorage.removeItem('endereco_principal')
     },
     editarEndereco(endereco) {
       this.endereco = { ...endereco };
@@ -262,7 +271,14 @@ export default {
     if (index) {
       this.enderecoEntregaSelecionado = index
       setTimeout(() => {
-        document.querySelector(`#idCard_${index}`).classList.add('cardEnderecoSelecionado')
+        try {
+          let el = document.querySelector(`#idCard_${index}`)
+          if (el) {
+            el.classList.add('cardEnderecoSelecionado')
+          }
+        } catch (error) {
+          console.log(error)
+        }
       }, 300)
     }
   }

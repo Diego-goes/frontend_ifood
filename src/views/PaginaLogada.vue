@@ -89,10 +89,10 @@ export default {
         SliderComp
     },
     methods: {
-        closeModal(){
+        closeModal() {
             this.modalOpen = false
         },
-        openModal(){
+        openModal() {
             this.modalOpen = true
         },
         requisicao: requisicao,
@@ -126,10 +126,18 @@ export default {
     async created() {
         let token = localStorage.getItem('tokenJWT')
         let idUsu = localStorage.getItem('usuarioId');
-        let retornaDados = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/usuario/${idUsu}`, 'GET', token)
-        if (retornaDados.length === 0) {
-            this.modalOpen = true
-        } 
+        if (!token || !idUsu) {
+            this.$router.push('/')
+            return
+        }
+        if (!localStorage.getItem('indexEnderecoSelecionado')) {
+            let retornaDados = await this.requisicao(`https://backendhifood-production.up.railway.app/enderecos/usuario/${28}`, 'GET', token)
+            if (Array.isArray(retornaDados)) {
+                if (retornaDados.length == 0) {
+                    this.modalOpen = true
+                }
+            }
+        }
         for (let rota of this.rotas) {
             try {
                 rota.data = await this.requisicao(rota.url);
@@ -137,15 +145,18 @@ export default {
                 console.log(error)
             }
         }
-        if (!localStorage.getItem('itensPedido')){
-            localStorage.setItem('itensPedido',JSON.stringify([]))
+        if (!localStorage.getItem('itensPedido')) {
+            localStorage.setItem('itensPedido', JSON.stringify([]))
         }
     },
     async beforeMount() {
         let token = localStorage.getItem('tokenJWT')
         let telefoneUsu = localStorage.getItem('telefoneUsu')
+        if (!token || !telefoneUsu) {
+            this.$router.push('/')
+            return
+        }
         let usuario = await this.requisicao(`https://backendhifood-production.up.railway.app/telefoneUsu/ler/${telefoneUsu}`, 'GET', token)
-        console.log(usuario)
         localStorage.setItem('usuarioId', usuario.usuarioId)
     }
 
@@ -153,7 +164,6 @@ export default {
 </script>
 
 <style scoped>
-
 .filter-container {
     display: flex;
     justify-content: space-between;

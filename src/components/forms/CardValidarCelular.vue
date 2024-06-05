@@ -7,18 +7,19 @@
     <div class="inputsCod">
       <label for="primeiroInputCod">
         <input v-for="i in codVerifArr.length" :key="i - 1" v-model="codVerifArr[i - 1]"
-          @input="() => { formatarCod(i - 1); autoTab(i - 1); }" placeholder="0" type="number" min="0" max="9">
+          @input="() => { formatarCod(i - 1); autoTab(i - 1); }" placeholder="0" type="number" min="0" max="9"
+          :id="`input_${i}`">
       </label>
-    </div>  
+    </div>
     <div>
-      <input type="button" @click="()=>{juntarCodVerif();enviarCodVerif();}" value=" Continuar" class="btns">
+      <input type="button" @click="() => { juntarCodVerif(); enviarCodVerif(); }" value=" Continuar" class="btns">
       <input type="button" @click="irParaEnvioCelular" value=" Não recebi meu código" class="btns">
     </div>
   </div>
 </template>
 <script>
 import axios from 'axios';
-import {requisicao} from '../../../utils/funcsGerais'
+import { requisicao } from '../../../utils/funcsGerais'
 export default {
   name: "CardValidarCelular",
   data() {
@@ -94,20 +95,29 @@ export default {
     allInputs() {
       return document.querySelectorAll("input[type='number']")
     }
+  },
+  created() {
+    this.$nextTick(() => {
+      try {
+        document.querySelector(`#input_${1}`).focus()
+      } catch (error) {
+        console.log(error)
+      }
+    })
   }
 }
 </script>
 <style scoped>
-.CardValidarCelular{
+.CardValidarCelular {
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
   width: 30vw;
   height: 30vh;
 }
 
-.confirmar-pedido{
+.confirmar-pedido {
   font-size: 18px;
   color: #EA1D2C;
 }
@@ -131,7 +141,7 @@ input[type="number"] {
   appearance: textfield;
 }
 
-.btns{
+.btns {
   background-color: #EA1D2C;
   color: white;
   border: none;
@@ -141,6 +151,4 @@ input[type="number"] {
   height: 5vh;
 
 }
-
-
 </style>
