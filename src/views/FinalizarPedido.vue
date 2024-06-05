@@ -93,7 +93,7 @@ export default {
             estabelecimento: { nomeEstab: 'Carregando...' },
             categoria: { nomeCategoria: 'Carregando...' },
             itensPedido: [{ nomeProd: 'Carregando...' }],
-            formaPagamentoSelecionada: null,
+            formaPagamentoSelecionada: '',
             exibirModalCartao: false,
             token_jwt: null,
             imgPix: {
@@ -147,7 +147,6 @@ export default {
             // Criar ItensPedido pela API
             let bodyFormaPagamento = { "nome": this.formaPagamentoSelecionada }
             let formaPagamentoId = await this.requisicao('https://backendhifood-production.up.railway.app/formaPagamentoPorNome', 'POST', this.token_jwt, bodyFormaPagamento)
-
             const chavesDesejadas = ['produtoId', 'observacao', 'qtdItens'];
 
             const itensFiltrados = this.itensPedido.map(item =>
@@ -167,10 +166,9 @@ export default {
                 "itensPedido": itensFiltrados,
                 "formaPagId": formaPagamentoId
             };
+            console.log(itensPedidoBody)
             try {
                 await this.requisicao('https://backendhifood-production.up.railway.app/itensPedidos/criar', 'POST', this.token_jwt, JSON.stringify(itensPedidoBody))
-                // Efetuar pagamento
-                // await this.requisicao('https://backendhifood-production.up.railway.app/pagamento', 'POST', this.token_jwt)
                 this.$router.push({ name: 'acompanharPedidoRt' })
             }
             catch (e) {
