@@ -181,13 +181,15 @@ export default {
     },
     async created() {
         this.token_jwt = localStorage.getItem('tokenJWT')
-        let urlEstab = `https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`
-        this.estabelecimento = await this.requisicao(urlEstab, "GET", this.token_jwt)
-
-        // let urlCategoria = `https://backendhifood-production.up.railway.app/categorias/ler/${this.estabelecimento.categoriaId}`
-        // this.categoria = await this.requisicao(urlCategoria, "GET", this.token_jwt)
-
-        // console.log(this.categoria)
+        try{
+            let urlEstab = `https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`
+            this.estabelecimento = await this.requisicao(urlEstab, "GET", this.token_jwt)
+    
+            let urlCategoria = `https://backendhifood-production.up.railway.app/categorias/ler/${this.estabelecimento.categoriaId}`
+            this.categoria = await this.requisicao(urlCategoria, "GET", this.token_jwt)
+        }catch(error){
+            console.log(error)
+        }
         this.itensPedido = JSON.parse(localStorage.getItem('itensPedido'))
     },
     watch: {

@@ -80,7 +80,7 @@ export default {
         },
         async submitForm () {
             for (let campo in this.dadosCartao) {
-                if (!this.dadosCartao[campo]) {
+                if (!(campo in this.dadosCartao)) {
                     alert('Por favor, preencha todos os campos.');
                     return;
                 }

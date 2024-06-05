@@ -34,7 +34,8 @@
                             <input class="adicao" type="button" value="+" @click="alterarQtd">
                         </div>
                         <input class="botao_adcvalor" type="button"
-                            :value="`Adicionar R$ ${(produto.preco * itemPedido.qtdItens).toFixed(2)}`" @click="addAoPedido">
+                            :value="`Adicionar R$ ${(produto.preco * itemPedido.qtdItens).toFixed(2)}`"
+                            @click="addAoPedido">
                     </div>
                 </div>
             </div>
@@ -220,17 +221,18 @@ input::-webkit-inner-spin-button {
 }
 
 .texto_quantidade {
-    width: 20%;
+    min-width: 1rem;
+    width: 2rem;
     text-align: center;
 }
 
 .adicao {
-    padding: 7px 3vh;
+    padding: 0.5rem 1rem;
     border-radius: 0.3rem;
     color: white;
     background-color: red;
     font-size: large;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .botao_adcvalor {

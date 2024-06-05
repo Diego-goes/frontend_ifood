@@ -7,7 +7,8 @@
             @editarItemPedido="editarItemPedido" @removerItemPedido="removerItemPedido"
             v-model:itensPedidoProps="itensPedido" :estabelecimentoProps="estabelecimento" />
         <div class="imagem-inicial">
-            <img :src="`data:image/png;base64,${this.estabelecimento.imagemBanner}` || '../../src/assets/imagem_default.png' " alt="imagem inicial">
+            <img :src="`data:image/png;base64,${this.estabelecimento.imagemBanner}` || '../../src/assets/imagem_default.png'"
+                alt="imagem inicial">
         </div>
 
         <div class="estabelecimento">
@@ -21,7 +22,10 @@
             <p id="sifrao">$</p>
             <p id="pedido-minimo">Pedido mínimo R$ 30,00
             </p>
-            <input type="button" value="Abrir Carrinho" @click="abrirModalCarrinho">
+            <label class="div-btn-carrinho" for="btn-carrinho">
+                <img src="../assets/sacola.png" alt="icone-carrinho-compra">
+                <input type="button" id="btn-carrinho" value="Abrir Carrinho" @click="abrirModalCarrinho">
+            </label>
 
         </div>
 
@@ -121,11 +125,17 @@ export default {
         }
     },
     async created() {
-        this.estabelecimento = await this.requisicao(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`)
-        this.produtos = await this.requisicao(`https://backendhifood-production.up.railway.app/produtosEstab/${this.estabelecimentoId}`)
+        try {
+            this.estabelecimento = await this.requisicao(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${this.estabelecimentoId}`)
+            this.produtos = await this.requisicao(`https://backendhifood-production.up.railway.app/produtosEstab/${this.estabelecimentoId}`)
+            if (!this.estabelecimento || !this.produtos) {
+                window.location.reload()
+            }
+        } catch (error) {
+            console.log(error)
+        }
         this.exibirItemPedido = this.exibirItemPedidoProps
         this.produtoSelecionado = this.produtoSelecionadoProps
-        console.log(this.estabelecimento['imagemBanner'])
     }
 }
 </script>
@@ -203,6 +213,26 @@ export default {
 
 #pedido-minimo {
     color: #a6a6a5
+}
+
+.div-btn-carrinho {
+    display: flex;
+    gap: 5%;
+    align-items: center;
+    border: 1px solid red;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-left: 2vw;
+}
+
+.div-btn-carrinho img {
+    width: 2rem;
+    object-fit: contain;
+}
+
+#btn-carrinho {
+    background-color: transparent;
+    border: none
 }
 
 .destaque {
