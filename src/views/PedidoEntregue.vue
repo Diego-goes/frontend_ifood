@@ -25,11 +25,11 @@
                     <p>Total:</p>
                     <p>R$ {{ this.valorTotal.toFixed(2) }}</p>
                 </div>
-                <div class="btns">
-                    <input type="button" value="Visualizar NF" class="btn-nf"
+                <div class="divBtns">
+                    <input type="button" value="Visualizar NF" class="btns btn-nf"
                         @click="() => { this.$router.push('/modalNotaFiscal') }">
 
-                    <input type="button" value="Pagina inicial" class="btn-avaliacao" @click="reiniciarFluxo">
+                    <input type="button" value="Pagina inicial" class="btns btn-avaliacao" @click="reiniciarFluxo">
                 </div>
 
             </div>
@@ -97,11 +97,13 @@ export default {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: hsla(0, 0%, 100%, 0.7);
-    padding: 8px;
-    border-radius: 4px;
-    width: 35vw;
-    height: 80vh;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    min-width: fit-content;
+    width: 27vw;
+    max-width: 30vw;
+    font-size: 1.3rem;
 }
 
 .container img {
@@ -138,7 +140,7 @@ export default {
 .dados-restaurante {
     display: flex;
     width: 100%;
-
+    gap: 3%;
 }
 
 .dados-restaurante img {
@@ -151,31 +153,30 @@ export default {
     justify-content: space-between;
 }
 
-.btns {
+.divBtns {
     display: flex;
     justify-content: space-around;
+    gap: 5%;
 }
 
-.btn-nf {
+.btns {
     border: none;
     border-radius: 3px;
     padding: 10px;
     height: 40px;
-    width: 15vw;
+    min-width: fit-content;
+    width: 30%;
     color: white;
     background-color: #EA1D2C;
+}
+
+/*
+.btn-nf {
 
 }
 
 .btn-avaliacao {
-    border: none;
-    border-radius: 3px;
-    padding: 10px;
-    height: 40px;
-    width: 15vw;
-    color: white;
-    background-color: #EA1D2C;
-
 
 }
+*/
 </style>

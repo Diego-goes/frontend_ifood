@@ -2,9 +2,12 @@
     <div class="fundo-modal">
         <div class="modal-perfil">
             <div class="container">
+                <div class="header-nfe">
+                    <img src="@/assets/SetaVermelha.png" alt="" @click="() => { this.$router.push('/pedidoEntregue') }">
+                </div>
                 <h2> NF-E Hifood</h2>
                 <div class="dados-restaurante">
-                    <h3><b>{{ this.estabelecimento['nomeEstab'] }} </b></h3> 
+                    <h3><b>{{ this.estabelecimento['nomeEstab'] }} </b></h3>
                     <p>Data: {{ this.data }}</p>
                 </div>
                 <div class="pedido-tempo">
@@ -38,7 +41,7 @@
                 </div>
                 <div class="total">
                     <p><b>Taxa</b></p>
-                    <div class="elemento-verde">
+                    <div>
                         <p>Grátis</p>
                     </div>
                 </div>
@@ -122,39 +125,45 @@ table {
     padding: 35px;
 }
 
-.dados-restaurante{
+.dados-restaurante {
     display: flex;
     justify-content: space-between;
     margin-bottom: -30px;
 
 }
 
-.pedido-tempo{
+.header-nfe img{
+    mix-blend-mode: multiply;
+}
+.header-nfe {
     display: flex;
-    justify-content: flex-end;
-   
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start
 }
 
-hr{
-    border: none; 
+.pedido-tempo {
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+hr {
+    border: none;
     border-top: 3px dotted rgb(207, 203, 203);
 }
 
-.produto{
+.produto {
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
 }
 
-.total{
+.total {
     display: flex;
     justify-content: space-between;
     margin-bottom: -20px;
 
 
-}
-
-.elemento-verde{
-    color: rgb(62, 177, 62);
 }
 
 </style>
