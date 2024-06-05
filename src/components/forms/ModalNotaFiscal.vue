@@ -4,47 +4,47 @@
             <div class="container">
                 <h2> NF-E Hifood</h2>
                 <div class="dados-restaurante">
-                    <p><b>Nome do restaurante</b></p>
-                    <p>Date: 30/05/2024</p>
+                    <h3><b>{{ this.estabelecimento['nomeEstab'] }} </b></h3> 
+                    <p>Data: {{ this.data }}</p>
                 </div>
                 <div class="pedido-tempo">
-                    <p>Time: 17:45</p>
+                    <p>Hora: {{ this.hora }}</p>
                 </div>
                 <hr>
-                <div class="produto">
-                    <p>1- Nome do produto</p>
-                    <div class="valor-prato">
-                        <p>39,90$</p>
-                    </div>
-                </div>
-                <div class="produto">
-                    <p>2- Nome do produto</p>
-                    <div class="valor-prato">
-                        <p>49,90$</p>
-                    </div>
-                </div>
-                <div class="produto">
-                    <p>3- Nome do produto</p>
-                    <div class="valor-prato">
-                        <p>69,90$</p>
-                    </div>
-                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Qtd.</th>
+                            <th>Nome do Produto</th>
+                            <th>Valor Unit.</th>
+                            <th>Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item, index) in itensPedido" :key="index">
+                            <td>{{ item.qtdItens }}x</td>
+                            <td>{{ item.nomeProd }}</td>
+                            <td>R${{ item.preco.toFixed(2) }}</td>
+                            <td>R${{ (item.preco * item.qtdItens).toFixed(2) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <hr>
                 <div class="total">
-                    <p><b>TOTAL PAID:</b></p>
+                    <p><b>TOTAL PAGO:</b></p>
                     <div>
-                        <p>159,70$</p>
+                        <p>R$ {{ this.valorTotal.toFixed(2) }}</p>
                     </div>
                 </div>
                 <div class="total">
-                    <p><b>Tax</b></p>
+                    <p><b>Taxa</b></p>
                     <div class="elemento-verde">
                         <p>Grátis</p>
                     </div>
                 </div>
                 <hr>
                 <div>
-                    <p><b>THANK YOU!</b></p>
+                    <p><b>Muito Obrigado!</b></p>
                 </div>
             </div>
         </div>
@@ -52,11 +52,55 @@
 
 </template>
 <script>
+import { requisicao } from '../../../utils/funcsGerais';
 export default {
     name: "ModalNotaFiscal",
+    data() {
+        return {
+            itensPedido: [],
+            estabelecimento: '',
+            data: '',
+            hora: '',
+        }
+    },
+    methods: {
+        requisicao,
+    },
+    async mounted() {
+        let token = localStorage.getItem('tokenJWT');
+        let estabSelecionado = localStorage.getItem('estabSelecionado');
+        this.dataCompleta = JSON.parse(localStorage.getItem('pedido'));
+        let dataHora = new Date(this.dataCompleta.dataPedido);
+        this.data = dataHora.toLocaleDateString();
+        this.hora = dataHora.toLocaleTimeString();
+        this.estabelecimento = await this.requisicao(`https://backendhifood-production.up.railway.app/estabelecimentos/ler/${estabSelecionado}`, 'GET', token);
+        const itensSalvos = localStorage.getItem("itensPedido");
+        if (itensSalvos) {
+            this.itensPedido = JSON.parse(itensSalvos);
+        }
+    },
+    computed: {
+        valorTotal() {
+            let total = 0
+            for (let itemPedido of this.itensPedido) {
+                total += itemPedido.preco * itemPedido.qtdItens
+            }
+            return total
+        }
+    }
 }
 </script>
 <style scoped>
+h3 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    text-align: left;
+}
+
 .fundo-modal {
     position: fixed;
     background-color: #3e3e3ea5;

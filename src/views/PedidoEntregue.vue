@@ -22,7 +22,7 @@
                 <p>R$ 45,00</p>
             </div>
         <div class="btns">
-            <input type="button" value="Visualizar NF" class="btn-nf">
+            <input type="button" value="Visualizar NF" class="btn-nf" onclick="window.location.href = 'https://frontendhifood-production.up.railway.app/modalNotaFiscal'" >
             <input type="button" value="Deixe sua avaliação" class="btn-avaliacao">
         </div>        
 
@@ -37,6 +37,7 @@
 export default {
     name: "PedidoEntegue",
 }
+
 
 </script>
 <style scoped>
