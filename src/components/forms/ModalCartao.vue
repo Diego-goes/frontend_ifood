@@ -24,9 +24,9 @@
                     <img src="../../assets/close.png" alt="fechar-aba" @click="voltar">
                     <a>Selecionar Cartão</a>
                 </div>
-                <div v-for="cartao_atual in cartoes" :key="cartao_atual.cartaoId">
-                    <div class="caixas-cartao">
-                        <div class="campo-cartao">
+                <div v-for="cartao_atual in cartoes" :key="cartao_atual.cartaoId" >
+                    <div class="caixas-cartao" >
+                        <div class="campo-cartao" :class="{ 'selecionado': cartao_atual === cartaoSelecionado }" @click="selecionarCartao(cartao_atual)">
                             <img src="../../assets/cartao.png" alt="icone-cartão">
                             <p> {{cartao_atual.nomeBandeira}} </p>
                             <img src="../../assets/pencil.png" alt="icone-opcao-editar" @click="editarCartao(cartao_atual)">
@@ -46,6 +46,7 @@ export default {
     name: 'ModalCartaoCopy',
     data() {
         return {
+            cartaoSelecionado: null,
             listarCartoes: true,
             editando: false,
             cartoes: [],
@@ -62,6 +63,9 @@ export default {
         }
     },
     methods: {
+        selecionarCartao(cartao) {
+            this.cartaoSelecionado = cartao;
+        },
         requisicao,
         voltar() {
             this.$emit('voltar')
@@ -109,6 +113,11 @@ export default {
 }
 </script>
 <style scoped>
+
+.selecionado {
+  border: 2px solid red !important;
+}
+
 p {
     margin: 0
 }
