@@ -12,7 +12,7 @@
                 <div class="textos">
                     <a>{{ this.produto.nomeProd }} | ID: {{ this.produto.produtoId }}</a>
                     <a>{{ this.produto.descricao }}</a>
-                    <a>R$ {{ this.produto.preco }}</a>
+                    <a>R$ {{ this.produto.preco.toFixed(2) }}</a>
                     <div class="nome_nota">
                         <a>{{ this.estabelecimento.nomeEstab }}</a>
                         <div class="nota">
@@ -29,8 +29,8 @@
                     <hr>
                     <div class="botao_adicao">
                         <div class="botao_quantidade">
-                            <input class="adicao" type="button" value="-" @click="alterarQtd">
-                            <input class="texto_quantidade" type="number" v-model="itemPedido.qtdItens">
+                            <input class="adicao" type="button" value="-" @click="alterarQtd" min="1">
+                            <input class="texto_quantidade" type="number" @input="corrigirQtd" v-model="itemPedido.qtdItens">
                             <input class="adicao" type="button" value="+" @click="alterarQtd">
                         </div>
                         <input class="botao_adcvalor" type="button"
@@ -65,8 +65,23 @@ export default {
     },
     methods: {
         requisicao,
+        corrigirQtd(){
+            if (this.itemPedido.qtdItens < 1) {
+                this.itemPedido.qtdItens = 1
+            }
+        },
         alterarQtd(event) {
-            this.itemPedido.qtdItens = event.target.value == '-' ? this.itemPedido.qtdItens - 1 : this.itemPedido.qtdItens + 1
+            if (event.target.value == '-') {
+                if (this.itemPedido.qtdItens > 1) {
+                    this.itemPedido.qtdItens -= 1
+                }
+            } else {
+                this.itemPedido.qtdItens += 1
+            }
+            // this.itemPedido.qtdItens = event.target.value == '-' ? ()=>{
+            //     return !this.itemPedido.qtdItens==1?
+            //         this.itemPedido.qtdItens - 1: ()=>{}
+            //     } : this.itemPedido.qtdItens + 1
         },
         addAoPedido() {
             let respostaPrompt = null
