@@ -27,28 +27,29 @@
                     <div class="dados-pix">
                         <p>Pague com Pix</p>
                         <p> Use o QR Code ou copie e cole o código</p>
-                        <input v-if="formaPagamentoSelecionada == 'pix'" type="text" value="00020126330014br.gov.bcb.pix0111+5511999999999520400005303986544060.005802BR5913Fulano de
+                        <input v-if="formaPagamentoSelecionada == 'Pix'" type="text" value="00020126330014br.gov.bcb.pix0111+5511999999999520400005303986544060.005802BR5913Fulano de
                         Tal6008BRASILIA62070503***6304ABCD" class="codinputix">
-                        <input v-if="formaPagamentoSelecionada == 'pix'" type="button" value="Copiar código">
+                        <input v-if="formaPagamentoSelecionada == 'Pix'" type="button" value="Copiar código">
                     </div>
                 </div>
-                <input type="button" value="Pagar com pix" @click="pegarFormaPagamentoSelecionada('pix')">
+                <input type="button" value="Pagar com pix" @click="pegarFormaPagamentoSelecionada('Pix')">
             </div>
 
             <p class="add-cartao">Adicione um cartão no Hifood</p>
             <div class="addcartao">
                 <div>
                     <input type="button" value="Crédito" class="btn-cartao btnsFormasPagamento"
-                        @click="($event) => { pegarFormaPagamentoSelecionada('credito', $event.target); abrirModalCartao() }">
+                        @click="($event) => { pegarFormaPagamentoSelecionada('Crédito', $event.target); abrirModalCartao() }">
                     <input type="button" value="Débito" class="btn-cartao btnsFormasPagamento"
-                        @click="($event) => { pegarFormaPagamentoSelecionada('debito', $event.target); abrirModalCartao() }">
+                        @click="($event) => { pegarFormaPagamentoSelecionada('Débito', $event.target); abrirModalCartao() }">
                     <p class="frase-pix">É prático, seguro e você não perde nenhum minuto a mais quando seu pedido
                         chegar.</p>
                 </div>
                 <img src="../assets/formaPagamento.png" alt="Forma de pagamento">
             </div>
             <hr>
-            <input type="button" value="Fazer pedido" class="btn-fazer-pedido" @click="fazerPedido">
+            <input type="button" value="Fazer pedido" class="btn-fazer-pedido"
+                @click="fazerPedido" >
 
         </div>
         <div class="container-direito">
@@ -139,8 +140,12 @@ export default {
             })
         },
         async fazerPedido() {
+            if(!this.formaPagamentoSelecionada){
+                alert('Forma de pagamento não selecionada.')
+                return
+            }
             // Criar ItensPedido pela API
-            let bodyFormaPagamento = { "nome": "Pix" }
+            let bodyFormaPagamento = { "nome": this.formaPagamentoSelecionada }
             let formaPagamentoId = await this.requisicao('https://backendhifood-production.up.railway.app/formaPagamentoPorNome', 'POST', this.token_jwt, bodyFormaPagamento)
 
             const chavesDesejadas = ['produtoId', 'observacao', 'qtdItens'];
@@ -149,7 +154,7 @@ export default {
                 Object.keys(item)
                     .filter(key => chavesDesejadas.includes(key))
                     .reduce((obj, key) => {
-                        if (item[key] !== '') { 
+                        if (item[key] !== '') {
                             obj[key] = item[key];
                         }
                         return obj;
@@ -162,13 +167,13 @@ export default {
                 "itensPedido": itensFiltrados,
                 "formaPagId": formaPagamentoId
             };
-            try{
+            try {
                 await this.requisicao('https://backendhifood-production.up.railway.app/itensPedidos/criar', 'POST', this.token_jwt, JSON.stringify(itensPedidoBody))
                 // Efetuar pagamento
                 // await this.requisicao('https://backendhifood-production.up.railway.app/pagamento', 'POST', this.token_jwt)
                 this.$router.push({ name: 'acompanharPedidoRt' })
             }
-            catch(e){
+            catch (e) {
                 console.log(e)
             }
             // Criar Pedido
@@ -187,10 +192,10 @@ export default {
     },
     watch: {
         'formaPagamentoSelecionada'() {
-            this.imgPix.src = require(this.formaPagamentoSelecionada == 'pix' ?
+            this.imgPix.src = require(this.formaPagamentoSelecionada == 'Pix' ?
                 '../assets/qr_code_pix.png' :
                 '../assets/logoPix.png')
-            this.imgPix.height = this.formaPagamentoSelecionada == 'pix' ?
+            this.imgPix.height = this.formaPagamentoSelecionada == 'Pix' ?
                 'height:10rem;' :
                 ''
         }

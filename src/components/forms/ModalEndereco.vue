@@ -53,18 +53,19 @@
         </div>
         <div class="listar-enderecos">
           <p v-if="enderecos.length == 0">Nenhum endereço registrado...</p>
-          <div v-for="endereco_atual in enderecos" :key="endereco_atual.enderecoId" class="endereco" @click="definirEnderecoPrinc($event ,endereco_atual)">
-            <div >
+          <label v-for="(endereco_atual, index) in enderecos" :key="endereco_atual.enderecoId" class="cardEndereco"
+            :id="`idCard_${index}`" @click="definirEnderecoPrinc(index, endereco_atual)">
+            <div>
               <!-- <img src="../../assets/iconeCasa.png" alt="icone-endereco"> -->
-              <img :src="formatarEndereco(endereco_atual).src" :alt="formatarEndereco(endereco_atual).alt" @click.stop>
-              <div @click.stop>
+              <img :src="formatarEndereco(endereco_atual).src" :alt="formatarEndereco(endereco_atual).alt">
+              <div>
                 <p>{{ this.formatarEndereco(endereco_atual).titulo }}</p>
                 <p>{{ this.formatarEndereco(endereco_atual).descricao }}</p>
               </div>
             </div>
             <img src="../../assets/pencil.png" alt="icone-opcao-editar" @click="editarEndereco(endereco_atual)">
             <img src="../../assets/lixoVermelho.png" alt="icone-opcao-excluir" @click="excluirEndereco(endereco_atual)">
-          </div>
+          </label>
         </div>
         <div class="botoes">
           <button type="button" @click='alterarVisibilidade' class="botao">Adicionar Endereço</button>
@@ -80,6 +81,7 @@ export default {
   name: 'ModalEndereco',
   data() {
     return {
+      enderecoEntregaSelecionado: false,
       exibirOpcoes: false,
       botaoFavoritar: null,
       botaoSelecionado: "",
@@ -102,10 +104,14 @@ export default {
     };
   },
   methods: {
-    definirEnderecoPrinc(event, endereco) {
+    definirEnderecoPrinc(index, endereco) {
       let enderecoParaTexto = JSON.stringify(endereco)
       localStorage.setItem('endereco_principal', enderecoParaTexto)
-      event.target.style.border="1px solid red"
+      // event.target.style.border="1px solid red"
+      document.querySelectorAll(`.cardEnderecoSelecionado`).forEach((el) => { el.classList.remove('cardEnderecoSelecionado') })
+      document.querySelector(`#idCard_${index}`).classList.add('cardEnderecoSelecionado')
+      this.enderecoEntregaSelecionado = true
+      localStorage.setItem('indexEnderecoSelecionado', index)
     },
     limparEndereco() {
       this.endereco = {
@@ -160,7 +166,7 @@ export default {
         paragrafos.src = require('../../assets/sem-favorito.png')
         paragrafos.alt = 'sem-favorito'
         paragrafos.titulo = `${endereco.logradouro}, ${endereco.numero}`
-        paragrafos.descricao = `${endereco.bairro} ${endereco.cidade?'-':''} ${endereco.cidade} ${endereco.cidade?'-':''} ${endereco.estado}`
+        paragrafos.descricao = `${endereco.bairro} ${endereco.cidade ? '-' : ''} ${endereco.cidade} ${endereco.cidade ? '-' : ''} ${endereco.estado}`
       } else {
         if (endereco.apelido.toLowerCase() == 'casa') {
           paragrafos.src = require('../../assets/iconCasa.png')
@@ -172,7 +178,7 @@ export default {
         paragrafos.titulo = `${endereco.apelido}`
         paragrafos.descricao = `${endereco.logradouro}, ${endereco.numero}`
       }
-      return JSON.parse(JSON.stringify(paragrafos).replaceAll('null',''))
+      return JSON.parse(JSON.stringify(paragrafos).replaceAll('null', ''))
     },
     requisicao,
     alterarVisibilidade() {
@@ -189,7 +195,11 @@ export default {
       // console.log(this.endereco.cep);
     },
     closeModal() {
-      this.$emit('closeModal')
+      if (this.enderecoEntregaSelecionado) {
+        this.$emit('closeModal')
+      } else {
+        alert('Selecione um endereço para a entrega.')
+      }
     },
     async autoPreencherPorCep() {
       if (this.endereco.cep.length < 8) {
@@ -245,10 +255,16 @@ export default {
         alert(error);
       }
     },
-
   },
   created() {
     this.puxarEnderecos()
+    let index = localStorage.getItem('indexEnderecoSelecionado') || null
+    if (index) {
+      this.enderecoEntregaSelecionado = index
+      setTimeout(() => {
+        document.querySelector(`#idCard_${index}`).classList.add('cardEnderecoSelecionado')
+      }, 300)
+    }
   }
 };
 
@@ -365,6 +381,7 @@ export default {
   display: flex;
   width: 100%;
   height: 10rem;
+  padding: 2rem;
   flex-direction: column;
   align-items: center;
   background-color: #fff;
@@ -401,7 +418,11 @@ export default {
   cursor: pointer;
 }
 
-.endereco {
+.cardEnderecoSelecionado {
+  border: 2px solid red !important;
+}
+
+.cardEndereco {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -411,11 +432,11 @@ export default {
   padding: 1rem 1rem;
 }
 
-.endereco p {
+.cardEndereco p {
   margin: 0
 }
 
-.endereco>div:nth-child(1) {
+.cardEndereco>div:nth-child(1) {
   display: flex;
   align-items: center;
   gap: 2rem;
