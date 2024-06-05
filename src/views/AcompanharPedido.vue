@@ -1,6 +1,6 @@
 <template>
     <CardConfirm v-if="false" @fecharModal="fecharCardConfirm" :modalConfirmacaoProps="modalConfirmacao" />
-    <ModalConfirmRecebimento v-if="modalVisivel" @fecharModal="fecharCardConfirm"  />
+    <ModalConfirmRecebimento v-if="modalVisivel" @fecharModal="fecharCardConfirm" />
     <div class="viewAcompanharPedido">
         <div class="cardPrincipal">
             <h3>{{ this.nomeEtapaPedido || 'Carregando...' }}</h3>
@@ -40,7 +40,7 @@
 
                 <div class="total-entrega">
                     <p><b>Total com entrega</b></p>
-                    <p>R$ {{this.valorTotal}}</p>
+                    <p>R$ {{ this.valorTotal }}</p>
                 </div>
             </div>
         </div>
@@ -206,7 +206,8 @@ h3 {
 
 .viewAcompanharPedido {
     background-image: url(../assets/fundoMaps.jpg);
-    background-repeat: repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
     -webkit-backdrop-filter: blur(100px);
     backdrop-filter: blur(100px);
     width: 100vw;
@@ -214,7 +215,7 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: passear 300s infinite linear alternate;
+    /*animation: passear 300s infinite linear alternate;*/
 }
 
 
